@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build --prefix frontend",
+  "buildCommand": "npm install @rollup/rollup-linux-x64-gnu @rollup/rollup-linux-x64-musl && npm run build --prefix frontend",
   "outputDirectory": "frontend/dist",
   "rewrites": [
     {
