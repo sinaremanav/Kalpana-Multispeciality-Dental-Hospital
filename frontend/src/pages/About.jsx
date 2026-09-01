@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { clinicConfig } from '../config/clinicConfig';
-import { doctorsData } from '../data/doctors';
+import { clinicConfig as fallbackConfig } from '../config/clinicConfig';
+import { doctorsData as fallbackDoctors } from '../data/doctors';
+import { clinicService } from '../services/clinicService';
+import { doctorService } from '../services/doctorService';
 import SectionTitle from '../components/SectionTitle';
 import DoctorCard from '../components/DoctorCard';
 import CTASection from '../components/CTASection';
 import { ShieldCheck, Heart, Sparkles } from 'lucide-react';
 
 const About = () => {
+  const [clinic, setClinic] = useState(fallbackConfig);
+  const [doctors, setDoctors] = useState(fallbackDoctors);
+
+  useEffect(() => {
+    clinicService.getClinicSettings().then((data) => {
+      if (data) setClinic(data);
+    });
+    doctorService.getDoctors(true).then((data) => {
+      if (data && data.length > 0) setDoctors(data);
+    });
+  }, []);
+
+  const leadDoctor = doctors[0] || fallbackDoctors[0];
+
   return (
     <div className="pt-20">
       {/* Header Banner */}
@@ -18,7 +34,7 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#2563EB] bg-[#EFF6FF] rounded-full border border-[#DBEAFE]"
           >
-            About {clinicConfig.clinicName}
+            About {clinic.clinicName || fallbackConfig.clinicName}
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
@@ -78,17 +94,17 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                title: "Class-B Autoclave Sterilization",
-                desc: "All non-disposable instruments undergo multi-stage ultrasonic cleaning and high-pressure steam autoclaving."
+                title: 'Class-B Autoclave Sterilization',
+                desc: 'All non-disposable instruments undergo multi-stage ultrasonic cleaning and high-pressure steam autoclaving.',
               },
               {
-                title: "Single-Use Disposable Consumables",
-                desc: "Needles, gloves, suction tips, patient drapes, and cups are strictly 100% disposable single-use items."
+                title: 'Single-Use Disposable Consumables',
+                desc: 'Needles, gloves, suction tips, patient drapes, and cups are strictly 100% disposable single-use items.',
               },
               {
-                title: "Air & Surface Disinfection",
-                desc: "Operatories are sanitized between every single patient session with medical-grade hospital disinfectants."
-              }
+                title: 'Air & Surface Disinfection',
+                desc: 'Operatories are sanitized between every single patient session with medical-grade hospital disinfectants.',
+              },
             ].map((item, idx) => (
               <div key={idx} className="peak-card p-7">
                 <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center mb-4 border border-[#DBEAFE]">
@@ -108,11 +124,11 @@ const About = () => {
           <SectionTitle
             badge="Medical Leadership"
             title="Meet Our Chief Dentist & Surgeon"
-            subtitle="Led by Dr. Nikhil Hiralal Mahanubhav with specialized expertise in oral surgery, RCT, and maxillofacial prosthetics."
+            subtitle={`Led by ${leadDoctor.name} with specialized expertise in oral surgery, painless RCT, and restorative dentistry.`}
           />
 
           <div className="max-w-4xl mx-auto">
-            <DoctorCard doctor={doctorsData[0]} />
+            <DoctorCard doctor={leadDoctor} />
           </div>
         </div>
       </section>
@@ -123,4 +139,3 @@ const About = () => {
 };
 
 export default About;
-

@@ -1,10 +1,35 @@
-import React from 'react';
-import { testimonialsData } from '../data/testimonials';
+import React, { useState, useEffect } from 'react';
+import { testimonialService } from '../services/testimonialService';
 import TestimonialCard from '../components/TestimonialCard';
 import CTASection from '../components/CTASection';
-import { Star } from 'lucide-react';
+import LoadingState from '../components/LoadingState';
+import ErrorState from '../components/ErrorState';
+import EmptyState from '../components/EmptyState';
+import { Star, MessageSquareQuote } from 'lucide-react';
 
 const Testimonials = () => {
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchTestimonials = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const list = await testimonialService.getTestimonials(true);
+      setTestimonials(list);
+    } catch (err) {
+      console.error('Failed to load testimonials:', err);
+      setError(err.message || 'Unable to load patient reviews');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
+
   return (
     <div className="pt-20">
       {/* Header Banner */}
@@ -35,13 +60,25 @@ const Testimonials = () => {
       </section>
 
       {/* Testimonials Grid */}
-      <section className="py-20 md:py-24 bg-white">
+      <section className="py-20 md:py-24 bg-white min-h-[400px]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonialsData.map((testimonial, index) => (
-              <TestimonialCard key={testimonial.id} testimonial={testimonial} index={index} />
-            ))}
-          </div>
+          {loading ? (
+            <LoadingState message="Loading verified patient stories..." minHeight="min-h-[300px]" />
+          ) : error ? (
+            <ErrorState title="Unable to load reviews" message={error} onRetry={fetchTestimonials} />
+          ) : testimonials.length === 0 ? (
+            <EmptyState
+              icon={MessageSquareQuote}
+              title="No Patient Reviews Found"
+              description="Patient reviews will be published here."
+            />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {testimonials.map((testimonial, index) => (
+                <TestimonialCard key={testimonial.id} testimonial={testimonial} index={index} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -51,4 +88,3 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
-

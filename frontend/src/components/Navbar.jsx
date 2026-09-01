@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { clinicConfig } from '../config/clinicConfig';
-import { Menu, X, Calendar, Stethoscope, PhoneCall, ArrowRight } from 'lucide-react';
+import { clinicConfig as fallbackConfig } from '../config/clinicConfig';
+import { clinicService } from '../services/clinicService';
+import { Menu, X, Calendar, Stethoscope, PhoneCall, ArrowRight, Sparkles } from 'lucide-react';
 import Button from './Button';
 
 const navLinks = [
@@ -9,6 +10,7 @@ const navLinks = [
   { name: 'About', path: '/about' },
   { name: 'Doctors', path: '/doctors' },
   { name: 'Services', path: '/services' },
+  { name: 'Events & Camps', path: '/events' },
   { name: 'Gallery', path: '/gallery' },
   { name: 'Testimonials', path: '/testimonials' },
   { name: 'FAQs', path: '/faqs' },
@@ -18,7 +20,14 @@ const navLinks = [
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [clinic, setClinic] = useState(fallbackConfig);
   const location = useLocation();
+
+  useEffect(() => {
+    clinicService.getClinicSettings().then((data) => {
+      if (data) setClinic(data);
+    });
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,7 +63,7 @@ const Navbar = () => {
             </div>
             <div>
               <span className="text-base sm:text-lg font-bold tracking-tight text-[#0F172A] group-hover:text-[#2563EB] transition-colors block leading-snug">
-                {clinicConfig.clinicName}
+                {clinic.clinicName || fallbackConfig.clinicName}
               </span>
               <span className="text-[10px] font-semibold uppercase tracking-wider text-[#64748B] block">
                 Multispeciality Care • Kopargaon
@@ -69,7 +78,7 @@ const Navbar = () => {
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
-                  `px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-150 ${
+                  `px-2.5 py-1.5 text-xs xl:text-sm font-medium rounded-md transition-all duration-150 ${
                     isActive
                       ? 'text-[#2563EB] bg-[#EFF6FF] font-semibold'
                       : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
@@ -84,11 +93,11 @@ const Navbar = () => {
           {/* Desktop Right CTA */}
           <div className="hidden lg:flex items-center gap-3 shrink-0">
             <a
-              href={`tel:${clinicConfig.phone}`}
+              href={`tel:${clinic.phone || fallbackConfig.phone}`}
               className="flex items-center gap-1.5 text-xs font-semibold text-[#475569] hover:text-[#2563EB] px-2.5 py-1.5 rounded-md hover:bg-[#F8FAFC] transition-colors"
             >
               <PhoneCall className="w-3.5 h-3.5 text-[#2563EB]" />
-              <span>{clinicConfig.displayPhone}</span>
+              <span>{clinic.displayPhone || fallbackConfig.displayPhone}</span>
             </a>
 
             <Button
@@ -143,11 +152,11 @@ const Navbar = () => {
 
               <div className="pt-4 border-t border-[#E2E8F0] flex flex-col gap-2.5">
                 <a
-                  href={`tel:${clinicConfig.phone}`}
+                  href={`tel:${clinic.phone || fallbackConfig.phone}`}
                   className="flex items-center justify-center gap-2 text-xs font-semibold text-[#0F172A] bg-[#F8FAFC] py-2.5 rounded-lg border border-[#E2E8F0]"
                 >
                   <PhoneCall className="w-3.5 h-3.5 text-[#2563EB]" />
-                  <span>Call Us: {clinicConfig.displayPhone}</span>
+                  <span>Call Us: {clinic.displayPhone || fallbackConfig.displayPhone}</span>
                 </a>
 
                 <Button
@@ -169,4 +178,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

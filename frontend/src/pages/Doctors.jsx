@@ -1,9 +1,35 @@
-import React from 'react';
-import { doctorsData } from '../data/doctors';
+import React, { useState, useEffect } from 'react';
+import { doctorService } from '../services/doctorService';
 import DoctorCard from '../components/DoctorCard';
 import CTASection from '../components/CTASection';
+import LoadingState from '../components/LoadingState';
+import ErrorState from '../components/ErrorState';
+import EmptyState from '../components/EmptyState';
+import { Users } from 'lucide-react';
 
 const Doctors = () => {
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchDoctors = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const list = await doctorService.getDoctors(true);
+      setDoctors(list);
+    } catch (err) {
+      console.error('Failed to load doctors:', err);
+      setError(err.message || 'Unable to load doctors list');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDoctors();
+  }, []);
+
   return (
     <div className="pt-20">
       {/* Page Header */}
@@ -22,11 +48,25 @@ const Doctors = () => {
       </section>
 
       {/* Doctors Grid */}
-      <section className="py-20 md:py-24 bg-white">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          {doctorsData.map((doctor, index) => (
-            <DoctorCard key={doctor.id} doctor={doctor} index={index} />
-          ))}
+      <section className="py-20 md:py-24 bg-white min-h-[400px]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          {loading ? (
+            <LoadingState message="Loading doctors and specialists..." minHeight="min-h-[300px]" />
+          ) : error ? (
+            <ErrorState title="Unable to load doctors" message={error} onRetry={fetchDoctors} />
+          ) : doctors.length === 0 ? (
+            <EmptyState
+              icon={Users}
+              title="No Doctors Listed"
+              description="Doctor profiles will appear here once added."
+            />
+          ) : (
+            <div className="space-y-10">
+              {doctors.map((doctor, index) => (
+                <DoctorCard key={doctor.id} doctor={doctor} index={index} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -36,4 +76,3 @@ const Doctors = () => {
 };
 
 export default Doctors;
-
