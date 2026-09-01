@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm rebuild esbuild && npm install @rollup/rollup-linux-x64-gnu @rollup/rollup-linux-x64-musl && npm run build --prefix frontend",
+  "buildCommand": "rm -rf node_modules frontend/node_modules && npm install --include=optional && npm run build --prefix frontend",
   "outputDirectory": "frontend/dist",
   "rewrites": [
     {
