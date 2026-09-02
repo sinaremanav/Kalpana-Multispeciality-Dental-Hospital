@@ -38,7 +38,7 @@ const TestimonialCard = ({ testimonial, index = 0 }) => {
           <h4 className="font-bold text-[#0F172A] text-sm">
             {testimonial.name}
           </h4>
-          <p className="text-xs text-[#2563EB] font-medium">
+          <p className="text-xs text-[#059669] font-medium">
             {testimonial.treatment}
           </p>
         </div>

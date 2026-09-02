@@ -78,7 +78,7 @@ Message: ${formData.message}`;
       {/* Header Banner */}
       <section className="hero-gradient py-16 md:py-20 border-b border-[#E2E8F0]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#2563EB] bg-[#EFF6FF] rounded-full border border-[#DBEAFE]">
+          <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#059669] bg-[#ECFDF5] rounded-full border border-[#D1FAE5]">
             Contact & Patient Support
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-[#0F172A] tracking-[-0.03em] mt-4">
@@ -106,13 +106,13 @@ Message: ${formData.message}`;
                     rel="noopener noreferrer"
                     className="flex items-start gap-3.5 group cursor-pointer"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#2563EB] group-hover:bg-[#2563EB] group-hover:text-white flex items-center justify-center shrink-0 border border-[#DBEAFE] transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-[#ECFDF5] text-[#059669] group-hover:bg-[#059669] group-hover:text-white flex items-center justify-center shrink-0 border border-[#D1FAE5] transition-colors">
                       <MapPin className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-[#0F172A] group-hover:text-[#2563EB] text-sm transition-colors">Clinic Address</h4>
+                      <h4 className="font-bold text-[#0F172A] group-hover:text-[#059669] text-sm transition-colors">Clinic Address</h4>
                       <p className="text-[#475569] text-xs sm:text-sm mt-0.5 leading-snug">{clinic.address || fallbackConfig.address}</p>
-                      <p className="text-xs text-[#2563EB] font-semibold mt-1">{clinic.landmark || fallbackConfig.landmark}</p>
+                      <p className="text-xs text-[#059669] font-semibold mt-1">{clinic.landmark || fallbackConfig.landmark}</p>
                     </div>
                   </a>
 
@@ -121,11 +121,11 @@ Message: ${formData.message}`;
                     href={`tel:${clinic.phone || fallbackConfig.phone}`}
                     className="flex items-start gap-3.5 group cursor-pointer"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#2563EB] group-hover:bg-[#2563EB] group-hover:text-white flex items-center justify-center shrink-0 border border-[#DBEAFE] transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-[#ECFDF5] text-[#059669] group-hover:bg-[#059669] group-hover:text-white flex items-center justify-center shrink-0 border border-[#D1FAE5] transition-colors">
                       <Phone className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-[#0F172A] group-hover:text-[#2563EB] text-sm transition-colors">Call Us Directly</h4>
+                      <h4 className="font-bold text-[#0F172A] group-hover:text-[#059669] text-sm transition-colors">Call Us Directly</h4>
                       <p className="text-[#475569] text-xs sm:text-sm mt-0.5">{clinic.displayPhone || fallbackConfig.displayPhone}</p>
                       <p className="text-xs text-[#64748B] mt-0.5">Mon to Sat: 9:00 AM to 8:00 PM</p>
                     </div>
@@ -136,11 +136,11 @@ Message: ${formData.message}`;
                     href={`mailto:${clinic.email || fallbackConfig.email}`}
                     className="flex items-start gap-3.5 group cursor-pointer"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#2563EB] group-hover:bg-[#2563EB] group-hover:text-white flex items-center justify-center shrink-0 border border-[#DBEAFE] transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-[#ECFDF5] text-[#059669] group-hover:bg-[#059669] group-hover:text-white flex items-center justify-center shrink-0 border border-[#D1FAE5] transition-colors">
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-[#0F172A] group-hover:text-[#2563EB] text-sm transition-colors">Email Inquiries</h4>
+                      <h4 className="font-bold text-[#0F172A] group-hover:text-[#059669] text-sm transition-colors">Email Inquiries</h4>
                       <p className="text-[#475569] text-xs sm:text-sm mt-0.5">{clinic.email || fallbackConfig.email}</p>
                     </div>
                   </a>
@@ -214,7 +214,7 @@ Message: ${formData.message}`;
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="e.g. Rameshwar Shinde"
-                        className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                        className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                       />
                     </div>
 
@@ -229,7 +229,7 @@ Message: ${formData.message}`;
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                           placeholder="e.g. 9421146623"
-                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                         />
                       </div>
 
@@ -242,7 +242,7 @@ Message: ${formData.message}`;
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           placeholder="you@example.com"
-                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                         />
                       </div>
                     </div>
@@ -256,7 +256,7 @@ Message: ${formData.message}`;
                         value={formData.subject}
                         onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                         placeholder="e.g. Treatment Inquiry / Appointment Reschedule"
-                        className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                        className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                       />
                     </div>
 
@@ -270,7 +270,7 @@ Message: ${formData.message}`;
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         placeholder="How can we help you? Describe your questions or symptoms..."
-                        className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                        className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                       />
                     </div>
 

@@ -100,7 +100,7 @@ export const Dashboard = () => {
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] rounded-2xl p-6 sm:p-8 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-[#059669] to-[#047857] rounded-2xl p-6 sm:p-8 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-xs rounded-full text-xs font-bold uppercase tracking-wider mb-2">
             {isAdmin ? 'System Administrator' : 'Doctor Portal'}
@@ -108,7 +108,7 @@ export const Dashboard = () => {
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
             Welcome back, {displayName}
           </h1>
-          <p className="text-xs sm:text-sm text-blue-100 mt-1 max-w-xl">
+          <p className="text-xs sm:text-sm text-emerald-100 mt-1 max-w-xl">
             {isAdmin
               ? 'Real-time overview of your patient appointments, doctor availability, dental services, and inquiries.'
               : 'View and manage your patient appointments and update your personal clinical doctor profile.'}
@@ -118,7 +118,7 @@ export const Dashboard = () => {
         <div className="flex flex-wrap gap-3">
           <Link
             to="/admin/appointments"
-            className="px-4 py-2.5 bg-white text-[#2563EB] hover:bg-blue-50 text-xs font-bold rounded-xl transition-all shadow-xs inline-flex items-center gap-2"
+            className="px-4 py-2.5 bg-white text-[#059669] hover:bg-blue-50 text-xs font-bold rounded-xl transition-all shadow-xs inline-flex items-center gap-2"
           >
             <Calendar className="w-4 h-4" />
             <span>Manage Appointments</span>
@@ -218,7 +218,7 @@ export const Dashboard = () => {
             </div>
             <Link
               to="/admin/appointments"
-              className="text-xs font-bold text-[#2563EB] hover:text-[#1D4ED8] flex items-center gap-1"
+              className="text-xs font-bold text-[#059669] hover:text-[#047857] flex items-center gap-1"
             >
               View All <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -246,7 +246,7 @@ export const Dashboard = () => {
                     <StatusBadge status={apt.status} />
                     <Link
                       to="/admin/appointments"
-                      className="p-1.5 text-[#64748B] hover:text-[#2563EB] hover:bg-[#F8FAFC] rounded-lg"
+                      className="p-1.5 text-[#64748B] hover:text-[#059669] hover:bg-[#F8FAFC] rounded-lg"
                     >
                       <Eye className="w-4 h-4" />
                     </Link>
@@ -267,7 +267,7 @@ export const Dashboard = () => {
             {isAdmin && (
               <Link
                 to="/admin/messages"
-                className="text-xs font-bold text-[#2563EB] hover:text-[#1D4ED8] flex items-center gap-1"
+                className="text-xs font-bold text-[#059669] hover:text-[#047857] flex items-center gap-1"
               >
                 View All <ArrowRight className="w-3.5 h-3.5" />
               </Link>

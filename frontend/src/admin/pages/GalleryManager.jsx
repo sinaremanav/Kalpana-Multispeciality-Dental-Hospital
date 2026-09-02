@@ -210,7 +210,7 @@ export const GalleryManager = () => {
                   <button
                     onClick={() => handleOpenEdit(item)}
                     title="Edit Details"
-                    className="p-1.5 text-[#2563EB] hover:bg-blue-50 rounded-lg transition-colors"
+                    className="p-1.5 text-[#059669] hover:bg-blue-50 rounded-lg transition-colors"
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
@@ -246,7 +246,7 @@ export const GalleryManager = () => {
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="Modern Sterilized Operatory"
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -258,7 +258,7 @@ export const GalleryManager = () => {
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
               >
                 <option value="Clinic">Clinic & Hospital</option>
                 <option value="Equipment">Diagnostic Equipment</option>
@@ -275,7 +275,7 @@ export const GalleryManager = () => {
                 type="number"
                 value={formData.display_order}
                 onChange={(e) => setFormData({ ...formData, display_order: Number(e.target.value) })}
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
           </div>
@@ -289,7 +289,7 @@ export const GalleryManager = () => {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Brief description of the facility or operatory setup shown in the photo..."
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -307,7 +307,7 @@ export const GalleryManager = () => {
               id="gal_pub"
               checked={formData.is_published}
               onChange={(e) => setFormData({ ...formData, is_published: e.target.checked })}
-              className="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-[#2563EB] w-4 h-4"
+              className="rounded border-[#CBD5E1] text-[#059669] focus:ring-[#059669] w-4 h-4"
             />
             <label htmlFor="gal_pub" className="text-xs font-bold text-[#0F172A] cursor-pointer">
               Published (Visible on public Gallery page)

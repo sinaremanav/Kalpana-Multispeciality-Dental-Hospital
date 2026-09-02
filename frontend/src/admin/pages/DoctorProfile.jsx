@@ -157,7 +157,7 @@ export const DoctorProfile = () => {
           </div>
           <div>
             <h3 className="text-lg font-bold text-[#0F172A]">{formData.name || 'Doctor'}</h3>
-            <span className="text-xs font-semibold text-[#2563EB] block">
+            <span className="text-xs font-semibold text-[#059669] block">
               {formData.specialization || 'Clinical Specialist'}
             </span>
             <span className="text-[11px] text-[#64748B] block mt-0.5">
@@ -178,7 +178,7 @@ export const DoctorProfile = () => {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="Dr. Nikhil Hiralal Mahanubhav"
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -192,7 +192,7 @@ export const DoctorProfile = () => {
               value={formData.specialization}
               onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
               placeholder="Chief Dental Surgeon & Implantologist"
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
         </div>
@@ -208,7 +208,7 @@ export const DoctorProfile = () => {
               value={formData.qualification}
               onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
               placeholder="BDS, MDS (Oral & Maxillofacial Surgery)"
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -221,7 +221,7 @@ export const DoctorProfile = () => {
               value={formData.experience}
               onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
               placeholder="4+ Years Clinical Experience"
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
         </div>
@@ -236,7 +236,7 @@ export const DoctorProfile = () => {
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               placeholder="+91 94211 46623"
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -249,7 +249,7 @@ export const DoctorProfile = () => {
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="doctor@kalpanadental.com"
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
         </div>
@@ -263,7 +263,7 @@ export const DoctorProfile = () => {
             value={formData.bio}
             onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
             placeholder="Describe your surgical experience, background, painless techniques..."
-            className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+            className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
           />
         </div>
 

@@ -41,7 +41,7 @@ export const AdminLogin = () => {
     <div className="min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC]">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <Link to="/" className="inline-flex items-center gap-2.5 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-[#2563EB] text-white flex items-center justify-center shadow-xs">
+          <div className="w-10 h-10 rounded-xl bg-[#059669] text-white flex items-center justify-center shadow-xs">
             <Stethoscope className="w-5 h-5" />
           </div>
           <span className="text-xl font-bold tracking-tight text-[#0F172A]">
@@ -91,7 +91,7 @@ export const AdminLogin = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@kalpanadental.com"
-                  className="block w-full pl-9 pr-3 py-2.5 text-sm border border-[#CBD5E1] rounded-xl text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-all"
+                  className="block w-full pl-9 pr-3 py-2.5 text-sm border border-[#CBD5E1] rounded-xl text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#059669] focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -110,7 +110,7 @@ export const AdminLogin = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="block w-full pl-9 pr-3 py-2.5 text-sm border border-[#CBD5E1] rounded-xl text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-all"
+                  className="block w-full pl-9 pr-3 py-2.5 text-sm border border-[#CBD5E1] rounded-xl text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#059669] focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -119,7 +119,7 @@ export const AdminLogin = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold text-white bg-[#2563EB] hover:bg-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2563EB] transition-all disabled:opacity-50 shadow-xs cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold text-white bg-[#059669] hover:bg-[#047857] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#059669] transition-all disabled:opacity-50 shadow-xs cursor-pointer"
               >
                 {loading ? (
                   <>
@@ -139,7 +139,7 @@ export const AdminLogin = () => {
           <div className="mt-6 pt-6 border-t border-[#F1F5F9] text-center">
             <Link
               to="/"
-              className="text-xs font-bold text-[#2563EB] hover:text-[#1D4ED8] transition-colors"
+              className="text-xs font-bold text-[#059669] hover:text-[#047857] transition-colors"
             >
               ← Back to Kalpana Dental Website
             </Link>

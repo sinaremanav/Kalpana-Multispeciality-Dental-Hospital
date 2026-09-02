@@ -32,7 +32,7 @@ const About = () => {
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#2563EB] bg-[#EFF6FF] rounded-full border border-[#DBEAFE]"
+            className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#059669] bg-[#ECFDF5] rounded-full border border-[#D1FAE5]"
           >
             About {clinic.clinicName || fallbackConfig.clinicName}
           </motion.span>
@@ -60,7 +60,7 @@ const About = () => {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="peak-card p-8 sm:p-10">
-              <div className="w-12 h-12 rounded-xl bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center mb-6 border border-[#DBEAFE]">
+              <div className="w-12 h-12 rounded-xl bg-[#ECFDF5] text-[#059669] flex items-center justify-center mb-6 border border-[#D1FAE5]">
                 <Heart className="w-6 h-6" />
               </div>
               <h3 className="text-2xl font-bold text-[#0F172A] mb-3 tracking-tight">Our Mission</h3>
@@ -70,7 +70,7 @@ const About = () => {
             </div>
 
             <div className="peak-card p-8 sm:p-10">
-              <div className="w-12 h-12 rounded-xl bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center mb-6 border border-[#DBEAFE]">
+              <div className="w-12 h-12 rounded-xl bg-[#ECFDF5] text-[#059669] flex items-center justify-center mb-6 border border-[#D1FAE5]">
                 <Sparkles className="w-6 h-6" />
               </div>
               <h3 className="text-2xl font-bold text-[#0F172A] mb-3 tracking-tight">Our Vision</h3>
@@ -107,7 +107,7 @@ const About = () => {
               },
             ].map((item, idx) => (
               <div key={idx} className="peak-card p-7">
-                <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center mb-4 border border-[#DBEAFE]">
+                <div className="w-10 h-10 rounded-lg bg-[#ECFDF5] text-[#059669] flex items-center justify-center mb-4 border border-[#D1FAE5]">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <h3 className="text-lg font-bold text-[#0F172A] mb-2 tracking-tight">{item.title}</h3>

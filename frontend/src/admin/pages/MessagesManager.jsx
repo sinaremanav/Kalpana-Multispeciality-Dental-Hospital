@@ -92,12 +92,12 @@ export const MessagesManager = () => {
       header: 'Sender Information',
       render: (row) => (
         <div>
-          <span className={`font-bold block ${row.status === 'unread' ? 'text-[#2563EB]' : 'text-[#0F172A]'}`}>
+          <span className={`font-bold block ${row.status === 'unread' ? 'text-[#059669]' : 'text-[#0F172A]'}`}>
             {row.name}
           </span>
           <div className="flex items-center gap-2 text-xs text-[#64748B] mt-0.5">
             <span className="flex items-center gap-1">
-              <Phone className="w-3 h-3 text-[#2563EB]" />
+              <Phone className="w-3 h-3 text-[#059669]" />
               {row.phone}
             </span>
             {row.email && (
@@ -141,7 +141,7 @@ export const MessagesManager = () => {
           <select
             value={row.status}
             onChange={(e) => handleStatusChange(row.id, e.target.value)}
-            className="text-xs font-semibold px-2 py-1 border border-[#CBD5E1] rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-[#2563EB]"
+            className="text-xs font-semibold px-2 py-1 border border-[#CBD5E1] rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-[#059669]"
           >
             <option value="unread">Unread</option>
             <option value="read">Read</option>
@@ -151,7 +151,7 @@ export const MessagesManager = () => {
           <button
             onClick={() => handleOpenDetails(row)}
             title="Read Inquiry"
-            className="p-1.5 text-[#2563EB] hover:bg-blue-50 rounded-lg transition-colors"
+            className="p-1.5 text-[#059669] hover:bg-blue-50 rounded-lg transition-colors"
           >
             <Eye className="w-4 h-4" />
           </button>
@@ -190,7 +190,7 @@ export const MessagesManager = () => {
             onClick={() => setStatusFilter(status)}
             className={`px-4 py-1.5 text-xs font-bold rounded-lg uppercase tracking-wider transition-all ${
               statusFilter === status
-                ? 'bg-[#2563EB] text-white shadow-xs'
+                ? 'bg-[#059669] text-white shadow-xs'
                 : 'text-[#64748B] hover:text-[#0F172A] bg-white border border-[#E2E8F0]'
             }`}
           >
@@ -237,15 +237,15 @@ export const MessagesManager = () => {
                   Sender Contact
                 </strong>
                 <p className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-[#2563EB]" />
-                  <a href={`tel:${selectedMessage.phone}`} className="font-semibold text-[#2563EB]">
+                  <Phone className="w-3.5 h-3.5 text-[#059669]" />
+                  <a href={`tel:${selectedMessage.phone}`} className="font-semibold text-[#059669]">
                     {selectedMessage.phone}
                   </a>
                 </p>
                 {selectedMessage.email && (
                   <p className="flex items-center gap-2">
                     <Mail className="w-3.5 h-3.5 text-[#64748B]" />
-                    <a href={`mailto:${selectedMessage.email}`} className="text-[#64748B] hover:text-[#2563EB]">
+                    <a href={`mailto:${selectedMessage.email}`} className="text-[#64748B] hover:text-[#059669]">
                       {selectedMessage.email}
                     </a>
                   </p>
@@ -279,7 +279,7 @@ export const MessagesManager = () => {
                     onClick={() => handleStatusChange(selectedMessage.id, st)}
                     className={`px-3 py-1 rounded-lg text-xs font-bold capitalize transition-colors ${
                       selectedMessage.status === st
-                        ? 'bg-[#2563EB] text-white'
+                        ? 'bg-[#059669] text-white'
                         : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                   >
@@ -308,7 +308,7 @@ export const MessagesManager = () => {
                 <a
                   href={`mailto:${selectedMessage.email}?subject=Re: ${encodeURIComponent(selectedMessage.subject || 'Inquiry at Kalpana Dental Clinic')}`}
                   onClick={() => handleStatusChange(selectedMessage.id, 'replied')}
-                  className="py-2.5 px-4 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors"
+                  className="py-2.5 px-4 bg-[#059669] hover:bg-[#047857] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors"
                 >
                   <Mail className="w-4 h-4" />
                   <span>Reply via Email</span>

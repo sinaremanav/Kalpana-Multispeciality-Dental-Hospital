@@ -12,7 +12,7 @@ const CTASection = () => {
   return (
     <section className="py-20 md:py-24 bg-[#0F172A] relative overflow-hidden text-white border-t border-[#1E293B]">
       {/* Subtle Blue Radial Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#2563EB]/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#059669]/15 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <motion.div
@@ -22,7 +22,7 @@ const CTASection = () => {
           transition={{ duration: 0.5 }}
           className="max-w-3xl mx-auto"
         >
-          <span className="inline-flex items-center px-3.5 py-1 mb-4 text-xs font-semibold tracking-wider text-[#93C5FD] bg-[#1E293B] rounded-full border border-[#334155] uppercase">
+          <span className="inline-flex items-center px-3.5 py-1 mb-4 text-xs font-semibold tracking-wider text-[#6EE7B7] bg-[#1E293B] rounded-full border border-[#334155] uppercase">
             Take The Next Step
           </span>
 

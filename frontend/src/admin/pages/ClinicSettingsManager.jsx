@@ -151,7 +151,7 @@ export const ClinicSettingsManager = () => {
         {/* Section 1: General Info */}
         <div>
           <h3 className="text-base font-bold text-[#0F172A] flex items-center gap-2 mb-4 pb-2 border-b border-[#F1F5F9]">
-            <Building className="w-4 h-4 text-[#2563EB]" />
+            <Building className="w-4 h-4 text-[#059669]" />
             Clinic Branding & Identity
           </h3>
 
@@ -165,7 +165,7 @@ export const ClinicSettingsManager = () => {
                 required
                 value={formData.clinicName}
                 onChange={(e) => setFormData({ ...formData, clinicName: e.target.value })}
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -178,7 +178,7 @@ export const ClinicSettingsManager = () => {
                 value={formData.tagline}
                 onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
                 placeholder="Advanced & Painless Dental Care in Kopargaon"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -190,7 +190,7 @@ export const ClinicSettingsManager = () => {
                 type="text"
                 value={formData.subTagline}
                 onChange={(e) => setFormData({ ...formData, subTagline: e.target.value })}
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
           </div>
@@ -199,7 +199,7 @@ export const ClinicSettingsManager = () => {
         {/* Section 2: Contact & Phone */}
         <div>
           <h3 className="text-base font-bold text-[#0F172A] flex items-center gap-2 mb-4 pb-2 border-b border-[#F1F5F9]">
-            <Phone className="w-4 h-4 text-[#2563EB]" />
+            <Phone className="w-4 h-4 text-[#059669]" />
             Contact & WhatsApp
           </h3>
 
@@ -214,7 +214,7 @@ export const ClinicSettingsManager = () => {
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="+91 94211 46623"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -227,7 +227,7 @@ export const ClinicSettingsManager = () => {
                 value={formData.displayPhone}
                 onChange={(e) => setFormData({ ...formData, displayPhone: e.target.value })}
                 placeholder="+91 94211 46623 / +91 89995 77794"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -241,7 +241,7 @@ export const ClinicSettingsManager = () => {
                 value={formData.whatsappNumber}
                 onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
                 placeholder="919421146623"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -255,7 +255,7 @@ export const ClinicSettingsManager = () => {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="contact@kalpanadental.com"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
           </div>
@@ -264,7 +264,7 @@ export const ClinicSettingsManager = () => {
         {/* Section 3: Operating Hours & Location */}
         <div>
           <h3 className="text-base font-bold text-[#0F172A] flex items-center gap-2 mb-4 pb-2 border-b border-[#F1F5F9]">
-            <Clock className="w-4 h-4 text-[#2563EB]" />
+            <Clock className="w-4 h-4 text-[#059669]" />
             Location & Operating Hours
           </h3>
 
@@ -280,7 +280,7 @@ export const ClinicSettingsManager = () => {
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   placeholder="Gandhi Statue Near Sudesh Picture Palace, Main Road Kopargaon, Maharashtra"
-                  className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                 />
               </div>
 
@@ -293,7 +293,7 @@ export const ClinicSettingsManager = () => {
                   value={formData.landmark}
                   onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
                   placeholder="Near Sudesh Picture Palace & Gandhi Statue"
-                  className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                 />
               </div>
             </div>
@@ -308,7 +308,7 @@ export const ClinicSettingsManager = () => {
                   value={formData.workingHoursWeekdays}
                   onChange={(e) => setFormData({ ...formData, workingHoursWeekdays: e.target.value })}
                   placeholder="Monday – Saturday: 9:00 AM – 8:00 PM"
-                  className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                 />
               </div>
 
@@ -321,7 +321,7 @@ export const ClinicSettingsManager = () => {
                   value={formData.workingHoursSunday}
                   onChange={(e) => setFormData({ ...formData, workingHoursSunday: e.target.value })}
                   placeholder="Sunday: By Prior Appointment Only"
-                  className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                 />
               </div>
             </div>
@@ -335,7 +335,7 @@ export const ClinicSettingsManager = () => {
                 value={formData.googleMapsUrl}
                 onChange={(e) => setFormData({ ...formData, googleMapsUrl: e.target.value })}
                 placeholder="https://www.google.com/maps?q=19.8808333,74.4790833"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
           </div>
@@ -344,7 +344,7 @@ export const ClinicSettingsManager = () => {
         {/* Section 4: Social Media Links */}
         <div>
           <h3 className="text-base font-bold text-[#0F172A] flex items-center gap-2 mb-4 pb-2 border-b border-[#F1F5F9]">
-            <Globe className="w-4 h-4 text-[#2563EB]" />
+            <Globe className="w-4 h-4 text-[#059669]" />
             Social Media Profiles
           </h3>
 
@@ -358,7 +358,7 @@ export const ClinicSettingsManager = () => {
                 value={formData.instagramUrl}
                 onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })}
                 placeholder="https://instagram.com/kalpanadental"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -371,7 +371,7 @@ export const ClinicSettingsManager = () => {
                 value={formData.facebookUrl}
                 onChange={(e) => setFormData({ ...formData, facebookUrl: e.target.value })}
                 placeholder="https://facebook.com/kalpanadental"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
           </div>

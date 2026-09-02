@@ -125,7 +125,7 @@ const Appointment = () => {
       {/* Header Banner */}
       <section className="hero-gradient py-16 md:py-20 border-b border-[#E2E8F0]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#2563EB] bg-[#EFF6FF] rounded-full border border-[#DBEAFE]">
+          <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#059669] bg-[#ECFDF5] rounded-full border border-[#D1FAE5]">
             Direct Online Scheduling
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-[#0F172A] tracking-[-0.03em] mt-4">
@@ -168,7 +168,7 @@ const Appointment = () => {
                   },
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3.5 p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0]">
-                    <div className="w-8 h-8 rounded-lg bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center shrink-0 border border-[#DBEAFE]">
+                    <div className="w-8 h-8 rounded-lg bg-[#ECFDF5] text-[#059669] flex items-center justify-center shrink-0 border border-[#D1FAE5]">
                       <CheckCircle2 className="w-4 h-4" />
                     </div>
                     <div>
@@ -179,8 +179,8 @@ const Appointment = () => {
                 ))}
               </div>
 
-              <div className="p-6 bg-[#EFF6FF] border border-[#DBEAFE] rounded-2xl">
-                <span className="text-xs font-bold text-[#2563EB] uppercase tracking-wider block mb-1">
+              <div className="p-6 bg-[#ECFDF5] border border-[#D1FAE5] rounded-2xl">
+                <span className="text-xs font-bold text-[#059669] uppercase tracking-wider block mb-1">
                   Immediate Dental Emergency?
                 </span>
                 <p className="text-xs text-[#1E3A8A] leading-relaxed mb-4">
@@ -188,7 +188,7 @@ const Appointment = () => {
                 </p>
                 <a
                   href={`tel:${clinicConfig.phone}`}
-                  className="inline-flex items-center gap-2 text-sm font-bold text-[#2563EB] hover:underline"
+                  className="inline-flex items-center gap-2 text-sm font-bold text-[#059669] hover:underline"
                 >
                   <Phone className="w-4 h-4" />
                   <span>Call {clinicConfig.displayPhone}</span>
@@ -211,7 +211,7 @@ const Appointment = () => {
 
                     <p className="text-[#475569] text-sm max-w-md mx-auto leading-relaxed">
                       Thank you <strong className="text-[#0F172A]">{formData.fullName}</strong>. Your consultation for{' '}
-                      <strong className="text-[#2563EB]">{formData.treatment}</strong> on{' '}
+                      <strong className="text-[#059669]">{formData.treatment}</strong> on{' '}
                       <strong className="text-[#0F172A]">{formData.date} ({formData.time})</strong> has been saved in our system.
                     </p>
 
@@ -236,7 +236,7 @@ const Appointment = () => {
                           setSubmitted(false);
                           setFormData((prev) => ({ ...prev, fullName: '', phone: '', message: '' }));
                         }}
-                        className="text-xs font-bold text-[#2563EB] hover:underline cursor-pointer"
+                        className="text-xs font-bold text-[#059669] hover:underline cursor-pointer"
                       >
                         Book Another Appointment
                       </button>
@@ -263,7 +263,7 @@ const Appointment = () => {
                           value={formData.fullName}
                           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                           placeholder="e.g. Rameshwar Shinde"
-                          className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                          className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                         />
                       </div>
                       {errors.fullName && <span className="text-xs text-rose-600 mt-1 block">{errors.fullName}</span>}
@@ -285,7 +285,7 @@ const Appointment = () => {
                             value={formData.phone}
                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                             placeholder="e.g. 9421146623"
-                            className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                            className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                           />
                         </div>
                         {errors.phone && <span className="text-xs text-rose-600 mt-1 block">{errors.phone}</span>}
@@ -304,7 +304,7 @@ const Appointment = () => {
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             placeholder="patient@example.com"
-                            className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                            className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                           />
                         </div>
                       </div>
@@ -319,7 +319,7 @@ const Appointment = () => {
                         <select
                           value={formData.treatment}
                           onChange={(e) => setFormData({ ...formData, treatment: e.target.value })}
-                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
                         >
                           {services.map((s) => (
                             <option key={s.id} value={s.title}>
@@ -336,7 +336,7 @@ const Appointment = () => {
                         <select
                           value={formData.doctor}
                           onChange={(e) => setFormData({ ...formData, doctor: e.target.value })}
-                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
                         >
                           {doctors.map((d) => (
                             <option key={d.id} value={d.name}>
@@ -360,7 +360,7 @@ const Appointment = () => {
                             min={todayStr}
                             value={formData.date}
                             onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                            className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                            className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                           />
                         </div>
                         {errors.date && <span className="text-xs text-rose-600 mt-1 block">{errors.date}</span>}
@@ -373,7 +373,7 @@ const Appointment = () => {
                         <select
                           value={formData.time}
                           onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
                         >
                           <option value="09:30 AM">09:30 AM (Morning)</option>
                           <option value="11:00 AM">11:00 AM (Morning)</option>
@@ -395,7 +395,7 @@ const Appointment = () => {
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         placeholder="Briefly describe any toothache, sensitivity, bleeding gums, or questions..."
-                        className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                        className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                       />
                     </div>
 

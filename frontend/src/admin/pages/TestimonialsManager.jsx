@@ -143,7 +143,7 @@ export const TestimonialsManager = () => {
           </div>
           <div>
             <span className="font-bold text-[#0F172A] block">{row.patient_name || row.name}</span>
-            <span className="text-xs text-[#2563EB] font-semibold block">
+            <span className="text-xs text-[#059669] font-semibold block">
               {row.treatment} {row.location ? `• ${row.location}` : ''}
             </span>
             <p className="text-xs text-[#475569] line-clamp-2 mt-1 italic">
@@ -188,7 +188,7 @@ export const TestimonialsManager = () => {
           <button
             onClick={() => handleOpenEdit(row)}
             title="Edit Testimonial"
-            className="p-2 text-[#2563EB] hover:bg-blue-50 rounded-lg transition-colors"
+            className="p-2 text-[#059669] hover:bg-blue-50 rounded-lg transition-colors"
           >
             <Edit2 className="w-4 h-4" />
           </button>
@@ -258,7 +258,7 @@ export const TestimonialsManager = () => {
                 value={formData.patient_name}
                 onChange={(e) => setFormData({ ...formData, patient_name: e.target.value })}
                 placeholder="Rameshwar Shinde"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -269,7 +269,7 @@ export const TestimonialsManager = () => {
               <select
                 value={formData.rating}
                 onChange={(e) => setFormData({ ...formData, rating: Number(e.target.value) })}
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
               >
                 <option value={5}>★★★★★ (5 Stars)</option>
                 <option value={4}>★★★★☆ (4 Stars)</option>
@@ -288,7 +288,7 @@ export const TestimonialsManager = () => {
                 value={formData.treatment}
                 onChange={(e) => setFormData({ ...formData, treatment: e.target.value })}
                 placeholder="Root Canal Treatment"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -301,7 +301,7 @@ export const TestimonialsManager = () => {
                 value={formData.location}
                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                 placeholder="Kopargaon"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
           </div>
@@ -316,7 +316,7 @@ export const TestimonialsManager = () => {
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               placeholder="Describe clinical experience, painless treatment, hygiene..."
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -333,7 +333,7 @@ export const TestimonialsManager = () => {
               id="test_pub"
               checked={formData.is_published}
               onChange={(e) => setFormData({ ...formData, is_published: e.target.checked })}
-              className="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-[#2563EB] w-4 h-4"
+              className="rounded border-[#CBD5E1] text-[#059669] focus:ring-[#059669] w-4 h-4"
             />
             <label htmlFor="test_pub" className="text-xs font-bold text-[#0F172A] cursor-pointer">
               Published (Visible on public Testimonials page)

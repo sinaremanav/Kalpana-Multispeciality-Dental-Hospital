@@ -157,7 +157,7 @@ export const DoctorsManager = () => {
           </div>
           <div>
             <span className="font-bold text-[#0F172A] block">{row.name}</span>
-            <span className="text-xs text-[#2563EB] font-semibold">{row.specialization}</span>
+            <span className="text-xs text-[#059669] font-semibold">{row.specialization}</span>
           </div>
         </div>
       ),
@@ -177,7 +177,7 @@ export const DoctorsManager = () => {
         <div className="text-xs text-[#475569] space-y-0.5">
           {row.phone && (
             <div className="flex items-center gap-1.5">
-              <Phone className="w-3 h-3 text-[#2563EB]" />
+              <Phone className="w-3 h-3 text-[#059669]" />
               <span>{row.phone}</span>
             </div>
           )}
@@ -216,7 +216,7 @@ export const DoctorsManager = () => {
           <button
             onClick={() => handleOpenEdit(row)}
             title="Edit Doctor Details"
-            className="p-2 text-[#2563EB] hover:bg-blue-50 rounded-lg transition-colors"
+            className="p-2 text-[#059669] hover:bg-blue-50 rounded-lg transition-colors"
           >
             <Edit2 className="w-4 h-4" />
           </button>
@@ -284,7 +284,7 @@ export const DoctorsManager = () => {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Dr. Nikhil Hiralal Mahanubhav"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
               {formErrors.name && <span className="text-xs text-rose-600 mt-1">{formErrors.name}</span>}
             </div>
@@ -299,7 +299,7 @@ export const DoctorsManager = () => {
                 value={formData.specialization}
                 onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
                 placeholder="Chief Dental Surgeon & Implantologist"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
               {formErrors.specialization && (
                 <span className="text-xs text-rose-600 mt-1">{formErrors.specialization}</span>
@@ -318,7 +318,7 @@ export const DoctorsManager = () => {
                 value={formData.qualification}
                 onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
                 placeholder="BDS, MDS (Oral Surgery)"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
               {formErrors.qualification && (
                 <span className="text-xs text-rose-600 mt-1">{formErrors.qualification}</span>
@@ -334,7 +334,7 @@ export const DoctorsManager = () => {
                 value={formData.experience}
                 onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
                 placeholder="4+ Years Clinical Experience"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
           </div>
@@ -349,7 +349,7 @@ export const DoctorsManager = () => {
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="+91 94211 46623"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -362,7 +362,7 @@ export const DoctorsManager = () => {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="doctor@kalpanadental.com"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
           </div>
@@ -376,7 +376,7 @@ export const DoctorsManager = () => {
               value={formData.bio}
               onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
               placeholder="Detailed description of clinical specialization, patient care approach..."
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -394,7 +394,7 @@ export const DoctorsManager = () => {
               id="is_active"
               checked={formData.is_active}
               onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-              className="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-[#2563EB] w-4 h-4"
+              className="rounded border-[#CBD5E1] text-[#059669] focus:ring-[#059669] w-4 h-4"
             />
             <label htmlFor="is_active" className="text-xs font-bold text-[#0F172A] cursor-pointer">
               Active (Visible on public Doctors page)

@@ -28,7 +28,7 @@ export const AdminNavbar = ({ onToggleSidebar }) => {
           </button>
 
           <Link to="/admin" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#2563EB] text-white flex items-center justify-center shadow-xs">
+            <div className="w-8 h-8 rounded-lg bg-[#059669] text-white flex items-center justify-center shadow-xs">
               <Stethoscope className="w-4 h-4" />
             </div>
             <div>
@@ -48,7 +48,7 @@ export const AdminNavbar = ({ onToggleSidebar }) => {
             to="/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-[#475569] hover:text-[#2563EB] hover:bg-[#EFF6FF] rounded-lg transition-colors border border-[#E2E8F0]"
+            className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-[#475569] hover:text-[#059669] hover:bg-[#ECFDF5] rounded-lg transition-colors border border-[#E2E8F0]"
           >
             <ExternalLink className="w-3.5 h-3.5" />
             <span>Public Site</span>
@@ -56,7 +56,7 @@ export const AdminNavbar = ({ onToggleSidebar }) => {
 
           {/* User Badge */}
           <div className="flex items-center gap-2.5 pl-2 sm:pl-3 sm:border-l border-[#E2E8F0]">
-            <div className="w-8 h-8 rounded-full bg-[#EFF6FF] text-[#2563EB] border border-[#DBEAFE] flex items-center justify-center font-bold text-xs">
+            <div className="w-8 h-8 rounded-full bg-[#ECFDF5] text-[#059669] border border-[#D1FAE5] flex items-center justify-center font-bold text-xs">
               {displayName.charAt(0).toUpperCase()}
             </div>
             <div className="hidden md:block text-left">
@@ -67,7 +67,7 @@ export const AdminNavbar = ({ onToggleSidebar }) => {
                 className={`inline-block text-[10px] font-extrabold uppercase tracking-wider px-1.5 py-0.2 rounded ${
                   role === 'admin'
                     ? 'bg-purple-100 text-purple-700'
-                    : 'bg-blue-100 text-blue-700'
+                    : 'bg-emerald-100 text-emerald-700'
                 }`}
               >
                 {role || 'Doctor'}

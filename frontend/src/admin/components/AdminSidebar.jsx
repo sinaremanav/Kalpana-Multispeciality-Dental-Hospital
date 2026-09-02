@@ -86,7 +86,7 @@ export const AdminSidebar = ({ isOpen, onClose }) => {
                     className={({ isActive }) =>
                       `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors ${
                         isActive
-                          ? 'bg-[#2563EB] text-white shadow-xs'
+                          ? 'bg-[#059669] text-white shadow-xs'
                           : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
                       }`
                     }

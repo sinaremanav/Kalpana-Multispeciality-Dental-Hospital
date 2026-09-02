@@ -17,7 +17,7 @@ const FAQ = () => {
       {/* Header Banner */}
       <section className="hero-gradient py-16 md:py-20 border-b border-[#E2E8F0]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#2563EB] bg-[#EFF6FF] rounded-full border border-[#DBEAFE]">
+          <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#059669] bg-[#ECFDF5] rounded-full border border-[#D1FAE5]">
             Help Center & FAQs
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-[#0F172A] tracking-[-0.03em] mt-4">
@@ -35,7 +35,7 @@ const FAQ = () => {
               placeholder="Search a question (e.g. root canal, cost, location)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 bg-white rounded-xl border border-[#E2E8F0] text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2563EB] shadow-saas"
+              className="w-full pl-11 pr-4 py-3 bg-white rounded-xl border border-[#E2E8F0] text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#059669] shadow-saas"
             />
           </div>
         </div>
@@ -54,14 +54,14 @@ const FAQ = () => {
                 >
                   <button
                     onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="w-full p-5 text-left font-bold text-[#0F172A] text-base flex items-center justify-between gap-4 hover:text-[#2563EB] transition-colors"
+                    className="w-full p-5 text-left font-bold text-[#0F172A] text-base flex items-center justify-between gap-4 hover:text-[#059669] transition-colors"
                   >
                     <span className="flex items-center gap-3">
-                      <HelpCircle className="w-4 h-4 text-[#2563EB] shrink-0" />
+                      <HelpCircle className="w-4 h-4 text-[#059669] shrink-0" />
                       <span>{faq.question}</span>
                     </span>
                     <ChevronDown
-                      className={`w-4 h-4 text-[#2563EB] shrink-0 transition-transform duration-250 ${
+                      className={`w-4 h-4 text-[#059669] shrink-0 transition-transform duration-250 ${
                         isOpen ? 'rotate-180' : ''
                       }`}
                     />

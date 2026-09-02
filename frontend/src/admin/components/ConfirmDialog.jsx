@@ -56,7 +56,7 @@ export const ConfirmDialog = ({
               className={`px-4 py-2 text-xs font-bold rounded-lg text-white transition-colors disabled:opacity-50 ${
                 isDestructive
                   ? 'bg-rose-600 hover:bg-rose-700'
-                  : 'bg-[#2563EB] hover:bg-[#1D4ED8]'
+                  : 'bg-[#059669] hover:bg-[#047857]'
               }`}
             >
               {loading ? 'Processing...' : confirmText}

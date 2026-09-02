@@ -44,7 +44,7 @@ const Events = () => {
       {/* Header Banner */}
       <section className="hero-gradient py-16 md:py-20 border-b border-[#E2E8F0]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#2563EB] bg-[#EFF6FF] rounded-full border border-[#DBEAFE]">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#059669] bg-[#ECFDF5] rounded-full border border-[#D1FAE5]">
             <Sparkles className="w-3.5 h-3.5" />
             Community Healthcare & Camps
           </span>
@@ -61,7 +61,7 @@ const Events = () => {
               onClick={() => setActiveTab('upcoming')}
               className={`px-5 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all ${
                 activeTab === 'upcoming'
-                  ? 'bg-[#2563EB] text-white shadow-xs'
+                  ? 'bg-[#059669] text-white shadow-xs'
                   : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
               }`}
             >
@@ -71,7 +71,7 @@ const Events = () => {
               onClick={() => setActiveTab('past')}
               className={`px-5 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all ${
                 activeTab === 'past'
-                  ? 'bg-[#2563EB] text-white shadow-xs'
+                  ? 'bg-[#059669] text-white shadow-xs'
                   : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
               }`}
             >
@@ -81,7 +81,7 @@ const Events = () => {
               onClick={() => setActiveTab('all')}
               className={`px-5 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all ${
                 activeTab === 'all'
-                  ? 'bg-[#2563EB] text-white shadow-xs'
+                  ? 'bg-[#059669] text-white shadow-xs'
                   : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
               }`}
             >

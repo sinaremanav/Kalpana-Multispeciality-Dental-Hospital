@@ -38,7 +38,7 @@ const Services = () => {
       {/* Header Banner */}
       <section className="hero-gradient py-16 md:py-20 border-b border-[#E2E8F0]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#2563EB] bg-[#EFF6FF] rounded-full border border-[#DBEAFE]">
+          <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#059669] bg-[#ECFDF5] rounded-full border border-[#D1FAE5]">
             Comprehensive Healthcare Treatments
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-[#0F172A] tracking-[-0.03em] mt-4">
@@ -90,12 +90,12 @@ const Services = () => {
                   <div key={i} className="peak-card p-8 sm:p-10 flex flex-col justify-between">
                     <div>
                       <div className="flex items-center gap-4 mb-4">
-                        <div className="w-11 h-11 rounded-xl bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center shrink-0 border border-[#DBEAFE]">
+                        <div className="w-11 h-11 rounded-xl bg-[#ECFDF5] text-[#059669] flex items-center justify-center shrink-0 border border-[#D1FAE5]">
                           <IconComponent className="w-5.5 h-5.5" />
                         </div>
                         <div>
                           <h3 className="text-xl font-bold text-[#0F172A] tracking-tight">{service.title}</h3>
-                          <span className="text-xs text-[#2563EB] font-semibold">{service.priceRange}</span>
+                          <span className="text-xs text-[#059669] font-semibold">{service.priceRange}</span>
                         </div>
                       </div>
 
@@ -109,7 +109,7 @@ const Services = () => {
                           <ul className="space-y-2 mb-6">
                             {service.features.map((feat, fIdx) => (
                               <li key={fIdx} className="flex items-center gap-2 text-xs font-medium text-[#0F172A]">
-                                <CheckCircle2 className="w-4 h-4 text-[#2563EB] shrink-0" />
+                                <CheckCircle2 className="w-4 h-4 text-[#059669] shrink-0" />
                                 <span>{feat}</span>
                               </li>
                             ))}

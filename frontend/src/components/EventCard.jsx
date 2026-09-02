@@ -58,7 +58,7 @@ export const EventCard = ({ event, index = 0, isPast = false }) => {
               className={`px-3 py-1 text-[11px] font-bold rounded-md shadow-xs ${
                 isPast
                   ? 'bg-slate-800 text-slate-200'
-                  : 'bg-[#2563EB] text-white'
+                  : 'bg-[#059669] text-white'
               }`}
             >
               {isPast ? 'Past Event' : event.category || 'Dental Camp'}
@@ -68,14 +68,14 @@ export const EventCard = ({ event, index = 0, isPast = false }) => {
 
         {/* Card Content */}
         <div className="p-6 sm:p-7">
-          <div className="flex flex-wrap items-center gap-3 text-xs text-[#2563EB] font-semibold mb-3">
-            <span className="flex items-center gap-1.5 bg-[#EFF6FF] px-2.5 py-1 rounded-md border border-[#DBEAFE]">
+          <div className="flex flex-wrap items-center gap-3 text-xs text-[#059669] font-semibold mb-3">
+            <span className="flex items-center gap-1.5 bg-[#ECFDF5] px-2.5 py-1 rounded-md border border-[#D1FAE5]">
               <Calendar className="w-3.5 h-3.5" />
               {formatDate(event.event_date)}
             </span>
             {event.start_time && (
               <span className="flex items-center gap-1.5 bg-[#F8FAFC] text-[#475569] px-2.5 py-1 rounded-md border border-[#E2E8F0]">
-                <Clock className="w-3.5 h-3.5 text-[#2563EB]" />
+                <Clock className="w-3.5 h-3.5 text-[#059669]" />
                 {formatTime(event.start_time)} {event.end_time ? `– ${formatTime(event.end_time)}` : ''}
               </span>
             )}
@@ -90,7 +90,7 @@ export const EventCard = ({ event, index = 0, isPast = false }) => {
           </p>
 
           <div className="flex items-start gap-2 text-xs text-[#64748B] pt-2 border-t border-[#F1F5F9]">
-            <MapPin className="w-4 h-4 text-[#2563EB] shrink-0 mt-0.5" />
+            <MapPin className="w-4 h-4 text-[#059669] shrink-0 mt-0.5" />
             <span className="line-clamp-2">{event.location}</span>
           </div>
         </div>

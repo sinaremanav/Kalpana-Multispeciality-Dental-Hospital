@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   color-scheme: light;
   scroll-behavior: smooth;
-  --color-primary: #2563EB;
-  --color-primary-hover: #1D4ED8;
-  --color-text-dark: #0F172A;
-  --color-text-secondary: #475569;
-  --color-text-muted: #64748B;
-  --color-bg-light: #F8FAFC;
-  --color-border: #E2E8F0;
-  --color-accent-purple: #7C3AED;
+  --color-primary: #10B981;
+  --color-primary-hover: #059669;
+  --color-text-dark: #09090B;
+  --color-text-secondary: #3F3F46;
+  --color-text-muted: #71717A;
+  --color-bg-light: #FAFAFA;
+  --color-border: #E4E4E7;
+  --color-accent-purple: #14B8A6;
 }
 
 body {
@@ -26,14 +26,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter', system-ui, sans-serif;
-  color: #0F172A;
+.dark body {
+  background-color: #09090B;
+  color: #FAFAFA;
 }
 
-/* PeakAI Visual Styling Utilities */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', system-ui, sans-serif;
+}
+
+/* Structural Gradient for Hospital UI */
 .hero-gradient {
-  background: radial-gradient(circle at 50% 0%, #EFF6FF 0%, #FFFFFF 60%);
+  background: radial-gradient(circle at 50% 0%, #FAFAFA 0%, #FFFFFF 60%);
+}
+
+.dark .hero-gradient {
+  background: radial-gradient(circle at 50% 0%, #18181B 0%, #09090B 60%);
 }
 
 .peak-container {
@@ -56,13 +64,24 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid #E2E8F0;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.dark .peak-card {
+  background: #1E293B;
+  border-color: #334155;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .peak-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.09);
   border-color: #CBD5E1;
+}
+
+.dark .peak-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  border-color: #475569;
 }
 
 .peak-card-lg {
@@ -73,24 +92,20 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
   letter-spacing: -0.035em;
   line-height: 1.12;
-  color: #0F172A;
 }
 
 .heading-section {
   font-weight: 800;
   letter-spacing: -0.025em;
   line-height: 1.2;
-  color: #0F172A;
 }
 
 .heading-card {
   font-weight: 700;
   letter-spacing: -0.015em;
-  color: #0F172A;
 }
 
 .text-body-custom {
-  color: #475569;
   line-height: 1.65;
 }
 
@@ -99,6 +114,11 @@ h1, h2, h3, h4, h5, h6 {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.dark .glass-card {
+  background: rgba(30, 41, 59, 0.75);
+  border-color: rgba(51, 65, 85, 0.8);
 }
 
 .shadow-saas {
@@ -130,5 +150,27 @@ h1, h2, h3, h4, h5, h6 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #2563eb;
+}
+
+/* Creative Utilities */
+.creative-gradient-text {
+  background: linear-gradient(to right, #10B981, #14B8A6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .creative-gradient-text {
+  background: linear-gradient(to right, #34D399, #5EEAD4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark-glow-shadow {
+  transition: box-shadow 0.3s ease;
+}
+.dark .dark-glow-shadow:hover {
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.2);
 }
 

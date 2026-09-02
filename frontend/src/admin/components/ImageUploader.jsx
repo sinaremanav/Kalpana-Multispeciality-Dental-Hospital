@@ -48,7 +48,7 @@ export const ImageUploader = ({
             type="button"
             onClick={() => setActiveTab('upload')}
             className={`px-2 py-0.5 text-[11px] font-semibold rounded ${
-              activeTab === 'upload' ? 'bg-white text-[#2563EB] shadow-xs' : 'text-[#64748B]'
+              activeTab === 'upload' ? 'bg-white text-[#059669] shadow-xs' : 'text-[#64748B]'
             }`}
           >
             Upload File
@@ -57,7 +57,7 @@ export const ImageUploader = ({
             type="button"
             onClick={() => setActiveTab('url')}
             className={`px-2 py-0.5 text-[11px] font-semibold rounded ${
-              activeTab === 'url' ? 'bg-white text-[#2563EB] shadow-xs' : 'text-[#64748B]'
+              activeTab === 'url' ? 'bg-white text-[#059669] shadow-xs' : 'text-[#64748B]'
             }`}
           >
             Image URL
@@ -69,7 +69,7 @@ export const ImageUploader = ({
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <div
             onClick={() => !uploading && fileInputRef.current?.click()}
-            className="flex-1 w-full flex flex-col items-center justify-center p-6 border-2 border-dashed border-[#CBD5E1] hover:border-[#2563EB] rounded-xl cursor-pointer bg-[#F8FAFC] transition-colors"
+            className="flex-1 w-full flex flex-col items-center justify-center p-6 border-2 border-dashed border-[#CBD5E1] hover:border-[#059669] rounded-xl cursor-pointer bg-[#F8FAFC] transition-colors"
           >
             <input
               ref={fileInputRef}
@@ -81,8 +81,8 @@ export const ImageUploader = ({
             />
             {uploading ? (
               <div className="flex flex-col items-center">
-                <Loader2 className="w-8 h-8 text-[#2563EB] animate-spin mb-2" />
-                <span className="text-xs font-semibold text-[#2563EB]">Uploading to Storage...</span>
+                <Loader2 className="w-8 h-8 text-[#059669] animate-spin mb-2" />
+                <span className="text-xs font-semibold text-[#059669]">Uploading to Storage...</span>
               </div>
             ) : (
               <div className="flex flex-col items-center text-center">
@@ -108,7 +108,7 @@ export const ImageUploader = ({
               value={value || ''}
               onChange={(e) => onChange(e.target.value)}
               placeholder="https://images.unsplash.com/..."
-              className="flex-1 px-3 py-2 text-xs border border-[#CBD5E1] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="flex-1 px-3 py-2 text-xs border border-[#CBD5E1] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
             {value && (
               <div className="w-10 h-10 rounded-lg border border-[#E2E8F0] overflow-hidden bg-white shrink-0">

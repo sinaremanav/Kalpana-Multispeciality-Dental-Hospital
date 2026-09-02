@@ -157,7 +157,7 @@ export const ServicesManager = () => {
       header: 'Pricing',
       render: (row) => (
         <div className="text-xs">
-          <span className="font-bold text-[#2563EB] block">
+          <span className="font-bold text-[#059669] block">
             {row.price_display || row.priceRange || (row.price ? `₹${row.price}` : 'Consultation')}
           </span>
           {row.price && <span className="text-[11px] text-[#64748B]">Base: ₹{row.price}</span>}
@@ -188,7 +188,7 @@ export const ServicesManager = () => {
           <button
             onClick={() => handleOpenEdit(row)}
             title="Edit Treatment"
-            className="p-2 text-[#2563EB] hover:bg-blue-50 rounded-lg transition-colors"
+            className="p-2 text-[#059669] hover:bg-blue-50 rounded-lg transition-colors"
           >
             <Edit2 className="w-4 h-4" />
           </button>
@@ -255,7 +255,7 @@ export const ServicesManager = () => {
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="Root Canal Treatment (RCT)"
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -269,7 +269,7 @@ export const ServicesManager = () => {
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                 placeholder="2500"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -282,7 +282,7 @@ export const ServicesManager = () => {
                 value={formData.price_display}
                 onChange={(e) => setFormData({ ...formData, price_display: e.target.value })}
                 placeholder="From ₹2,500 / Per Tooth"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
           </div>
@@ -297,7 +297,7 @@ export const ServicesManager = () => {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Clinical explanation of procedure, benefits, and patient comfort..."
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -310,7 +310,7 @@ export const ServicesManager = () => {
               value={formData.features}
               onChange={(e) => setFormData({ ...formData, features: e.target.value })}
               placeholder="Single-visit rotary RCT&#10;Digital Apex Locator precision&#10;Rubber dam sterile isolation"
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -327,7 +327,7 @@ export const ServicesManager = () => {
               id="service_active"
               checked={formData.is_active}
               onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-              className="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-[#2563EB] w-4 h-4"
+              className="rounded border-[#CBD5E1] text-[#059669] focus:ring-[#059669] w-4 h-4"
             />
             <label htmlFor="service_active" className="text-xs font-bold text-[#0F172A] cursor-pointer">
               Active (Visible on public Services page)

@@ -103,7 +103,7 @@ export const AppointmentsManager = () => {
           <span className="font-bold text-[#0F172A] block">{row.patient_name}</span>
           <div className="flex items-center gap-2 text-xs text-[#64748B] mt-0.5">
             <span className="flex items-center gap-1">
-              <Phone className="w-3 h-3 text-[#2563EB]" />
+              <Phone className="w-3 h-3 text-[#059669]" />
               {row.patient_phone}
             </span>
             {row.patient_email && (
@@ -118,7 +118,7 @@ export const AppointmentsManager = () => {
       render: (row) => (
         <div className="text-xs">
           <span className="font-bold text-[#0F172A] block">{row.service_name || 'General Dental'}</span>
-          <span className="text-[#2563EB] font-semibold">{row.doctor_name || 'Assigned Specialist'}</span>
+          <span className="text-[#059669] font-semibold">{row.doctor_name || 'Assigned Specialist'}</span>
         </div>
       ),
     },
@@ -127,7 +127,7 @@ export const AppointmentsManager = () => {
       render: (row) => (
         <div className="text-xs">
           <span className="font-bold text-[#0F172A] block flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5 text-[#2563EB]" />
+            <Calendar className="w-3.5 h-3.5 text-[#059669]" />
             {row.appointment_date}
           </span>
           <span className="text-[#64748B] flex items-center gap-1 mt-0.5">
@@ -150,7 +150,7 @@ export const AppointmentsManager = () => {
           <select
             value={row.status}
             onChange={(e) => handleStatusChange(row.id, e.target.value)}
-            className="text-xs font-semibold px-2 py-1 border border-[#CBD5E1] rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-[#2563EB]"
+            className="text-xs font-semibold px-2 py-1 border border-[#CBD5E1] rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-[#059669]"
           >
             <option value="pending">Pending</option>
             <option value="confirmed">Confirmed</option>
@@ -164,7 +164,7 @@ export const AppointmentsManager = () => {
               setIsDetailsOpen(true);
             }}
             title="View Details"
-            className="p-1.5 text-[#2563EB] hover:bg-blue-50 rounded-lg transition-colors"
+            className="p-1.5 text-[#059669] hover:bg-blue-50 rounded-lg transition-colors"
           >
             <Eye className="w-4 h-4" />
           </button>
@@ -201,7 +201,7 @@ export const AppointmentsManager = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search patient, phone, doctor..."
-            className="w-full px-3.5 py-2 text-xs border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+            className="w-full px-3.5 py-2 text-xs border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
           />
         </div>
       </div>
@@ -214,7 +214,7 @@ export const AppointmentsManager = () => {
             onClick={() => setStatusFilter(status)}
             className={`px-4 py-1.5 text-xs font-bold rounded-lg uppercase tracking-wider transition-all ${
               statusFilter === status
-                ? 'bg-[#2563EB] text-white shadow-xs'
+                ? 'bg-[#059669] text-white shadow-xs'
                 : 'text-[#64748B] hover:text-[#0F172A] bg-white border border-[#E2E8F0]'
             }`}
           >
@@ -263,8 +263,8 @@ export const AppointmentsManager = () => {
                   Patient Info
                 </span>
                 <p className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-[#2563EB]" />
-                  <a href={`tel:${selectedAppointment.patient_phone}`} className="font-semibold text-[#2563EB]">
+                  <Phone className="w-3.5 h-3.5 text-[#059669]" />
+                  <a href={`tel:${selectedAppointment.patient_phone}`} className="font-semibold text-[#059669]">
                     {selectedAppointment.patient_phone}
                   </a>
                 </p>
@@ -286,7 +286,7 @@ export const AppointmentsManager = () => {
                 </p>
                 <p>
                   <strong className="text-[#64748B]">Doctor:</strong>{' '}
-                  <span className="font-bold text-[#2563EB]">{selectedAppointment.doctor_name}</span>
+                  <span className="font-bold text-[#059669]">{selectedAppointment.doctor_name}</span>
                 </p>
                 <p>
                   <strong className="text-[#64748B]">Schedule:</strong>{' '}
@@ -296,7 +296,7 @@ export const AppointmentsManager = () => {
             </div>
 
             {selectedAppointment.message && (
-              <div className="p-3.5 bg-blue-50/50 border border-blue-100 rounded-xl text-xs">
+              <div className="p-3.5 bg-blue-50/50 border border-emerald-100 rounded-xl text-xs">
                 <span className="font-bold text-[#0F172A] block mb-1">Patient Note:</span>
                 <p className="text-[#475569] leading-relaxed">{selectedAppointment.message}</p>
               </div>
@@ -314,7 +314,7 @@ export const AppointmentsManager = () => {
                     onClick={() => handleStatusChange(selectedAppointment.id, st)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-colors ${
                       selectedAppointment.status === st
-                        ? 'bg-[#2563EB] text-white shadow-xs'
+                        ? 'bg-[#059669] text-white shadow-xs'
                         : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                   >

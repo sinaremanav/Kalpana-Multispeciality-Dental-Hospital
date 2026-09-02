@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import { AuthProvider } from './admin/context/AuthContext';
 import ProtectedRoute from './admin/components/ProtectedRoute';
+import { ThemeProvider } from './context/ThemeContext';
 
 // Public Pages
 import Home from './pages/Home';
@@ -44,7 +45,7 @@ const ScrollToTop = () => {
 // Wrapper for Public Pages
 const PublicLayout = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-800 antialiased font-sans">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased font-sans transition-colors duration-300">
       <Navbar />
       <main className="flex-grow">{children}</main>
       <Footer />
@@ -55,8 +56,9 @@ const PublicLayout = ({ children }) => {
 
 function App() {
   return (
-    <AuthProvider>
-      <ScrollToTop />
+    <ThemeProvider>
+      <AuthProvider>
+        <ScrollToTop />
       <Routes>
         {/* Public Website Routes */}
         <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
@@ -146,7 +148,8 @@ function App() {
         {/* Fallback to Home */}
         <Route path="*" element={<PublicLayout><Home /></PublicLayout>} />
       </Routes>
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

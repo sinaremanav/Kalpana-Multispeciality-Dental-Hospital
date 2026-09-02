@@ -59,7 +59,7 @@ const GalleryGrid = ({ limit }) => {
               onClick={() => setActiveCategory(category)}
               className={`px-4 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 cursor-pointer ${
                 activeCategory === category
-                  ? 'bg-[#2563EB] text-white shadow-xs'
+                  ? 'bg-[#059669] text-white shadow-xs'
                   : 'bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#E2E8F0]'
               }`}
             >
@@ -97,7 +97,7 @@ const GalleryGrid = ({ limit }) => {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/90 via-[#0F172A]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-white">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#93C5FD]">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#6EE7B7]">
                     {item.category}
                   </span>
                   <h4 className="text-base font-bold mt-1 tracking-tight text-white">{item.title}</h4>
@@ -145,7 +145,7 @@ const GalleryGrid = ({ limit }) => {
               </div>
 
               <div className="p-6 bg-white">
-                <span className="text-xs font-semibold px-2.5 py-1 bg-[#EFF6FF] text-[#2563EB] rounded-md border border-[#DBEAFE]">
+                <span className="text-xs font-semibold px-2.5 py-1 bg-[#ECFDF5] text-[#059669] rounded-md border border-[#D1FAE5]">
                   {selectedImage.category}
                 </span>
                 <h3 className="text-xl font-bold text-[#0F172A] mt-2 tracking-tight">

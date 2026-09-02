@@ -148,7 +148,7 @@ export const EventsManager = () => {
           </div>
           <div>
             <span className="font-bold text-[#0F172A] block leading-snug">{row.title}</span>
-            <span className="text-xs text-[#2563EB] font-semibold">{row.category || 'Camp'}</span>
+            <span className="text-xs text-[#059669] font-semibold">{row.category || 'Camp'}</span>
           </div>
         </div>
       ),
@@ -158,7 +158,7 @@ export const EventsManager = () => {
       render: (row) => (
         <div className="text-xs space-y-0.5">
           <span className="font-bold text-[#0F172A] block flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5 text-[#2563EB]" />
+            <Calendar className="w-3.5 h-3.5 text-[#059669]" />
             {row.event_date}
           </span>
           <span className="text-[#64748B] flex items-center gap-1">
@@ -192,7 +192,7 @@ export const EventsManager = () => {
           <button
             onClick={() => handleOpenEdit(row)}
             title="Edit Event"
-            className="p-2 text-[#2563EB] hover:bg-blue-50 rounded-lg transition-colors"
+            className="p-2 text-[#059669] hover:bg-blue-50 rounded-lg transition-colors"
           >
             <Edit2 className="w-4 h-4" />
           </button>
@@ -261,7 +261,7 @@ export const EventsManager = () => {
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="Free Dental Screening & Oral Cancer Checkup Camp"
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -275,7 +275,7 @@ export const EventsManager = () => {
                 required
                 value={formData.event_date}
                 onChange={(e) => setFormData({ ...formData, event_date: e.target.value })}
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -287,7 +287,7 @@ export const EventsManager = () => {
                 type="time"
                 value={formData.start_time}
                 onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -299,7 +299,7 @@ export const EventsManager = () => {
                 type="time"
                 value={formData.end_time}
                 onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
           </div>
@@ -315,7 +315,7 @@ export const EventsManager = () => {
                 value={formData.location}
                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                 placeholder="Kalpana Dental Clinic, Kopargaon"
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
 
@@ -326,7 +326,7 @@ export const EventsManager = () => {
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
               >
                 <option value="Camp">Dental Camp</option>
                 <option value="Workshop">Workshop & Awareness</option>
@@ -346,7 +346,7 @@ export const EventsManager = () => {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Provide details about what services are provided, who should attend, free screenings..."
-              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>
 
@@ -363,7 +363,7 @@ export const EventsManager = () => {
               id="event_pub"
               checked={formData.is_published}
               onChange={(e) => setFormData({ ...formData, is_published: e.target.checked })}
-              className="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-[#2563EB] w-4 h-4"
+              className="rounded border-[#CBD5E1] text-[#059669] focus:ring-[#059669] w-4 h-4"
             />
             <label htmlFor="event_pub" className="text-xs font-bold text-[#0F172A] cursor-pointer">
               Published (Visible on public Events page)
