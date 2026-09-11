@@ -1,20 +1,20 @@
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://wbcifzwxlboepvjumori.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
+// Live Supabase project credentials for Kalpana Dental Clinic
+const DEFAULT_SUPABASE_URL = 'https://wbcifzwxlboepvjumori.supabase.co';
+const DEFAULT_SUPABASE_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndiY2lmend4bGJvZXB2anVtb3JpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3MjA5NzcsImV4cCI6MjEwMzI5Njk3N30.NMssTC-MqXLch3E6_eo4lhTimztdMCk6kaQAkX0kA38';
 
-if (!SUPABASE_PUBLISHABLE_KEY) {
-  console.warn(
-    '⚠️ [Supabase Warning] VITE_SUPABASE_PUBLISHABLE_KEY is not set in your .env file.\n' +
-    'Please add VITE_SUPABASE_PUBLISHABLE_KEY to your frontend .env file to enable live database and auth features.\n' +
-    'The app will use local fallback data in the meantime.'
-  );
-}
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL;
+const SUPABASE_PUBLISHABLE_KEY =
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+  import.meta.env.VITE_SUPABASE_ANON_KEY ||
+  DEFAULT_SUPABASE_KEY;
 
-// Create Supabase client instance (with dummy fallback string if empty to avoid SDK init throw)
+// Create Supabase client instance
 export const supabase = createClient(
   SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummy_anon_key_for_offline_preview',
+  SUPABASE_PUBLISHABLE_KEY,
   {
     auth: {
       persistSession: true,
