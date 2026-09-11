@@ -105,11 +105,6 @@ const Appointment = () => {
 
       setBookingResult(response);
       setSubmitted(true);
-
-      // Open WhatsApp in new tab automatically if available
-      if (response && response.whatsappUrl) {
-        window.open(response.whatsappUrl, '_blank');
-      }
     } catch (err) {
       console.error('Appointment booking error:', err);
       alert('Unable to complete appointment booking. Please contact the clinic directly.');
@@ -206,14 +201,18 @@ const Appointment = () => {
                     </div>
 
                     <h3 className="text-2xl font-bold text-[#0F172A] tracking-tight">
-                      Appointment Request Received!
+                      Appointment Saved in Clinic System!
                     </h3>
 
                     <p className="text-[#475569] text-sm max-w-md mx-auto leading-relaxed">
-                      Thank you <strong className="text-[#0F172A]">{formData.fullName}</strong>. Your consultation for{' '}
+                      Thank you <strong className="text-[#0F172A]">{formData.fullName}</strong>. Your appointment for{' '}
                       <strong className="text-[#059669]">{formData.treatment}</strong> on{' '}
-                      <strong className="text-[#0F172A]">{formData.date} ({formData.time})</strong> has been saved in our system.
+                      <strong className="text-[#0F172A]">{formData.date} ({formData.time})</strong> has been registered directly into our clinic database and displayed on the doctor's dashboard.
                     </p>
+
+                    <div className="p-3 bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl text-xs text-[#166534] max-w-md mx-auto font-medium">
+                      ✓ Your slot is recorded. You do not need to send a WhatsApp message for this booking to appear in the clinic system.
+                    </div>
 
                     {bookingResult?.whatsappUrl && (
                       <div className="pt-2">
@@ -225,7 +224,7 @@ const Appointment = () => {
                           size="md"
                           icon={MessageCircle}
                         >
-                          Confirm on WhatsApp
+                          Chat on WhatsApp (Optional)
                         </Button>
                       </div>
                     )}

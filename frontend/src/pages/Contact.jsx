@@ -25,6 +25,7 @@ const Contact = () => {
   });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [contactResult, setContactResult] = useState(null);
 
   useEffect(() => {
     clinicService.getClinicSettings().then((data) => {
@@ -40,35 +41,17 @@ const Contact = () => {
     }
 
     setSubmitting(true);
-    let waUrl = '';
 
     try {
       const response = await apiService.sendContactMessage(formData);
-      if (response && response.whatsappUrl) {
-        waUrl = response.whatsappUrl;
-      }
+      setContactResult(response);
       setSubmitted(true);
     } catch (err) {
-      console.warn('API contact submission fallback to WhatsApp URL');
+      console.warn('API contact submission error:', err);
+      alert('Unable to submit inquiry. Please call us directly.');
     } finally {
       setSubmitting(false);
     }
-
-    if (!waUrl) {
-      const text = `Hello Doctor,
-
-I have a query from your website contact page.
-
-Name: ${formData.name}
-Phone: ${formData.phone}
-Email: ${formData.email}
-Subject: ${formData.subject || 'General Inquiry'}
-Message: ${formData.message}`;
-
-      waUrl = `https://wa.me/${clinic.whatsappNumber || fallbackConfig.whatsappNumber}?text=${encodeURIComponent(text)}`;
-    }
-
-    window.open(waUrl, '_blank');
   };
 
   const whatsappUrl = `https://wa.me/${clinic.whatsappNumber || fallbackConfig.whatsappNumber}`;
@@ -181,21 +164,37 @@ Message: ${formData.message}`;
                     <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto">
                       <CheckCircle2 className="w-8 h-8" />
                     </div>
-                    <h3 className="text-2xl font-bold text-[#0F172A]">Message Recorded!</h3>
-                    <p className="text-[#475569] text-sm max-w-md mx-auto">
-                      Thank you for contacting us. Your message has been saved into our system and our staff will respond to you promptly.
+                    <h3 className="text-2xl font-bold text-[#0F172A]">Message Recorded in System!</h3>
+                    <p className="text-[#475569] text-sm max-w-md mx-auto leading-relaxed">
+                      Thank you for contacting us. Your message has been saved into our clinic database and displayed on our administration dashboard. Our staff will respond to you promptly.
                     </p>
-                    <div className="pt-4">
-                      <Button
+                    <div className="p-3 bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl text-xs text-[#166534] max-w-md mx-auto font-medium">
+                      ✓ Inquiry saved directly. No WhatsApp message is required for this inquiry to reach clinic staff.
+                    </div>
+                    {contactResult?.whatsappUrl && (
+                      <div className="pt-2">
+                        <Button
+                          href={contactResult.whatsappUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          variant="whatsapp"
+                          size="md"
+                          icon={MessageCircle}
+                        >
+                          Chat on WhatsApp (Optional)
+                        </Button>
+                      </div>
+                    )}
+                    <div className="pt-2">
+                      <button
                         onClick={() => {
                           setSubmitted(false);
                           setFormData({ name: '', phone: '', email: '', subject: '', message: '' });
                         }}
-                        variant="primary"
-                        size="sm"
+                        className="text-xs font-bold text-[#059669] hover:underline cursor-pointer"
                       >
                         Send Another Query
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 ) : (

@@ -1,12 +1,25 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 
+function generateUUID() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 export const appointmentService = {
   /**
    * Public: Create a new appointment booking
    */
   async createAppointment(appointmentData) {
+    const id = appointmentData.id || generateUUID();
     const payload = {
-      patient_name: appointmentData.fullName || appointmentData.patient_name || appointmentData.name,
+      id,
+      patient_name: appointmentData.fullName || appointmentData.patient_name || appointmentData.name || '',
       patient_email: appointmentData.email || appointmentData.patient_email || '',
       patient_phone: appointmentData.phone || appointmentData.patient_phone || '',
       service_id: appointmentData.service_id || null,
@@ -24,9 +37,12 @@ export const appointmentService = {
 
     if (isSupabaseConfigured) {
       try {
-        const { data, error } = await supabase.from('appointments').insert([payload]).select().single();
+        const { error } = await supabase.from('appointments').insert([payload]);
         if (error) throw error;
-        return data;
+        return {
+          ...payload,
+          created_at: new Date().toISOString(),
+        };
       } catch (err) {
         console.warn('Supabase createAppointment error, saving locally:', err.message);
       }
@@ -34,7 +50,7 @@ export const appointmentService = {
 
     // Fallback object if Supabase is unconfigured
     return {
-      id: `APT-${Date.now()}`,
+      id,
       ...payload,
       created_at: new Date().toISOString(),
     };

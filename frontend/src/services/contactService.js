@@ -1,11 +1,24 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 
+function generateUUID() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 export const contactService = {
   /**
    * Public: Send contact message inquiry
    */
   async sendContactMessage(formData) {
+    const id = formData.id || generateUUID();
     const payload = {
+      id,
       name: formData.name,
       email: formData.email || '',
       phone: formData.phone,
@@ -16,16 +29,19 @@ export const contactService = {
 
     if (isSupabaseConfigured) {
       try {
-        const { data, error } = await supabase.from('contact_messages').insert([payload]).select().single();
+        const { error } = await supabase.from('contact_messages').insert([payload]);
         if (error) throw error;
-        return data;
+        return {
+          ...payload,
+          created_at: new Date().toISOString(),
+        };
       } catch (err) {
         console.warn('Supabase sendContactMessage error, fallback recorded:', err.message);
       }
     }
 
     return {
-      id: `INQ-${Date.now()}`,
+      id,
       ...payload,
       created_at: new Date().toISOString(),
     };

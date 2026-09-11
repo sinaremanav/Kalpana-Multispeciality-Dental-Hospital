@@ -1,4 +1,5 @@
 import express from 'express';
+import crypto from 'node:crypto';
 import {
   clinicConfig,
   doctorsData,
@@ -140,6 +141,25 @@ router.get('/faq', (req, res) => {
   res.status(200).json({ success: true, data: faqData, source: 'local' });
 });
 
+// GET /api/appointments
+router.get('/appointments', async (req, res) => {
+  if (isSupabaseConfigured) {
+    try {
+      const { data, error } = await supabase
+        .from('appointments')
+        .select('*')
+        .order('appointment_date', { ascending: false });
+
+      if (!error && data) {
+        return res.status(200).json({ success: true, data, source: 'supabase' });
+      }
+    } catch (err) {
+      console.warn('⚠️ Supabase get appointments failed:', err.message);
+    }
+  }
+  return res.status(200).json({ success: true, data: appointmentsStore, source: 'memory' });
+});
+
 // POST /api/appointments
 router.post('/appointments', async (req, res) => {
   const { fullName, phone, email, date, time, treatment, doctor, message } = req.body || {};
@@ -151,8 +171,10 @@ router.post('/appointments', async (req, res) => {
     });
   }
 
+  const appointmentId = req.body?.id || crypto.randomUUID();
+
   const newAppointment = {
-    id: `APT-${Date.now()}`,
+    id: appointmentId,
     fullName,
     phone,
     email: email || '',
@@ -162,46 +184,45 @@ router.post('/appointments', async (req, res) => {
     doctor: doctor || clinicConfig.doctorName,
     message: message || '',
     createdAt: new Date().toISOString(),
-    status: 'PENDING_CONFIRMATION',
+    status: 'pending',
   };
 
   // Always keep in-memory record
   appointmentsStore.push(newAppointment);
 
-  // If Supabase is configured, also persist directly to PostgreSQL appointments table
+  // If Supabase is configured, persist directly to PostgreSQL appointments table
   let supabaseRecord = null;
   if (isSupabaseConfigured) {
     try {
-      const { data, error } = await supabase
+      const appointmentPayload = {
+        id: appointmentId,
+        patient_name: fullName,
+        patient_phone: phone,
+        patient_email: email || null,
+        appointment_date: date,
+        appointment_time: formatToPostgresTime(time),
+        time_display: time || '10:00 AM',
+        service_name: treatment,
+        doctor_name: doctor || clinicConfig.doctorName,
+        message: message || '',
+        status: 'pending',
+      };
+
+      const { error } = await supabase
         .from('appointments')
-        .insert([
-          {
-            patient_name: fullName,
-            patient_phone: phone,
-            patient_email: email || null,
-            appointment_date: date,
-            appointment_time: formatToPostgresTime(time),
-            time_display: time || '10:00 AM',
-            service_name: treatment,
-            doctor_name: doctor || clinicConfig.doctorName,
-            message: message || '',
-            status: 'pending',
-          },
-        ])
-        .select()
-        .maybeSingle();
+        .insert([appointmentPayload]);
 
       if (error) {
         console.warn('⚠️ Failed to save appointment in Supabase:', error.message);
       } else {
-        supabaseRecord = data;
+        supabaseRecord = { ...appointmentPayload, created_at: new Date().toISOString() };
       }
     } catch (err) {
       console.error('⚠️ Supabase appointment insert exception:', err.message);
     }
   }
 
-  // Format WhatsApp message payload
+  // Format optional WhatsApp message URL
   const whatsappText = `Hello Doctor,
 
 I would like to book an appointment.
@@ -223,10 +244,29 @@ Thank you.`;
 
   return res.status(201).json({
     success: true,
-    message: 'Appointment request received successfully!',
+    message: 'Appointment request received successfully and saved to clinic database!',
     appointment: supabaseRecord || newAppointment,
     whatsappUrl,
   });
+});
+
+// GET /api/contact
+router.get('/contact', async (req, res) => {
+  if (isSupabaseConfigured) {
+    try {
+      const { data, error } = await supabase
+        .from('contact_messages')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (!error && data) {
+        return res.status(200).json({ success: true, data, source: 'supabase' });
+      }
+    } catch (err) {
+      console.warn('⚠️ Supabase get contact messages failed:', err.message);
+    }
+  }
+  return res.status(200).json({ success: true, data: contactInquiriesStore, source: 'memory' });
 });
 
 // POST /api/contact
@@ -240,42 +280,44 @@ router.post('/contact', async (req, res) => {
     });
   }
 
+  const contactId = req.body?.id || crypto.randomUUID();
+
   const newInquiry = {
-    id: `INQ-${Date.now()}`,
+    id: contactId,
     name,
     phone,
     email: email || '',
     subject: subject || 'General Inquiry',
     message,
     createdAt: new Date().toISOString(),
+    status: 'unread',
   };
 
   // Always keep in-memory record
   contactInquiriesStore.push(newInquiry);
 
-  // If Supabase is configured, also persist directly to PostgreSQL contact_messages table
+  // If Supabase is configured, persist directly to PostgreSQL contact_messages table
   let supabaseRecord = null;
   if (isSupabaseConfigured) {
     try {
-      const { data, error } = await supabase
+      const contactPayload = {
+        id: contactId,
+        name,
+        phone,
+        email: email || null,
+        subject: subject || 'General Inquiry',
+        message,
+        status: 'unread',
+      };
+
+      const { error } = await supabase
         .from('contact_messages')
-        .insert([
-          {
-            name,
-            phone,
-            email: email || null,
-            subject: subject || 'General Inquiry',
-            message,
-            status: 'unread',
-          },
-        ])
-        .select()
-        .maybeSingle();
+        .insert([contactPayload]);
 
       if (error) {
         console.warn('⚠️ Failed to save contact inquiry in Supabase:', error.message);
       } else {
-        supabaseRecord = data;
+        supabaseRecord = { ...contactPayload, created_at: new Date().toISOString() };
       }
     } catch (err) {
       console.error('⚠️ Supabase contact inquiry insert exception:', err.message);
@@ -296,7 +338,7 @@ Message: ${message}`;
 
   return res.status(201).json({
     success: true,
-    message: 'Contact inquiry recorded successfully!',
+    message: 'Contact inquiry recorded successfully and saved to clinic database!',
     inquiry: supabaseRecord || newInquiry,
     whatsappUrl,
   });

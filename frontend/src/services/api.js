@@ -46,24 +46,17 @@ export const apiService = {
 
   // Appointments
   createAppointment: async (appointmentData) => {
-    // 1. First attempt submitting to the Render Backend REST API
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/appointments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(appointmentData),
-      });
-
-      if (res.ok) {
-        const json = await res.json();
-        if (json.success) return json;
-      }
-    } catch (err) {
-      console.warn('Backend API appointment submit failed, falling back to direct Supabase client:', err.message);
-    }
-
-    // 2. Direct Supabase / local client fallback
+    // 1. Direct Supabase database persist (instant, no cold-start delay)
     const record = await appointmentService.createAppointment(appointmentData);
+
+    // 2. Asynchronous sync to Render Backend API if available
+    fetch(`${API_BASE_URL}/api/appointments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...appointmentData, id: record?.id }),
+    }).catch((err) => {
+      console.warn('Backend API appointment sync skipped:', err.message);
+    });
 
     const clinic = await clinicService.getClinicSettings();
     const whatsappNumber = clinic.whatsappNumber || '919421146623';
@@ -89,7 +82,7 @@ Thank you.`;
 
     return {
       success: true,
-      message: 'Appointment request received successfully!',
+      message: 'Appointment request received successfully and saved to clinic schedule!',
       appointment: record,
       whatsappUrl,
     };
@@ -97,24 +90,17 @@ Thank you.`;
 
   // Contact Inquiries
   sendContactMessage: async (contactData) => {
-    // 1. First attempt submitting to the Render Backend REST API
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contactData),
-      });
-
-      if (res.ok) {
-        const json = await res.json();
-        if (json.success) return json;
-      }
-    } catch (err) {
-      console.warn('Backend API contact submit failed, falling back to direct Supabase client:', err.message);
-    }
-
-    // 2. Direct Supabase / local client fallback
+    // 1. Direct Supabase database persist (instant)
     const record = await contactService.sendContactMessage(contactData);
+
+    // 2. Asynchronous sync to Render Backend API if available
+    fetch(`${API_BASE_URL}/api/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...contactData, id: record?.id }),
+    }).catch((err) => {
+      console.warn('Backend API contact sync skipped:', err.message);
+    });
 
     const clinic = await clinicService.getClinicSettings();
     const whatsappNumber = clinic.whatsappNumber || '919421146623';
