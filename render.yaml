@@ -33,4 +33,6 @@ services:
       - key: VITE_SUPABASE_URL
         value: https://wbcifzwxlboepvjumori.supabase.co
       - key: VITE_SUPABASE_PUBLISHABLE_KEY
-        sync: false
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndiY2lmend4bGJvZXB2anVtb3JpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3MjA5NzcsImV4cCI6MjEwMzI5Njk3N30.NMssTC-MqXLch3E6_eo4lhTimztdMCk6kaQAkX0kA38
+      - key: VITE_API_URL
+        value: https://kalpana-multispeciality-dental-hospital.onrender.com

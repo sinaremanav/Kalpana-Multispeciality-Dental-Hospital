@@ -1,6 +1,6 @@
 /**
  * Main API Service Adapter for Kalpana Dental Clinic
- * Integrates direct Supabase service clients with Express backend support.
+ * Integrates direct Supabase service clients with Express backend on Render.
  */
 
 import { doctorService } from './doctorService';
@@ -15,7 +15,13 @@ import { authService } from './authService';
 import { storageService } from './storageService';
 import { faqData } from '../data/faq';
 
+export const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'https://kalpana-multispeciality-dental-hospital.onrender.com';
+
 export const apiService = {
+  // Base URL
+  baseUrl: API_BASE_URL,
+
   // Clinic & Global Settings
   getClinicInfo: () => clinicService.getClinicSettings(),
 
@@ -40,6 +46,23 @@ export const apiService = {
 
   // Appointments
   createAppointment: async (appointmentData) => {
+    // 1. First attempt submitting to the Render Backend REST API
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/appointments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(appointmentData),
+      });
+
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success) return json;
+      }
+    } catch (err) {
+      console.warn('Backend API appointment submit failed, falling back to direct Supabase client:', err.message);
+    }
+
+    // 2. Direct Supabase / local client fallback
     const record = await appointmentService.createAppointment(appointmentData);
 
     const clinic = await clinicService.getClinicSettings();
@@ -74,6 +97,23 @@ Thank you.`;
 
   // Contact Inquiries
   sendContactMessage: async (contactData) => {
+    // 1. First attempt submitting to the Render Backend REST API
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contactData),
+      });
+
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success) return json;
+      }
+    } catch (err) {
+      console.warn('Backend API contact submit failed, falling back to direct Supabase client:', err.message);
+    }
+
+    // 2. Direct Supabase / local client fallback
     const record = await contactService.sendContactMessage(contactData);
 
     const clinic = await clinicService.getClinicSettings();
@@ -100,10 +140,20 @@ Message: ${contactData.message}`;
   },
 
   // Health check
-  checkHealth: async () => ({
-    status: 'online',
-    timestamp: new Date().toISOString(),
-  }),
+  checkHealth: async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/health`);
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (err) {
+      console.warn('Backend API health check failed:', err.message);
+    }
+    return {
+      status: 'offline_fallback',
+      timestamp: new Date().toISOString(),
+    };
+  },
 };
 
 export {
