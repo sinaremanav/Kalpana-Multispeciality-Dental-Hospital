@@ -12,6 +12,12 @@ services:
         value: 5000
       - key: NODE_ENV
         value: production
+      - key: SUPABASE_URL
+        value: https://wbcifzwxlboepvjumori.supabase.co
+      - key: SUPABASE_SECRET_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
 
   # Vite React Frontend (Static Site)
   - type: static
