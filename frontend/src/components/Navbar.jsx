@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { clinicConfig as fallbackConfig } from '../config/clinicConfig';
 import { clinicService } from '../services/clinicService';
-import { Menu, X, Calendar, Stethoscope, PhoneCall, ArrowRight, Sparkles, Sun, Moon } from 'lucide-react';
+import { Menu, X, Calendar, Stethoscope, PhoneCall, ArrowRight, Sparkles, Sun, Moon, Lock, ShieldCheck } from 'lucide-react';
 import Button from './Button';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../admin/context/AuthContext';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -24,6 +25,7 @@ const Navbar = () => {
   const [clinic, setClinic] = useState(fallbackConfig);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth();
 
   useEffect(() => {
     clinicService.getClinicSettings().then((data) => {
@@ -109,6 +111,27 @@ const Navbar = () => {
               <span>{clinic.displayPhone || fallbackConfig.displayPhone}</span>
             </a>
 
+            {/* Admin Portal / Login Button */}
+            {user ? (
+              <Link
+                to="/admin"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#059669] dark:text-emerald-400 bg-[#ECFDF5] dark:bg-slate-800 border border-[#A7F3D0] dark:border-emerald-800 px-2.5 py-1.5 rounded-lg hover:bg-[#D1FAE5] dark:hover:bg-slate-700 transition-colors shadow-xs"
+                title="Go to Admin Dashboard"
+              >
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Admin</span>
+              </Link>
+            ) : (
+              <Link
+                to="/admin/login"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-[#475569] dark:text-slate-300 hover:text-[#0F172A] dark:hover:text-white px-2.5 py-1.5 rounded-lg hover:bg-[#F8FAFC] dark:hover:bg-slate-800 border border-[#E2E8F0] dark:border-slate-700 transition-colors"
+                title="Admin & Staff Login"
+              >
+                <Lock className="w-3.5 h-3.5 text-[#64748B] dark:text-slate-400" />
+                <span>Admin Login</span>
+              </Link>
+            )}
+
             <Button
               to="/appointment"
               variant="primary"
@@ -184,6 +207,33 @@ const Navbar = () => {
                 >
                   Book Appointment
                 </Button>
+
+                {/* Mobile Admin Portal Link */}
+                <div className="pt-2 border-t border-[#E2E8F0] dark:border-slate-800">
+                  {user ? (
+                    <Link
+                      to="/admin"
+                      className="flex items-center justify-between px-3.5 py-2.5 text-xs font-semibold text-[#059669] dark:text-emerald-400 bg-[#ECFDF5] dark:bg-slate-800 rounded-lg border border-[#A7F3D0] dark:border-emerald-800 transition-colors"
+                    >
+                      <span className="flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4" />
+                        <span>Admin Dashboard</span>
+                      </span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/admin/login"
+                      className="flex items-center justify-between px-3.5 py-2.5 text-xs font-medium text-[#475569] dark:text-slate-300 hover:bg-[#F8FAFC] dark:hover:bg-slate-800 rounded-lg border border-[#E2E8F0] dark:border-slate-700 transition-colors"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Lock className="w-3.5 h-3.5 text-[#64748B] dark:text-slate-400" />
+                        <span>Admin & Staff Login</span>
+                      </span>
+                      <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           </div>

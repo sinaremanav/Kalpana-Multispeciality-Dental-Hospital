@@ -175,10 +175,10 @@ const Footer = () => {
           <div className="flex items-center gap-4">
             <Link
               to="/admin/login"
-              className="inline-flex items-center gap-1 text-slate-400 hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-slate-400 hover:text-emerald-400 hover:bg-slate-800 transition-colors"
             >
-              <Lock className="w-3 h-3" />
-              <span>Staff Login</span>
+              <Lock className="w-3.5 h-3.5 text-emerald-500" />
+              <span className="font-medium">Admin & Staff Login</span>
             </Link>
           </div>
         </div>

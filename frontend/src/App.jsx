@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
@@ -72,8 +72,10 @@ function App() {
         <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
         <Route path="/appointment" element={<PublicLayout><Appointment /></PublicLayout>} />
 
-        {/* Admin Login Route */}
+        {/* Admin Login Routes & Friendly Aliases */}
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/login" element={<Navigate to="/admin/login" replace />} />
+        <Route path="/staff" element={<Navigate to="/admin/login" replace />} />
 
         {/* Protected Admin Portal Routes */}
         <Route
