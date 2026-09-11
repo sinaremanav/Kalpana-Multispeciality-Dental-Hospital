@@ -18,6 +18,7 @@ import Testimonials from './pages/Testimonials';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import Appointment from './pages/Appointment';
+import ReviewsAndFAQs from './pages/ReviewsAndFAQs';
 
 // Admin Portal Pages & Layout
 import AdminLayout from './admin/components/AdminLayout';
@@ -67,8 +68,9 @@ function App() {
         <Route path="/services" element={<PublicLayout><Services /></PublicLayout>} />
         <Route path="/events" element={<PublicLayout><Events /></PublicLayout>} />
         <Route path="/gallery" element={<PublicLayout><GalleryPage /></PublicLayout>} />
-        <Route path="/testimonials" element={<PublicLayout><Testimonials /></PublicLayout>} />
-        <Route path="/faqs" element={<PublicLayout><FAQ /></PublicLayout>} />
+        <Route path="/reviews-faqs" element={<PublicLayout><ReviewsAndFAQs /></PublicLayout>} />
+        <Route path="/testimonials" element={<PublicLayout><ReviewsAndFAQs /></PublicLayout>} />
+        <Route path="/faqs" element={<PublicLayout><ReviewsAndFAQs /></PublicLayout>} />
         <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
         <Route path="/appointment" element={<PublicLayout><Appointment /></PublicLayout>} />
 

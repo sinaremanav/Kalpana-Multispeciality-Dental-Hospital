@@ -1,41 +1,26 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
-const ThemeContext = createContext();
+const ThemeContext = createContext({
+  theme: 'light',
+  toggleTheme: () => {},
+});
 
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
-    // Check local storage or system preference
-    if (typeof window !== 'undefined') {
-      const storedTheme = localStorage.getItem('kalpana-theme');
-      if (storedTheme) {
-        return storedTheme;
-      }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    return 'light';
-  });
-
   useEffect(() => {
-    // Apply the dark class to the HTML root
-    const root = window.document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
+    // Ensure root element is always in light theme
+    if (typeof window !== 'undefined') {
+      window.document.documentElement.classList.remove('dark');
+      localStorage.setItem('kalpana-theme', 'light');
     }
-    // Save to local storage
-    localStorage.setItem('kalpana-theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
-  };
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme: 'light', toggleTheme: () => {} }}>
       {children}
     </ThemeContext.Provider>
   );
 };
+
+export default ThemeProvider;

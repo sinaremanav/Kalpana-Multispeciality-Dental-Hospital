@@ -38,6 +38,7 @@ import {
   Activity,
   Smile,
   Calendar,
+  Star,
 } from 'lucide-react';
 
 const Home = () => {
@@ -320,35 +321,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 6. TESTIMONIALS SECTION */}
-      <section className="py-20 md:py-28 bg-[#F8FAFC] dark:bg-slate-900/50 border-y border-[#E2E8F0] dark:border-slate-800">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle
-            badge="Patient Reviews"
-            title="What Our Patients Say"
-            subtitle="Verified reviews and feedback from patients who received treatments at Kalpana Dental Clinic."
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.slice(0, 3).map((testimonial, idx) => (
-              <TestimonialCard key={testimonial.id} testimonial={testimonial} index={idx} />
-            ))}
-          </div>
-
-          <div className="text-center mt-10">
-            <Link
-              to="/testimonials"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#059669] dark:text-emerald-400 hover:text-[#047857] dark:hover:text-emerald-300"
-            >
-              <span>View All Verified Reviews</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. GALLERY PREVIEW */}
-      <section className="py-20 md:py-28 bg-white dark:bg-slate-900 border-t border-[#E2E8F0] dark:border-slate-800">
+      {/* 6. GALLERY PREVIEW */}
+      <section className="py-20 md:py-28 bg-white border-t border-[#E2E8F0]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
             badge="Hospital Facilities"
@@ -366,49 +340,96 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 8. FAQ ACCORDION PREVIEW */}
-      <section className="py-20 md:py-28 bg-[#F8FAFC] dark:bg-slate-900/50 border-t border-[#E2E8F0] dark:border-slate-800">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 7. UNIFIED REVIEWS & FAQS SECTION */}
+      <section className="py-20 md:py-28 bg-[#F8FAFC] border-t border-[#E2E8F0]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
-            badge="Help Center"
-            title="Frequently Asked Questions"
-            subtitle="Answers to common questions regarding dental procedures, appointments, and care."
+            badge="Patient Trust & Help Center"
+            title="Reviews & Frequently Asked Questions"
+            subtitle="Explore real patient experiences alongside quick answers to common questions about dental procedures and care."
           />
 
-          <div className="space-y-3.5">
-            {faqData.slice(0, 5).map((faq, index) => {
-              const isOpen = openFaqIndex === index;
-              return (
-                <div
-                  key={index}
-                  className="bg-white dark:bg-slate-800 rounded-xl border border-[#E2E8F0] dark:border-slate-700 overflow-hidden shadow-xs dark-glow-shadow"
-                >
-                  <button
-                    onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                    className="w-full p-5 text-left font-bold text-[#0F172A] dark:text-white text-base flex items-center justify-between gap-4 hover:text-[#059669] dark:hover:text-emerald-400 transition-colors cursor-pointer"
-                  >
-                    <span>{faq.question}</span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-[#059669] dark:text-emerald-400 shrink-0 transition-transform duration-250 ${
-                        isOpen ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-
-                  {isOpen && (
-                    <div className="px-5 pb-5 text-[#475569] dark:text-slate-300 text-sm leading-relaxed border-t border-[#E2E8F0]/60 dark:border-slate-700/60 pt-3 animate-fade-in">
-                      {faq.answer}
-                    </div>
-                  )}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mt-12">
+            {/* Left 6 cols: Patient Reviews */}
+            <div className="lg:col-span-6 space-y-5">
+              <div className="flex items-center justify-between bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-xs">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex items-center text-amber-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400" />
+                    ))}
+                  </div>
+                  <span className="text-xs sm:text-sm font-bold text-[#0F172A]">
+                    4.9 / 5.0 Rating (500+ Patients)
+                  </span>
                 </div>
-              );
-            })}
+                <Link
+                  to="/reviews-faqs"
+                  className="text-xs font-bold text-[#059669] hover:text-[#047857] flex items-center gap-1 shrink-0"
+                >
+                  <span>View All</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+
+              <div className="space-y-4">
+                {testimonials.slice(0, 2).map((testimonial, idx) => (
+                  <TestimonialCard key={testimonial.id} testimonial={testimonial} index={idx} />
+                ))}
+              </div>
+            </div>
+
+            {/* Right 6 cols: FAQ Accordion */}
+            <div className="lg:col-span-6 space-y-3.5">
+              <div className="flex items-center justify-between px-1 mb-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#059669]">
+                  Common Questions
+                </span>
+                <Link
+                  to="/reviews-faqs"
+                  className="text-xs font-bold text-[#059669] hover:text-[#047857] flex items-center gap-1"
+                >
+                  <span>View Full FAQ</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+
+              <div className="space-y-3">
+                {faqData.slice(0, 4).map((faq, index) => {
+                  const isOpen = openFaqIndex === index;
+                  return (
+                    <div
+                      key={index}
+                      className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-xs"
+                    >
+                      <button
+                        onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                        className="w-full p-4 text-left font-bold text-[#0F172A] text-sm sm:text-base flex items-center justify-between gap-3 hover:text-[#059669] transition-colors cursor-pointer"
+                      >
+                        <span>{faq.question}</span>
+                        <ChevronDown
+                          className={`w-4 h-4 text-[#059669] shrink-0 transition-transform duration-250 ${
+                            isOpen ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+
+                      {isOpen && (
+                        <div className="px-4 pb-4 text-[#475569] text-xs sm:text-sm leading-relaxed border-t border-[#E2E8F0]/60 pt-2.5 animate-fade-in">
+                          {faq.answer}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
-          <div className="text-center mt-8">
-            <Link to="/faqs" className="text-xs font-semibold text-[#059669] dark:text-emerald-400 hover:underline">
-              Have more questions? Visit our complete FAQ page →
-            </Link>
+          <div className="text-center mt-12">
+            <Button to="/reviews-faqs" variant="secondary" size="md" icon={ArrowRight}>
+              Explore All Reviews & FAQs
+            </Button>
           </div>
         </div>
       </section>
