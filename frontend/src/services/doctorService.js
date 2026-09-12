@@ -1,6 +1,51 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 import { doctorsData as fallbackDoctors } from '../data/doctors';
 
+const normalizeDoctor = (doc) => {
+  if (!doc) return null;
+  const fallback = fallbackDoctors.find(
+    (f) =>
+      f.id === doc.id ||
+      String(f.id) === String(doc.id) ||
+      (f.name && doc.name && f.name.toLowerCase().trim() === doc.name.toLowerCase().trim())
+  );
+
+  let specialties = [];
+  if (Array.isArray(doc.specialties) && doc.specialties.length > 0) {
+    specialties = doc.specialties;
+  } else if (fallback?.specialties && fallback.specialties.length > 0) {
+    specialties = fallback.specialties;
+  } else if (doc.specialization) {
+    specialties = doc.specialization.includes(',')
+      ? doc.specialization.split(',').map((s) => s.trim()).filter(Boolean)
+      : [doc.specialization];
+  }
+
+  let languages = [];
+  if (Array.isArray(doc.languages) && doc.languages.length > 0) {
+    languages = doc.languages;
+  } else if (fallback?.languages && fallback.languages.length > 0) {
+    languages = fallback.languages;
+  } else {
+    languages = ['Marathi', 'Hindi', 'English'];
+  }
+
+  return {
+    ...fallback,
+    ...doc,
+    image: doc.image_url || doc.image || fallback?.image || '/dr-nikhil-mahanubhav.png',
+    image_url: doc.image_url || doc.image || fallback?.image || '/dr-nikhil-mahanubhav.png',
+    role: doc.role || doc.specialization || fallback?.role || 'Dental Specialist',
+    specialization: doc.specialization || doc.role || fallback?.specialization || 'Dental Specialist',
+    bio: doc.bio || fallback?.bio || 'Dedicated healthcare specialist committed to gentle, personalized dental care.',
+    specialties,
+    schedule: doc.schedule || fallback?.schedule || 'Mon - Sat (9:00 AM - 8:00 PM)',
+    languages,
+    experience: doc.experience || fallback?.experience || '4+ Years in Healthcare',
+    qualification: doc.qualification || fallback?.qualification || 'BDS, MDS',
+  };
+};
+
 export const doctorService = {
   /**
    * Get all doctors (optionally only active ones for public pages)
@@ -20,7 +65,7 @@ export const doctorService = {
       if (!data || data.length === 0) {
         return fallbackDoctors;
       }
-      return data;
+      return data.map(normalizeDoctor);
     } catch (err) {
       console.warn('Supabase getDoctors error, falling back to local data:', err.message);
       return fallbackDoctors;
@@ -36,7 +81,7 @@ export const doctorService = {
     }
     const { data, error } = await supabase.from('doctors').select('*').eq('id', id).single();
     if (error) throw error;
-    return data;
+    return normalizeDoctor(data);
   },
 
   /**
@@ -54,7 +99,7 @@ export const doctorService = {
       console.warn('Error fetching doctor by userId:', error.message);
       return null;
     }
-    return data;
+    return data ? normalizeDoctor(data) : null;
   },
 
   /**

@@ -2,17 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { clinicConfig as fallbackConfig } from '../config/clinicConfig';
 import { clinicService } from '../services/clinicService';
-import { Menu, X, Calendar, Stethoscope, ArrowRight, Lock, ShieldCheck } from 'lucide-react';
+import { Menu, X, Calendar, ChevronDown, ArrowRight, Lock, ShieldCheck } from 'lucide-react';
 import Button from './Button';
 import { useAuth } from '../admin/context/AuthContext';
+import logoImage from '../assets/logo.png';
 
-const navLinks = [
+const mainLinks = [
   { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
-  { name: 'Doctors', path: '/doctors' },
   { name: 'Services', path: '/services' },
-  { name: 'Events & Camps', path: '/events' },
+  { name: 'Doctors', path: '/doctors' },
   { name: 'Gallery', path: '/gallery' },
+];
+
+const moreLinks = [
+  { name: 'Events & Camps', path: '/events' },
   { name: 'Reviews & FAQs', path: '/reviews-faqs' },
   { name: 'Contact', path: '/contact' },
 ];
@@ -59,9 +63,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-11">
           {/* Logo & Clinic Name */}
           <Link to="/" className="flex items-center gap-3 group shrink-0">
-            <div className="w-9 h-9 rounded-xl bg-[#059669] text-white flex items-center justify-center shadow-xs group-hover:bg-[#047857] transition-colors">
-              <Stethoscope className="w-5 h-5" />
-            </div>
+            <img src={logoImage} alt="Clinic Logo" className="w-10 h-10 object-contain transition-transform group-hover:scale-105" />
             <div>
               <span className="text-base sm:text-lg font-bold tracking-tight text-[#0F172A] group-hover:text-[#059669] transition-colors block leading-snug">
                 {clinic.clinicName || fallbackConfig.clinicName}
@@ -74,7 +76,7 @@ const Navbar = () => {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center space-x-1 xl:space-x-1.5">
-            {navLinks.map((link) => (
+            {mainLinks.map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
@@ -89,6 +91,30 @@ const Navbar = () => {
                 {link.name}
               </NavLink>
             ))}
+            
+            {/* More Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-1 px-2.5 py-1.5 text-xs xl:text-sm font-medium text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] rounded-md transition-all duration-150 focus:outline-none">
+                More <ChevronDown className="w-4 h-4" />
+              </button>
+              <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-[#E2E8F0] rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-1">
+                {moreLinks.map((link) => (
+                  <NavLink
+                    key={link.path}
+                    to={link.path}
+                    className={({ isActive }) =>
+                      `block px-4 py-2 text-sm transition-colors ${
+                        isActive
+                          ? 'text-[#059669] bg-[#ECFDF5] font-semibold'
+                          : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
+                      }`
+                    }
+                  >
+                    {link.name}
+                  </NavLink>
+                ))}
+              </div>
+            </div>
           </nav>
 
           {/* Desktop Right CTA */}
@@ -148,7 +174,7 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="lg:hidden mt-3 pt-3 pb-6 border-t border-[#E2E8F0] animate-fade-in bg-white rounded-b-2xl shadow-xl px-2">
             <div className="flex flex-col space-y-1">
-              {navLinks.map((link) => (
+              {[...mainLinks, ...moreLinks].map((link) => (
                 <NavLink
                   key={link.path}
                   to={link.path}
