@@ -148,9 +148,9 @@ router.get('/appointments', async (req, res) => {
       const { data, error } = await supabase
         .from('appointments')
         .select('*')
-        .order('appointment_date', { ascending: false });
+        .order('created_at', { ascending: false });
 
-      if (!error && data) {
+      if (!error && Array.isArray(data) && data.length > 0) {
         return res.status(200).json({ success: true, data, source: 'supabase' });
       }
     } catch (err) {
@@ -162,33 +162,44 @@ router.get('/appointments', async (req, res) => {
 
 // POST /api/appointments
 router.post('/appointments', async (req, res) => {
-  const { fullName, phone, email, date, time, treatment, doctor, message } = req.body || {};
+  const patientName = req.body?.fullName || req.body?.patient_name || req.body?.name;
+  const patientPhone = req.body?.phone || req.body?.patient_phone;
+  const patientEmail = req.body?.email || req.body?.patient_email || '';
+  const appointmentDate = req.body?.date || req.body?.appointment_date;
+  const appointmentTime = req.body?.time || req.body?.appointment_time || '10:00 AM';
+  const serviceName = req.body?.treatment || req.body?.service_name || req.body?.service;
+  const doctorName = req.body?.doctor || req.body?.doctor_name || clinicConfig.doctorName;
+  const message = req.body?.message || '';
 
-  if (!fullName || !phone || !date || !treatment) {
+  if (!patientName || !patientPhone || !appointmentDate || !serviceName) {
     return res.status(400).json({
       success: false,
-      message: 'Missing required appointment fields (fullName, phone, date, treatment).',
+      message: 'Missing required appointment fields (patient name, phone, date, treatment).',
     });
   }
 
-  const appointmentId = req.body?.id || crypto.randomUUID();
+  const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const toValidUUID = (val) => (typeof val === 'string' && UUID_REGEX.test(val.trim()) ? val.trim() : null);
+
+  const appointmentId = toValidUUID(req.body?.id) || crypto.randomUUID();
 
   const newAppointment = {
     id: appointmentId,
-    fullName,
-    phone,
-    email: email || '',
-    date,
-    time: time || '10:00 AM',
-    treatment,
-    doctor: doctor || clinicConfig.doctorName,
-    message: message || '',
-    createdAt: new Date().toISOString(),
+    patient_name: patientName,
+    patient_phone: patientPhone,
+    patient_email: patientEmail,
+    appointment_date: appointmentDate,
+    appointment_time: formatToPostgresTime(appointmentTime),
+    time_display: appointmentTime,
+    service_name: serviceName,
+    doctor_name: doctorName,
+    message,
     status: 'pending',
+    created_at: new Date().toISOString(),
   };
 
   // Always keep in-memory record
-  appointmentsStore.push(newAppointment);
+  appointmentsStore.unshift(newAppointment);
 
   // If Supabase is configured, persist directly to PostgreSQL appointments table
   let supabaseRecord = null;
@@ -196,15 +207,17 @@ router.post('/appointments', async (req, res) => {
     try {
       const appointmentPayload = {
         id: appointmentId,
-        patient_name: fullName,
-        patient_phone: phone,
-        patient_email: email || null,
-        appointment_date: date,
-        appointment_time: formatToPostgresTime(time),
-        time_display: time || '10:00 AM',
-        service_name: treatment,
-        doctor_name: doctor || clinicConfig.doctorName,
-        message: message || '',
+        patient_name: patientName,
+        patient_phone: patientPhone,
+        patient_email: patientEmail || null,
+        service_id: toValidUUID(req.body?.service_id),
+        doctor_id: toValidUUID(req.body?.doctor_id),
+        appointment_date: appointmentDate,
+        appointment_time: formatToPostgresTime(appointmentTime),
+        time_display: appointmentTime,
+        service_name: serviceName,
+        doctor_name: doctorName,
+        message,
         status: 'pending',
       };
 
@@ -227,13 +240,13 @@ router.post('/appointments', async (req, res) => {
 
 I would like to book an appointment.
 
-Name: ${fullName}
-Phone: ${phone}
-Email: ${email || 'N/A'}
-Preferred Date: ${date}
-Preferred Time: ${time || '10:00 AM'}
-Treatment: ${treatment}
-Preferred Doctor: ${doctor || clinicConfig.doctorName}
+Name: ${patientName}
+Phone: ${patientPhone}
+Email: ${patientEmail || 'N/A'}
+Preferred Date: ${appointmentDate}
+Preferred Time: ${appointmentTime}
+Treatment: ${serviceName}
+Preferred Doctor: ${doctorName}
 
 Additional Message:
 ${message || 'None'}
@@ -250,6 +263,54 @@ Thank you.`;
   });
 });
 
+// PATCH /api/appointments/:id/status
+router.patch('/appointments/:id/status', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body || {};
+
+  if (!status) {
+    return res.status(400).json({ success: false, message: 'Status is required.' });
+  }
+
+  const apt = appointmentsStore.find((a) => a.id === id);
+  if (apt) {
+    apt.status = status;
+    apt.updated_at = new Date().toISOString();
+  }
+
+  if (isSupabaseConfigured) {
+    try {
+      await supabase
+        .from('appointments')
+        .update({ status, updated_at: new Date().toISOString() })
+        .eq('id', id);
+    } catch (err) {
+      console.warn('⚠️ Supabase update appointment status warning:', err.message);
+    }
+  }
+
+  return res.status(200).json({ success: true, message: 'Status updated.', data: apt });
+});
+
+// DELETE /api/appointments/:id
+router.delete('/appointments/:id', async (req, res) => {
+  const { id } = req.params;
+  const index = appointmentsStore.findIndex((a) => a.id === id);
+  if (index !== -1) {
+    appointmentsStore.splice(index, 1);
+  }
+
+  if (isSupabaseConfigured) {
+    try {
+      await supabase.from('appointments').delete().eq('id', id);
+    } catch (err) {
+      console.warn('⚠️ Supabase delete appointment warning:', err.message);
+    }
+  }
+
+  return res.status(200).json({ success: true, message: 'Appointment deleted.' });
+});
+
 // GET /api/contact
 router.get('/contact', async (req, res) => {
   if (isSupabaseConfigured) {
@@ -259,7 +320,7 @@ router.get('/contact', async (req, res) => {
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (!error && data) {
+      if (!error && Array.isArray(data) && data.length > 0) {
         return res.status(200).json({ success: true, data, source: 'supabase' });
       }
     } catch (err) {
@@ -280,7 +341,10 @@ router.post('/contact', async (req, res) => {
     });
   }
 
-  const contactId = req.body?.id || crypto.randomUUID();
+  const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const toValidUUID = (val) => (typeof val === 'string' && UUID_REGEX.test(val.trim()) ? val.trim() : null);
+
+  const contactId = toValidUUID(req.body?.id) || crypto.randomUUID();
 
   const newInquiry = {
     id: contactId,
@@ -294,7 +358,7 @@ router.post('/contact', async (req, res) => {
   };
 
   // Always keep in-memory record
-  contactInquiriesStore.push(newInquiry);
+  contactInquiriesStore.unshift(newInquiry);
 
   // If Supabase is configured, persist directly to PostgreSQL contact_messages table
   let supabaseRecord = null;
@@ -342,6 +406,54 @@ Message: ${message}`;
     inquiry: supabaseRecord || newInquiry,
     whatsappUrl,
   });
+});
+
+// PATCH /api/contact/:id/status
+router.patch('/contact/:id/status', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body || {};
+
+  if (!status) {
+    return res.status(400).json({ success: false, message: 'Status is required.' });
+  }
+
+  const item = contactInquiriesStore.find((c) => c.id === id);
+  if (item) {
+    item.status = status;
+    item.updated_at = new Date().toISOString();
+  }
+
+  if (isSupabaseConfigured) {
+    try {
+      await supabase
+        .from('contact_messages')
+        .update({ status, updated_at: new Date().toISOString() })
+        .eq('id', id);
+    } catch (err) {
+      console.warn('⚠️ Supabase update contact status warning:', err.message);
+    }
+  }
+
+  return res.status(200).json({ success: true, message: 'Status updated.', data: item });
+});
+
+// DELETE /api/contact/:id
+router.delete('/contact/:id', async (req, res) => {
+  const { id } = req.params;
+  const index = contactInquiriesStore.findIndex((c) => c.id === id);
+  if (index !== -1) {
+    contactInquiriesStore.splice(index, 1);
+  }
+
+  if (isSupabaseConfigured) {
+    try {
+      await supabase.from('contact_messages').delete().eq('id', id);
+    } catch (err) {
+      console.warn('⚠️ Supabase delete contact message warning:', err.message);
+    }
+  }
+
+  return res.status(200).json({ success: true, message: 'Message deleted.' });
 });
 
 export default router;

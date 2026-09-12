@@ -10,13 +10,33 @@ export const authService = {
    */
   async signIn(email, password) {
     let backendError = null;
+    let authUser = null;
+    let authToken = null;
 
-    // 1. First attempt backend Bcrypt verification endpoint
+    // 1. Authenticate with Supabase Auth so direct database queries (Appointments, Messages, Settings) are authorized
+    if (isSupabaseConfigured) {
+      try {
+        const { data: sbData, error: sbError } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        });
+        if (!sbError && sbData?.user) {
+          authUser = sbData.user;
+          authToken = sbData.session?.access_token;
+        } else if (sbError) {
+          console.warn('Supabase auth sign-in warning:', sbError.message);
+        }
+      } catch (sbErr) {
+        console.warn('Supabase auth sign-in exception:', sbErr.message);
+      }
+    }
+
+    // 2. Also authenticate with Express Backend Bcrypt verification endpoint
     try {
       const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: email.trim(), password }),
       });
 
       const result = await response.json().catch(() => null);
@@ -24,8 +44,8 @@ export const authService = {
       if (response.ok && result?.success && result?.token) {
         localStorage.setItem('admin_token', result.token);
         localStorage.setItem('admin_user', JSON.stringify(result.user));
-        return {
-          user: {
+        if (!authUser) {
+          authUser = {
             id: result.user.id,
             email: result.user.email,
             role: result.user.role,
@@ -33,31 +53,22 @@ export const authService = {
               full_name: result.user.fullName,
               role: result.user.role,
             },
-          },
-          token: result.token,
-          authMethod: 'backend_bcrypt',
-        };
+          };
+          authToken = result.token;
+        }
       } else if (response.status === 401) {
         backendError = result?.message || 'Invalid email or password credentials.';
       }
     } catch (backendErr) {
-      console.info('Backend auth endpoint unavailable, trying Supabase Auth:', backendErr.message);
+      console.info('Backend auth endpoint unavailable:', backendErr.message);
     }
 
-    // 2. Fallback to Supabase Auth client (which also uses bcrypt inside auth.users)
-    if (isSupabaseConfigured) {
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (!error && data?.user) {
-          return data;
-        }
-        if (error) throw error;
-      } catch (sbErr) {
-        throw new Error(backendError || sbErr.message || 'Invalid email or password.');
-      }
+    if (authUser) {
+      return {
+        user: authUser,
+        token: authToken,
+        authMethod: 'unified_auth',
+      };
     }
 
     throw new Error(backendError || 'Authentication failed. Please verify your email and password.');
