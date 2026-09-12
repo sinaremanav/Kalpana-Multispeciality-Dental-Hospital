@@ -54,8 +54,14 @@ export const AuthProvider = ({ children }) => {
           setUser(session.user);
           await fetchProfile(session.user);
         } else if (isMounted) {
-          setUser(null);
-          setProfile(null);
+          const backendUser = authService.getBackendUser();
+          if (backendUser) {
+            setUser(backendUser);
+            await fetchProfile(backendUser);
+          } else {
+            setUser(null);
+            setProfile(null);
+          }
         }
       } catch (err) {
         console.error('Auth initialization error:', err);

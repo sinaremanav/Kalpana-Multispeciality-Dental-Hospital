@@ -655,3 +655,61 @@ CREATE POLICY "Public Read Access on clinic-images" ON storage.objects FOR SELEC
 CREATE POLICY "Authenticated Users can upload images" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'clinic-images' AND auth.role() = 'authenticated');
 CREATE POLICY "Authenticated Users can update images" ON storage.objects FOR UPDATE USING (bucket_id = 'clinic-images' AND auth.role() = 'authenticated');
 CREATE POLICY "Authenticated Users can delete images" ON storage.objects FOR DELETE USING (bucket_id = 'clinic-images' AND auth.role() = 'authenticated');
+
+-- ==============================================================================
+-- 13. ADMIN & STAFF USERS WITH BCRYPT HASHED PASSWORD STORAGE
+-- ==============================================================================
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+CREATE TABLE IF NOT EXISTS public.admin_users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  full_name TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  role TEXT NOT NULL DEFAULT 'doctor' CHECK (role IN ('admin', 'doctor')),
+  is_active BOOLEAN NOT NULL DEFAULT true,
+  last_login TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+CREATE INDEX IF NOT EXISTS idx_admin_users_email ON public.admin_users(email);
+CREATE INDEX IF NOT EXISTS idx_admin_users_role ON public.admin_users(role);
+
+DROP TRIGGER IF EXISTS set_admin_users_updated_at ON public.admin_users;
+CREATE TRIGGER set_admin_users_updated_at
+  BEFORE UPDATE ON public.admin_users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
+
+ALTER TABLE public.admin_users ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Service role has full access to admin_users" ON public.admin_users;
+CREATE POLICY "Service role has full access to admin_users"
+  ON public.admin_users FOR ALL TO service_role USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow anon reading for login verification" ON public.admin_users;
+CREATE POLICY "Allow anon reading for login verification"
+  ON public.admin_users FOR SELECT TO anon, authenticated USING (true);
+
+DROP POLICY IF EXISTS "Allow anon inserting new admin_users" ON public.admin_users;
+CREATE POLICY "Allow anon inserting new admin_users"
+  ON public.admin_users FOR INSERT TO anon, authenticated WITH CHECK (true);
+
+-- Seed initial admin user with cryptographically hashed password using Bcrypt (Blowfish salt factor 10)
+-- Default Password: Admin@123
+INSERT INTO public.admin_users (
+  full_name,
+  email,
+  password_hash,
+  role,
+  is_active
+)
+VALUES (
+  'Dr. Nikhil Hiralal Mahanubhav',
+  'admin@kalpanadental.com',
+  crypt('Admin@123', gen_salt('bf', 10)),
+  'admin',
+  true
+)
+ON CONFLICT (email) DO NOTHING;
+

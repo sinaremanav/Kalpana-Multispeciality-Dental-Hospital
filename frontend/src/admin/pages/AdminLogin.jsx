@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Stethoscope, Lock, Mail, AlertCircle, ArrowRight, Loader2, Sparkles } from 'lucide-react';
+import { Stethoscope, Lock, Mail, AlertCircle, ArrowRight, Loader2, Sparkles, ShieldCheck } from 'lucide-react';
 import Button from '../../components/Button';
 
 export const AdminLogin = () => {
@@ -136,7 +136,12 @@ export const AdminLogin = () => {
             </div>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-[#F1F5F9] text-center">
+          <div className="mt-5 flex items-center justify-center gap-1.5 text-[11px] font-medium text-[#64748B] bg-[#F8FAFC] py-2 px-3 rounded-xl border border-[#E2E8F0]">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#059669] shrink-0" />
+            <span>Credentials protected with salted Bcrypt cryptographic hashing</span>
+          </div>
+
+          <div className="mt-5 pt-5 border-t border-[#F1F5F9] text-center">
             <Link
               to="/"
               className="text-xs font-bold text-[#059669] hover:text-[#047857] transition-colors"

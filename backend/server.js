@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import apiRouter from './routes/api.js';
+import authRouter from './routes/auth.js';
 
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -44,7 +45,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// API Routes
+// Authentication Routes (Bcrypt Hashed Storage)
+app.use('/api/auth', authRouter);
+
+// General API Routes
 app.use('/api', apiRouter);
 
 // Root route

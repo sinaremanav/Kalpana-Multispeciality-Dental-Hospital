@@ -1,28 +1,91 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'https://kalpana-multispeciality-dental-hospital.onrender.com';
+
 export const authService = {
   /**
    * Log in with Email and Password
+   * Supports both Express Backend (with Bcrypt Hashed verification) and Supabase Auth.
    */
   async signIn(email, password) {
-    if (!isSupabaseConfigured) {
-      throw new Error('Supabase is not configured. Please add VITE_SUPABASE_PUBLISHABLE_KEY to your .env file.');
+    let backendError = null;
+
+    // 1. First attempt backend Bcrypt verification endpoint
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const result = await response.json().catch(() => null);
+
+      if (response.ok && result?.success && result?.token) {
+        localStorage.setItem('admin_token', result.token);
+        localStorage.setItem('admin_user', JSON.stringify(result.user));
+        return {
+          user: {
+            id: result.user.id,
+            email: result.user.email,
+            role: result.user.role,
+            user_metadata: {
+              full_name: result.user.fullName,
+              role: result.user.role,
+            },
+          },
+          token: result.token,
+          authMethod: 'backend_bcrypt',
+        };
+      } else if (response.status === 401) {
+        backendError = result?.message || 'Invalid email or password credentials.';
+      }
+    } catch (backendErr) {
+      console.info('Backend auth endpoint unavailable, trying Supabase Auth:', backendErr.message);
     }
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) throw error;
-    return data;
+
+    // 2. Fallback to Supabase Auth client (which also uses bcrypt inside auth.users)
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (!error && data?.user) {
+          return data;
+        }
+        if (error) throw error;
+      } catch (sbErr) {
+        throw new Error(backendError || sbErr.message || 'Invalid email or password.');
+      }
+    }
+
+    throw new Error(backendError || 'Authentication failed. Please verify your email and password.');
   },
 
   /**
-   * Sign up new user (optional for admin user creation)
+   * Sign up new user with Bcrypt password hashing
    */
   async signUp(email, password, fullName, role = 'doctor') {
-    if (!isSupabaseConfigured) {
-      throw new Error('Supabase is not configured.');
+    // Attempt backend registration first (which hashes password with bcrypt)
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullName, email, password, role }),
+      });
+      const data = await res.json().catch(() => null);
+      if (res.ok && data?.success) {
+        return data;
+      }
+    } catch (err) {
+      console.warn('Backend signup error, falling back to Supabase:', err.message);
     }
+
+    if (!isSupabaseConfigured) {
+      throw new Error('Database is not configured.');
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -38,12 +101,42 @@ export const authService = {
   },
 
   /**
-   * Log out current user
+   * Log out current user (clears both backend tokens and Supabase session)
    */
   async signOut() {
+    localStorage.removeItem('admin_token');
+    localStorage.removeItem('admin_user');
     if (!isSupabaseConfigured) return;
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.warn('Supabase signout warning:', err.message);
+    }
+  },
+
+  /**
+   * Get current stored backend user if any
+   */
+  getBackendUser() {
+    try {
+      const stored = localStorage.getItem('admin_user');
+      const token = localStorage.getItem('admin_token');
+      if (stored && token) {
+        const parsed = JSON.parse(stored);
+        return {
+          id: parsed.id,
+          email: parsed.email,
+          role: parsed.role,
+          user_metadata: {
+            full_name: parsed.fullName,
+            role: parsed.role,
+          },
+        };
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
   },
 
   /**
@@ -51,40 +144,74 @@ export const authService = {
    */
   async getSession() {
     if (!isSupabaseConfigured) return null;
-    const { data, error } = await supabase.auth.getSession();
-    if (error) {
-      console.error('Failed to get Supabase session:', error);
+    try {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error('Failed to get Supabase session:', error);
+        return null;
+      }
+      return data.session;
+    } catch (err) {
       return null;
     }
-    return data.session;
   },
 
   /**
    * Get current logged-in user
    */
   async getCurrentUser() {
+    // Check backend user first
+    const backendUser = this.getBackendUser();
+    if (backendUser) return backendUser;
+
     if (!isSupabaseConfigured) return null;
-    const { data: { user }, error } = await supabase.auth.getUser();
-    if (error || !user) return null;
-    return user;
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error || !user) return null;
+      return user;
+    } catch (err) {
+      return null;
+    }
   },
 
   /**
-   * Get profile and role from 'profiles' table for a user
+   * Get profile and role from 'profiles' or 'admin_users' table for a user
    */
   async getUserProfile(userId) {
-    if (!isSupabaseConfigured || !userId) return null;
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('user_id', userId)
-      .maybeSingle();
+    if (!userId) return null;
 
-    if (error) {
-      console.warn('Error fetching user profile:', error.message);
-      return null;
+    if (isSupabaseConfigured) {
+      try {
+        // Try profiles table
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('user_id', userId)
+          .maybeSingle();
+
+        if (!error && data) return data;
+
+        // Try admin_users table
+        const { data: adminData } = await supabase
+          .from('admin_users')
+          .select('id, full_name, email, role, is_active')
+          .eq('id', userId)
+          .maybeSingle();
+
+        if (adminData) {
+          return {
+            user_id: adminData.id,
+            full_name: adminData.full_name,
+            email: adminData.email,
+            role: adminData.role,
+          };
+        }
+      } catch (err) {
+        console.warn('Error fetching user profile:', err.message);
+      }
     }
-    return data;
+
+    return null;
   },
 
   /**
