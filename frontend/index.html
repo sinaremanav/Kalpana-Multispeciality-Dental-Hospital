@@ -17,6 +17,25 @@
     <meta name="keywords" content="Kalpana Dental Clinic Kopargaon, Dr. Nikhil Hiralal Mahanubhav, Dentist Kopargaon, Root Canal Kopargaon, Dental Implants Kopargaon, Teeth Cleaning, Cosmetic Dentistry" />
     <meta name="author" content="Kalpana Multispeciality Dental Clinic" />
 
+    <style>
+      .google-translate-widget {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      .goog-te-banner-frame,
+      .skiptranslate > iframe {
+        display: none !important;
+      }
+
+      body {
+        top: 0 !important;
+      }
+    </style>
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://kalpanadental.com/" />
@@ -77,7 +96,17 @@
     </script>
   </head>
   <body>
+    <div id="google_translate_element" class="google-translate-widget" aria-hidden="true"></div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          { pageLanguage: 'en', includedLanguages: 'mr', autoDisplay: false },
+          'google_translate_element'
+        );
+      }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   </body>
 </html>

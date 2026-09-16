@@ -75,8 +75,8 @@ const Home = () => {
     <div className="pt-20">
       {/* 1. HERO SECTION */}
       <section className="relative py-20 md:py-28 hero-gradient overflow-hidden border-b border-[#E2E8F0]/60 dark:border-slate-800/60">
-        <div className="absolute top-0 right-0 -mt-20 -mr-20 w-72 h-72 bg-emerald-400/20 dark:bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-purple-400/20 dark:bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-0 right-0 -mt-20 -mr-20 w-72 h-72 bg-[#A96BFF]/20 dark:bg-[#A96BFF]/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-[#DCC8FF]/40 dark:bg-[#4B168F]/20 rounded-full blur-3xl pointer-events-none"></div>
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
             {/* Left Column Text + CTA */}
@@ -86,17 +86,17 @@ const Home = () => {
               transition={{ duration: 0.5 }}
               className="lg:col-span-7 space-y-6 text-left"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ECFDF5] dark:bg-slate-800 border border-[#D1FAE5] dark:border-slate-700 text-[#059669] dark:text-emerald-400 text-xs font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-[#059669] dark:text-emerald-400" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EDE3FF] dark:bg-[#32164D] border border-[#DCC8FF] dark:border-[#5c3974] text-[#4B168F] dark:text-[#E9DDFF] text-xs font-semibold">
+                <Sparkles className="w-3.5 h-3.5 text-[#A96BFF] dark:text-[#C6A0FF]" />
                 <span>Trusted Healthcare • Advanced Medical Care</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-extrabold text-slate-900 dark:text-white tracking-[-0.035em] leading-[1.12] transition-colors duration-500">
+              <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-extrabold !text-[#0F2D3D] dark:!text-slate-100 tracking-[-0.035em] leading-[1.12] transition-colors duration-500">
                 Healthy Smile. <br />
                 <span className="creative-gradient-text transition-colors duration-500">Confident You.</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed font-normal transition-colors duration-500">
+              <p className="text-base sm:text-lg !text-[#36566D] dark:!text-sky-100 max-w-xl leading-relaxed font-normal transition-colors duration-500">
                 {clinic.subTagline || fallbackConfig.subTagline}
               </p>
 
@@ -132,17 +132,17 @@ const Home = () => {
               </div>
 
               {/* Trust Indicators */}
-              <div className="pt-6 border-t border-[#E2E8F0] dark:border-slate-800 flex flex-wrap items-center gap-6 text-xs text-[#64748B] dark:text-slate-400 font-medium">
+              <div className="pt-6 border-t border-[#E9E1F2] dark:border-[#5c3974] flex flex-wrap items-center gap-6 text-xs text-[#81758F] dark:text-[#D9BFFF] font-medium">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#059669] dark:text-emerald-400" />
+                  <CheckCircle2 className="w-4 h-4 text-[#A96BFF] dark:text-[#C6A0FF]" />
                   <span>Experienced Doctors</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#059669] dark:text-emerald-400" />
+                  <CheckCircle2 className="w-4 h-4 text-[#A96BFF] dark:text-[#C6A0FF]" />
                   <span>Modern Sterilized Operatories</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#059669] dark:text-emerald-400" />
+                  <CheckCircle2 className="w-4 h-4 text-[#A96BFF] dark:text-[#C6A0FF]" />
                   <span>Digital Low-Radiation RVG</span>
                 </div>
               </div>
@@ -156,7 +156,7 @@ const Home = () => {
               className="lg:col-span-5 relative"
             >
               <div className="relative mx-auto max-w-md lg:max-w-none">
-                <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#ECFDF5] to-white dark:from-slate-800 dark:to-slate-900 border border-[#E2E8F0] dark:border-slate-700 shadow-saas dark-glow-shadow">
+                <div className="relative rounded-[32px] overflow-hidden bg-gradient-to-b from-[#EDE3FF] to-white dark:from-[#32164D] dark:to-[#120C22] border border-[#E9E1F2] dark:border-[#5c3974] shadow-[0_20px_50px_rgba(53,18,117,0.14)] dark-glow-shadow">
                   <img
                     src={mainDoctor.image_url || mainDoctor.image || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=800'}
                     alt={mainDoctor.name}

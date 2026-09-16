@@ -26,7 +26,7 @@ const WhatsAppButton = () => {
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         aria-label="Chat with us on WhatsApp"
-        className="relative group flex items-center justify-center w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-lg hover:shadow-emerald-500/40 transition-all duration-300 transform hover:scale-110 active:scale-95"
+        className="relative group flex items-center justify-center w-14 h-14 bg-[#22C55E] hover:bg-[#16A34A] text-white rounded-full shadow-[0_12px_28px_rgba(22,163,74,0.3)] hover:shadow-[0_16px_34px_rgba(22,163,74,0.4)] transition-all duration-300 transform hover:scale-110 active:scale-95"
       >
         <span className="absolute -top-1 -right-1 flex h-4 w-4">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>

@@ -46,7 +46,7 @@ const ScrollToTop = () => {
 // Wrapper for Public Pages
 const PublicLayout = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased font-sans transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-[#FCFAF8] dark:bg-[#120C22] text-[#24153F] dark:text-[#F8F3FF] antialiased font-sans transition-colors duration-300">
       <Navbar />
       <main className="flex-grow">{children}</main>
       <Footer />

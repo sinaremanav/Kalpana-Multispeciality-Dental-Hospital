@@ -26,8 +26,11 @@ export const AdminLogin = () => {
     setErrorMessage('');
 
     try {
-      await login(email, password);
-      navigate(from, { replace: true });
+      const result = await login(email, password);
+      const destination = result?.profile?.role === 'admin' || result?.user?.role === 'admin'
+        ? '/admin'
+        : '/admin/profile';
+      navigate(location.state?.from?.pathname || destination, { replace: true });
     } catch (err) {
       setErrorMessage(
         err.message || 'Invalid email or password. Please verify your credentials.'
