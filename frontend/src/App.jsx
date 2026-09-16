@@ -19,6 +19,7 @@ import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import Appointment from './pages/Appointment';
 import ReviewsAndFAQs from './pages/ReviewsAndFAQs';
+import NotFound from './pages/NotFound';
 
 // Admin Portal Pages & Layout
 import AdminLayout from './admin/components/AdminLayout';
@@ -149,8 +150,9 @@ function App() {
           />
         </Route>
 
-        {/* Fallback to Home */}
-        <Route path="*" element={<PublicLayout><Home /></PublicLayout>} />
+        {/* 404 Error Page & Fallback */}
+        <Route path="/404" element={<PublicLayout><NotFound /></PublicLayout>} />
+        <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
       </Routes>
       </AuthProvider>
     </ThemeProvider>

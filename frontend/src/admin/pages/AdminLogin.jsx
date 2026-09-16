@@ -3,6 +3,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Stethoscope, Lock, Mail, AlertCircle, ArrowRight, Loader2, Sparkles, ShieldCheck } from 'lucide-react';
 import Button from '../../components/Button';
+import SEO from '../../components/SEO';
 
 export const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -39,6 +40,7 @@ export const AdminLogin = () => {
 
   return (
     <div className="min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC]">
+      <SEO title="Admin Login | Kalpana Multispeciality Dental Hospital" noIndex={true} />
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <Link to="/" className="inline-flex items-center gap-2.5 mb-6">
           <div className="w-10 h-10 rounded-xl bg-[#059669] text-white flex items-center justify-center shadow-xs">

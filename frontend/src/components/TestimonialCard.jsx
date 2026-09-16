@@ -31,7 +31,10 @@ const TestimonialCard = ({ testimonial, index = 0 }) => {
       <div className="flex items-center gap-3 pt-4 border-t border-[#E2E8F0]">
         <img
           src={testimonial.avatar}
-          alt={testimonial.name}
+          alt={`Patient review by ${testimonial.name} - ${testimonial.treatment}`}
+          loading="lazy"
+          width="40"
+          height="40"
           className="w-10 h-10 rounded-full object-cover border border-[#E2E8F0]"
         />
         <div>

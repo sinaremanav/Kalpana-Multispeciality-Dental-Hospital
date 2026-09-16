@@ -19,6 +19,8 @@ import DoctorCard from '../components/DoctorCard';
 import TestimonialCard from '../components/TestimonialCard';
 import GalleryGrid from '../components/GalleryGrid';
 import CTASection from '../components/CTASection';
+import SEO from '../components/SEO';
+import { getLocalBusinessSchema, getWebSiteSchema } from '../config/seoConfig';
 
 import {
   PhoneCall,
@@ -73,6 +75,8 @@ const Home = () => {
 
   return (
     <div className="pt-20">
+      <SEO page="home" schema={[getLocalBusinessSchema(), getWebSiteSchema()]} />
+
       {/* 1. HERO SECTION */}
       <section className="relative py-20 md:py-28 hero-gradient overflow-hidden border-b border-[#E2E8F0]/60 dark:border-slate-800/60">
         <div className="absolute top-0 right-0 -mt-20 -mr-20 w-72 h-72 bg-emerald-400/20 dark:bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -91,9 +95,10 @@ const Home = () => {
                 <span>Trusted Healthcare • Advanced Medical Care</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-extrabold text-slate-900 dark:text-white tracking-[-0.035em] leading-[1.12] transition-colors duration-500">
+              <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-extrabold text-slate-900 dark:text-white tracking-[-0.03em] leading-[1.12] transition-colors duration-500">
                 Healthy Smile. <br />
                 <span className="creative-gradient-text transition-colors duration-500">Confident You.</span>
+                <span className="sr-only"> — Comprehensive Dental Care at Kalpana Multispeciality Dental Hospital Kopargaon</span>
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed font-normal transition-colors duration-500">
@@ -159,7 +164,10 @@ const Home = () => {
                 <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#ECFDF5] to-white dark:from-slate-800 dark:to-slate-900 border border-[#E2E8F0] dark:border-slate-700 shadow-saas dark-glow-shadow">
                   <img
                     src={mainDoctor.image_url || mainDoctor.image || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=800'}
-                    alt={mainDoctor.name}
+                    alt={`${mainDoctor.name} - Chief Dental Surgeon at Kalpana Multispeciality Dental Hospital Kopargaon`}
+                    width="800"
+                    height="800"
+                    fetchPriority="high"
                     className="w-full h-[440px] sm:h-[480px] object-cover object-top"
                   />
 
@@ -274,7 +282,10 @@ const Home = () => {
               <div className="relative rounded-3xl overflow-hidden shadow-saas dark-glow-shadow border border-[#E2E8F0] dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
                 <img
                   src={mainDoctor.image_url || mainDoctor.image || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=800'}
-                  alt={mainDoctor.name}
+                  alt={`${mainDoctor.name} - Chief Dental Surgeon & Founder at Kalpana Multispeciality Dental Hospital`}
+                  width="800"
+                  height="800"
+                  loading="lazy"
                   className="w-full h-[420px] sm:h-[460px] object-cover object-top"
                 />
                 <div className="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-slate-900/90 backdrop-blur-md p-4 rounded-xl border border-[#E2E8F0] dark:border-slate-700">
