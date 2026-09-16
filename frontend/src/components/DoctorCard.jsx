@@ -15,7 +15,10 @@ const DoctorCard = ({ doctor, index = 0 }) => {
       <div className="md:w-5/12 relative min-h-[280px] md:min-h-[340px] overflow-hidden bg-[#F7F1FF] dark:bg-[#120C22]">
         <img
           src={doctor.image}
-          alt={doctor.name}
+          alt={`${doctor.name} - ${doctor.role || 'Dental Specialist'} at Kalpana Multispeciality Dental Hospital`}
+          loading="lazy"
+          width="600"
+          height="600"
           className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
         />
         <div className="absolute top-4 left-4 bg-[#351275]/90 backdrop-blur-md text-white text-xs font-semibold px-3 py-1.5 rounded-lg border border-white/20">

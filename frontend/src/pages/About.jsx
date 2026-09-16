@@ -7,6 +7,7 @@ import { doctorService } from '../services/doctorService';
 import SectionTitle from '../components/SectionTitle';
 import DoctorCard from '../components/DoctorCard';
 import CTASection from '../components/CTASection';
+import SEO from '../components/SEO';
 import { ShieldCheck, Heart, Sparkles } from 'lucide-react';
 
 const About = () => {
@@ -26,6 +27,14 @@ const About = () => {
 
   return (
     <div className="pt-20">
+      <SEO
+        page="about"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "About Us", url: "/about" },
+        ]}
+      />
+
       {/* Header Banner */}
       <section className="hero-gradient py-16 md:py-24 border-b border-[#E2E8F0]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -34,7 +43,7 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#059669] bg-[#ECFDF5] rounded-full border border-[#D1FAE5]"
           >
-            About {clinic.clinicName || fallbackConfig.clinicName}
+            Hospital Excellence • Kopargaon
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
@@ -42,7 +51,7 @@ const About = () => {
             transition={{ delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold text-[#0F172A] tracking-[-0.03em] mt-4"
           >
-            Compassionate Healthcare Excellence
+            About Kalpana Multispeciality Dental Hospital
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 15 }}

@@ -1,48 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://kalpanadental.com/</loc>
-    <lastmod>2026-08-11</lastmod>
+    <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.00</priority>
   </url>
   <url>
-    <loc>https://kalpanadental.com/about</loc>
-    <lastmod>2026-08-11</lastmod>
-    <priority>0.80</priority>
+    <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/appointment</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://kalpanadental.com/doctors</loc>
-    <lastmod>2026-08-11</lastmod>
-    <priority>0.80</priority>
-  </url>
-  <url>
-    <loc>https://kalpanadental.com/services</loc>
-    <lastmod>2026-08-11</lastmod>
+    <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/services</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://kalpanadental.com/gallery</loc>
-    <lastmod>2026-08-11</lastmod>
-    <priority>0.70</priority>
+    <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/doctors</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://kalpanadental.com/testimonials</loc>
-    <lastmod>2026-08-11</lastmod>
-    <priority>0.70</priority>
-  </url>
-  <url>
-    <loc>https://kalpanadental.com/faqs</loc>
-    <lastmod>2026-08-11</lastmod>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://kalpanadental.com/contact</loc>
-    <lastmod>2026-08-11</lastmod>
+    <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/about</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://kalpanadental.com/appointment</loc>
-    <lastmod>2026-08-11</lastmod>
-    <priority>0.95</priority>
+    <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/contact</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/reviews-faqs</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/events</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/gallery</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
   </url>
 </urlset>

@@ -92,8 +92,10 @@ const GalleryGrid = ({ limit }) => {
               >
                 <img
                   src={item.image_url || item.image}
-                  alt={item.title}
+                  alt={`${item.title} - Kalpana Multispeciality Dental Hospital Facilities`}
                   loading="lazy"
+                  width="800"
+                  height="450"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/90 via-[#0F172A]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-white">
@@ -139,7 +141,7 @@ const GalleryGrid = ({ limit }) => {
               <div className="max-h-[70vh] overflow-hidden bg-[#0F172A]">
                 <img
                   src={selectedImage.image_url || selectedImage.image}
-                  alt={selectedImage.title}
+                  alt={`${selectedImage.title} - Kalpana Multispeciality Dental Hospital Facilities`}
                   className="w-full h-full object-contain max-h-[70vh] mx-auto"
                 />
               </div>
