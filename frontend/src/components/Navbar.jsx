@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { clinicConfig as fallbackConfig } from '../config/clinicConfig';
 import { clinicService } from '../services/clinicService';
+import logo from '../assets/logo.png';
 import {
   Menu,
   X,
@@ -102,8 +103,8 @@ const Navbar = () => {
         <div className="flex items-center gap-3 h-11">
           {/* Logo & Clinic Name */}
           <Link to="/" className="flex items-center gap-2.5 group shrink-0 min-w-0 lg:w-[250px]">
-            <div className="w-9 h-9 rounded-xl bg-[#351275] text-white flex items-center justify-center shadow-[0_6px_16px_rgba(53,18,117,0.24)] group-hover:bg-[#4B168F] transition-colors">
-              <Stethoscope className="w-5 h-5" />
+            <div className="w-9 h-9 flex items-center justify-center">
+              <img src={logo} alt="Kalpana Multispeciality Dental Hospital logo" className="object-contain w-full h-full" />
             </div>
             <div>
               <span className="text-sm sm:text-base font-bold tracking-tight text-[#24153F] dark:text-white group-hover:text-[#4B168F] dark:group-hover:text-[#C6A0FF] transition-colors block leading-tight whitespace-normal">

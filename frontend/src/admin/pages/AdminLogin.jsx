@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Stethoscope, Lock, Mail, AlertCircle, ArrowRight, Loader2, Sparkles, ShieldCheck } from 'lucide-react';
+import { Lock, Mail, AlertCircle, ArrowRight, Loader2, Sparkles, ShieldCheck } from 'lucide-react';
+import logo from '../../assets/logo.png';
 import Button from '../../components/Button';
 import SEO from '../../components/SEO';
 
@@ -46,9 +47,9 @@ export const AdminLogin = () => {
       <SEO title="Admin Login | Kalpana Multispeciality Dental Hospital" noIndex={true} />
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <Link to="/" className="inline-flex items-center gap-2.5 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-[#059669] text-white flex items-center justify-center shadow-xs">
-            <Stethoscope className="w-5 h-5" />
-          </div>
+            <div className="w-10 h-10 flex items-center justify-center">
+              <img src={logo} alt="Kalpana Multispeciality Dental Hospital logo" className="object-contain w-full h-full" />
+            </div>
           <span className="text-xl font-bold tracking-tight text-[#0F172A]">
             Kalpana Dental Clinic
           </span>

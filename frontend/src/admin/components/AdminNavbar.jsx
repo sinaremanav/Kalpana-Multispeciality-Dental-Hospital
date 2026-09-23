@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Stethoscope, LogOut, ExternalLink, Menu, User, ShieldCheck } from 'lucide-react';
+import { LogOut, ExternalLink, Menu, User, ShieldCheck } from 'lucide-react';
+import logo from '../../assets/logo.png';
 
 export const AdminNavbar = ({ onToggleSidebar }) => {
   const { user, profile, role, logout } = useAuth();
@@ -28,8 +29,8 @@ export const AdminNavbar = ({ onToggleSidebar }) => {
           </button>
 
           <Link to="/admin" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#059669] text-white flex items-center justify-center shadow-xs">
-              <Stethoscope className="w-4 h-4" />
+            <div className="w-8 h-8 flex items-center justify-center">
+              <img src={logo} alt="Kalpana Multispeciality Dental Hospital logo" className="object-contain w-full h-full" />
             </div>
             <div>
               <span className="text-sm font-bold text-[#0F172A] leading-tight block">

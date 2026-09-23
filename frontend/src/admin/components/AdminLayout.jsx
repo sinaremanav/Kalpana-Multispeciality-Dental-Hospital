@@ -5,6 +5,7 @@ import AdminSidebar from './AdminSidebar';
 import { isSupabaseConfigured } from '../../lib/supabaseClient';
 import { AlertCircle } from 'lucide-react';
 import SEO from '../../components/SEO';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 export const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,7 +27,9 @@ export const AdminLayout = () => {
       <div className="flex-1 flex">
         <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full overflow-x-hidden">
-          <Outlet />
+          <ErrorBoundary title="Section Error">
+            <Outlet />
+          </ErrorBoundary>
         </main>
       </div>
     </div>

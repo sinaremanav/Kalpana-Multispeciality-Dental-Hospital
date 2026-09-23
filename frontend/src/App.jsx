@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import { AuthProvider } from './admin/context/AuthContext';
 import ProtectedRoute from './admin/components/ProtectedRoute';
+import ErrorBoundary from './components/ErrorBoundary';
 import { ThemeProvider } from './context/ThemeContext';
 
 // Public Pages
@@ -76,7 +77,14 @@ function App() {
         <Route path="/appointment" element={<PublicLayout><Appointment /></PublicLayout>} />
 
         {/* Admin Login Routes & Friendly Aliases */}
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/login"
+          element={
+            <ErrorBoundary title="Admin Login Error">
+              <AdminLogin />
+            </ErrorBoundary>
+          }
+        />
         <Route path="/login" element={<Navigate to="/admin/login" replace />} />
         <Route path="/staff" element={<Navigate to="/admin/login" replace />} />
 
@@ -84,9 +92,11 @@ function App() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
-              <AdminLayout />
-            </ProtectedRoute>
+            <ErrorBoundary title="Admin Portal Error">
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            </ErrorBoundary>
           }
         >
           <Route index element={<Dashboard />} />
