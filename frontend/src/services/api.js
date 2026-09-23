@@ -59,7 +59,7 @@ export const apiService = {
     });
 
     const clinic = await clinicService.getClinicSettings();
-    const whatsappNumber = clinic.whatsappNumber || '919421146623';
+    const whatsappNumber = clinic.whatsappNumber || '917447226136';
 
     const whatsappText = `Hello Doctor,
 
@@ -103,7 +103,7 @@ Thank you.`;
     });
 
     const clinic = await clinicService.getClinicSettings();
-    const whatsappNumber = clinic.whatsappNumber || '919421146623';
+    const whatsappNumber = clinic.whatsappNumber || '917447226136';
 
     const whatsappText = `Hello Doctor,
 

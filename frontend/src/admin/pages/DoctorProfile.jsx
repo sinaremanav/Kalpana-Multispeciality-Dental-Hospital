@@ -235,7 +235,7 @@ export const DoctorProfile = () => {
               type="text"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="+91 94211 46623"
+              placeholder="+91 74472 26136"
               className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
             />
           </div>

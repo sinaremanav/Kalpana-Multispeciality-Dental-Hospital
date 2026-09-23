@@ -213,7 +213,7 @@ export const ClinicSettingsManager = () => {
                 required
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                placeholder="+91 94211 46623"
+                placeholder="+91 74472 26136"
                 className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
@@ -226,7 +226,7 @@ export const ClinicSettingsManager = () => {
                 type="text"
                 value={formData.displayPhone}
                 onChange={(e) => setFormData({ ...formData, displayPhone: e.target.value })}
-                placeholder="+91 94211 46623 / +91 89995 77794"
+                placeholder="+91 74472 26136 / +91 89995 77794"
                 className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>
@@ -240,7 +240,7 @@ export const ClinicSettingsManager = () => {
                 required
                 value={formData.whatsappNumber}
                 onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
-                placeholder="919421146623"
+                placeholder="917447226136"
                 className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
               />
             </div>

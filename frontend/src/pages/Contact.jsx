@@ -227,7 +227,7 @@ const Contact = () => {
                           required
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="e.g. 9421146623"
+                          placeholder="e.g. 7447226136"
                           className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                         />
                       </div>

@@ -262,7 +262,7 @@ const Appointment = () => {
                           value={formData.fullName}
                           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                           placeholder="e.g. Rameshwar Shinde"
-                          className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
+                          className="w-full pl-10 pr-3.5 py-2.5 text-sm text-[#0F172A] placeholder:text-[#94A3B8] border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                         />
                       </div>
                       {errors.fullName && <span className="text-xs text-rose-600 mt-1 block">{errors.fullName}</span>}
@@ -283,8 +283,8 @@ const Appointment = () => {
                             required
                             value={formData.phone}
                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                            placeholder="e.g. 9421146623"
-                            className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
+                            placeholder="e.g. 7447226136"
+                            className="w-full pl-10 pr-3.5 py-2.5 text-sm text-[#0F172A] placeholder:text-[#94A3B8] border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                           />
                         </div>
                         {errors.phone && <span className="text-xs text-rose-600 mt-1 block">{errors.phone}</span>}
@@ -303,7 +303,7 @@ const Appointment = () => {
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             placeholder="patient@example.com"
-                            className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
+                            className="w-full pl-10 pr-3.5 py-2.5 text-sm text-[#0F172A] placeholder:text-[#94A3B8] border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                           />
                         </div>
                       </div>
@@ -318,7 +318,7 @@ const Appointment = () => {
                         <select
                           value={formData.treatment}
                           onChange={(e) => setFormData({ ...formData, treatment: e.target.value })}
-                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
+                          className="w-full px-3.5 py-2.5 text-sm text-[#0F172A] border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
                         >
                           {services.map((s) => (
                             <option key={s.id} value={s.title}>
@@ -335,7 +335,7 @@ const Appointment = () => {
                         <select
                           value={formData.doctor}
                           onChange={(e) => setFormData({ ...formData, doctor: e.target.value })}
-                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
+                          className="w-full px-3.5 py-2.5 text-sm text-[#0F172A] border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
                         >
                           {doctors.map((d) => (
                             <option key={d.id} value={d.name}>
@@ -359,7 +359,7 @@ const Appointment = () => {
                             min={todayStr}
                             value={formData.date}
                             onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                            className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
+                            className="w-full px-3.5 py-2.5 text-sm text-[#0F172A] placeholder:text-[#94A3B8] border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                           />
                         </div>
                         {errors.date && <span className="text-xs text-rose-600 mt-1 block">{errors.date}</span>}
@@ -372,7 +372,7 @@ const Appointment = () => {
                         <select
                           value={formData.time}
                           onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                          className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
+                          className="w-full px-3.5 py-2.5 text-sm text-[#0F172A] border border-[#CBD5E1] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#059669]"
                         >
                           <option value="09:30 AM">09:30 AM (Morning)</option>
                           <option value="11:00 AM">11:00 AM (Morning)</option>
@@ -394,7 +394,7 @@ const Appointment = () => {
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         placeholder="Briefly describe any toothache, sensitivity, bleeding gums, or questions..."
-                        className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
+                        className="w-full px-3.5 py-2.5 text-sm text-[#0F172A] placeholder:text-[#94A3B8] border border-[#CBD5E1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#059669]"
                       />
                     </div>
 
