@@ -1,56 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&amp;fit=crop&amp;w=1200&amp;h=630&amp;q=80</image:loc>
+      <image:title>Kalpana Multispeciality Dental Hospital Kopargaon</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/appointment</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/services</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/doctors</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/about</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/contact</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/reviews-faqs</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/events</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://kalpana-multispeciality-dental-hosp.vercel.app/gallery</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
