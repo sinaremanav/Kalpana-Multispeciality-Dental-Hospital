@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
           user_id: currentUser.id,
           full_name: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0],
           email: currentUser.email,
-          role: currentUser.user_metadata?.role || 'admin',
+          role: currentUser.user_metadata?.role || null,
         };
         setProfile(fallbackProfile);
         return fallbackProfile;
@@ -98,6 +98,15 @@ export const AuthProvider = ({ children }) => {
       const { user: loggedInUser } = await authService.signIn(email, password);
       setUser(loggedInUser);
       const userProfile = await fetchProfile(loggedInUser);
+
+      const detectedRole = userProfile?.role || loggedInUser.user_metadata?.role;
+      if (!['admin', 'doctor'].includes(detectedRole)) {
+        await authService.signOut();
+        setUser(null);
+        setProfile(null);
+        throw new Error('This account is not authorized for the admin portal.');
+      }
+
       return { user: loggedInUser, profile: userProfile };
     } catch (err) {
       setError(err.message || 'Invalid login credentials');
@@ -121,7 +130,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const role = profile?.role || user?.user_metadata?.role || (user ? 'admin' : null);
+  const role = profile?.role || user?.user_metadata?.role || null;
   const isAdmin = role === 'admin';
   const isDoctor = role === 'doctor';
 

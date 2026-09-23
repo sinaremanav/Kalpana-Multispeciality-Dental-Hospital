@@ -25,26 +25,26 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-[#0F172A] text-slate-300 pt-16 pb-8 border-t border-[#1E293B]">
+    <footer className="bg-[#24153F] text-[#E9DDFF] pt-16 pb-8 border-t border-[#4B168F]">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#1E293B]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/15">
           {/* Col 1: Brand & Tagline */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-9 h-9 rounded-xl bg-[#059669] text-white flex items-center justify-center shadow-xs">
+              <div className="w-9 h-9 rounded-xl bg-[#A96BFF] text-white flex items-center justify-center shadow-[0_8px_20px_rgba(169,107,255,0.28)]">
                 <Stethoscope className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-lg font-bold text-white tracking-tight group-hover:text-[#6EE7B7] transition-colors block leading-tight">
+                <span className="text-lg font-bold text-white tracking-tight group-hover:text-[#D9BFFF] transition-colors block leading-tight">
                   {clinic.clinicName || fallbackConfig.clinicName}
                 </span>
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[#6EE7B7] block">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-[#D9BFFF] block">
                   Advanced Dental Care • Kopargaon
                 </span>
               </div>
             </Link>
 
-            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+            <p className="text-[#C5B8D5] text-xs sm:text-sm leading-relaxed">
               {clinic.subTagline || fallbackConfig.subTagline}
             </p>
 
@@ -80,7 +80,7 @@ const Footer = () => {
 
           {/* Col 2: Quick Links */}
           <div>
-            <h3 className="text-white font-bold mb-4 uppercase text-xs tracking-wider text-[#6EE7B7]">
+            <h3 className="text-white font-bold mb-4 uppercase text-xs tracking-wider text-[#D9BFFF]">
               Hospital Links
             </h3>
             <ul className="space-y-2 text-xs sm:text-sm">
@@ -97,9 +97,9 @@ const Footer = () => {
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors"
+                    className="text-[#C5B8D5] hover:text-white flex items-center gap-1.5 transition-colors"
                   >
-                    <ArrowRight className="w-3 h-3 text-[#059669]" />
+                    <ArrowRight className="w-3 h-3 text-[#A96BFF]" />
                     <span>{link.name}</span>
                   </Link>
                 </li>
@@ -109,19 +109,19 @@ const Footer = () => {
 
           {/* Col 3: Operating Hours */}
           <div>
-            <h3 className="text-white font-bold mb-4 uppercase text-xs tracking-wider text-[#6EE7B7]">
+            <h3 className="text-white font-bold mb-4 uppercase text-xs tracking-wider text-[#D9BFFF]">
               Working Hours
             </h3>
-            <div className="space-y-3 text-xs sm:text-sm">
-              <div className="flex items-start gap-2 text-slate-400">
-                <Clock className="w-4 h-4 text-[#059669] shrink-0 mt-0.5" />
+              <div className="space-y-3 text-xs sm:text-sm">
+              <div className="flex items-start gap-2 text-[#C5B8D5]">
+                <Clock className="w-4 h-4 text-[#A96BFF] shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-white block">Mon – Sat:</strong>
                   <span>{clinic.workingHours?.weekdays || fallbackConfig.workingHours.weekdays}</span>
                 </div>
               </div>
-              <div className="flex items-start gap-2 text-slate-400">
-                <Clock className="w-4 h-4 text-[#059669] shrink-0 mt-0.5" />
+              <div className="flex items-start gap-2 text-[#C5B8D5]">
+                <Clock className="w-4 h-4 text-[#A96BFF] shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-white block">Sunday:</strong>
                   <span>{clinic.workingHours?.sunday || fallbackConfig.workingHours.sunday}</span>
@@ -132,17 +132,17 @@ const Footer = () => {
 
           {/* Col 4: Contact & Emergency */}
           <div>
-            <h3 className="text-white font-bold mb-4 uppercase text-xs tracking-wider text-[#6EE7B7]">
+            <h3 className="text-white font-bold mb-4 uppercase text-xs tracking-wider text-[#D9BFFF]">
               Contact & Emergency
             </h3>
-            <div className="space-y-3 text-xs sm:text-sm text-slate-400">
+            <div className="space-y-3 text-xs sm:text-sm text-[#C5B8D5]">
               <a
                 href={clinic.googleMapsUrl || fallbackConfig.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-start gap-2 hover:text-white transition-colors group"
               >
-                <MapPin className="w-4 h-4 text-[#059669] shrink-0 mt-0.5 group-hover:text-[#6EE7B7]" />
+                <MapPin className="w-4 h-4 text-[#A96BFF] shrink-0 mt-0.5 group-hover:text-[#D9BFFF]" />
                 <span>{clinic.address || fallbackConfig.address}</span>
               </a>
 
@@ -150,7 +150,7 @@ const Footer = () => {
                 href={`tel:${clinic.phone || fallbackConfig.phone}`}
                 className="flex items-center gap-2 hover:text-white transition-colors"
               >
-                <Phone className="w-4 h-4 text-[#059669] shrink-0" />
+                <Phone className="w-4 h-4 text-[#A96BFF] shrink-0" />
                 <span>{clinic.displayPhone || fallbackConfig.displayPhone}</span>
               </a>
 
@@ -158,7 +158,7 @@ const Footer = () => {
                 href={`mailto:${clinic.email || fallbackConfig.email}`}
                 className="flex items-center gap-2 hover:text-white transition-colors"
               >
-                <Mail className="w-4 h-4 text-[#059669] shrink-0" />
+                <Mail className="w-4 h-4 text-[#A96BFF] shrink-0" />
                 <span>{clinic.email || fallbackConfig.email}</span>
               </a>
             </div>

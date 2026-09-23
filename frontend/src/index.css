@@ -1,25 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   color-scheme: light;
   scroll-behavior: smooth;
-  --color-primary: #10B981;
-  --color-primary-hover: #059669;
-  --color-text-dark: #09090B;
-  --color-text-secondary: #3F3F46;
-  --color-text-muted: #71717A;
-  --color-bg-light: #FAFAFA;
-  --color-border: #E4E4E7;
-  --color-accent-purple: #14B8A6;
+  --color-primary: #351275;
+  --color-primary-hover: #4b168f;
+  --color-text-dark: #24153f;
+  --color-text-secondary: #5d5271;
+  --color-text-muted: #81758f;
+  --color-bg-light: #fcfaf8;
+  --color-border: #e9e1f2;
+  --color-accent: #a96bff;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #ffffff;
-  color: #0F172A;
+  background: #fcfaf8;
+  color: #24153f;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -27,8 +29,8 @@ body {
 }
 
 .dark body {
-  background-color: #09090B;
-  color: #FAFAFA;
+  background: linear-gradient(135deg, #120c22 0%, #21113e 55%, #32164d 100%);
+  color: #f4fbfa;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -37,11 +39,31 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Structural Gradient for Hospital UI */
 .hero-gradient {
-  background: radial-gradient(circle at 50% 0%, #FAFAFA 0%, #FFFFFF 60%);
+  background:
+    radial-gradient(circle at 84% 18%, rgba(169, 107, 255, 0.18), transparent 30%),
+    linear-gradient(135deg, #ffffff 0%, #fcfaf8 55%, #f3ecff 100%);
 }
 
 .dark .hero-gradient {
-  background: radial-gradient(circle at 50% 0%, #18181B 0%, #09090B 60%);
+  background:
+    radial-gradient(circle at 84% 18%, rgba(169, 107, 255, 0.2), transparent 30%),
+    linear-gradient(135deg, #120c22 0%, #21113e 55%, #32164d 100%);
+}
+
+.hero-gradient h1 {
+  color: #24153f !important;
+}
+
+.hero-gradient p {
+  color: #5d5271 !important;
+}
+
+.dark .hero-gradient h1 {
+  color: #f4fbfa !important;
+}
+
+.dark .hero-gradient p {
+  color: #e9ddff !important;
 }
 
 .peak-container {
@@ -82,6 +104,19 @@ h1, h2, h3, h4, h5, h6 {
 .dark .peak-card:hover {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
   border-color: #475569;
+}
+
+.dark .bg-white,
+.dark .bg-white\/95 {
+  background-color: #102f3b !important;
+}
+
+.dark .text-slate-900 {
+  color: #fffaff !important;
+}
+
+.dark .text-slate-600 {
+  color: #e9ddff !important;
 }
 
 .peak-card-lg {
@@ -154,14 +189,14 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Creative Utilities */
 .creative-gradient-text {
-  background: linear-gradient(to right, #10B981, #14B8A6);
+  background: linear-gradient(110deg, #351275, #a96bff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .dark .creative-gradient-text {
-  background: linear-gradient(to right, #34D399, #5EEAD4);
+  background: linear-gradient(110deg, #c6a0ff, #f1dfff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -172,5 +207,73 @@ h1, h2, h3, h4, h5, h6 {
 }
 .dark .dark-glow-shadow:hover {
   box-shadow: 0 0 20px rgba(52, 211, 153, 0.2);
+}
+
+/* Keep legacy page markup aligned with the shared purple system. */
+[class~="text-[#059669]"] { color: #4B168F !important; }
+[class~="text-[#047857]"] { color: #351275 !important; }
+[class~="text-[#065F46]"] { color: #351275 !important; }
+[class~="text-[#0F172A]"] { color: #24153F !important; }
+[class~="text-[#475569]"] { color: #5D5271 !important; }
+[class~="text-[#64748B]"] { color: #81758F !important; }
+[class~="bg-[#059669]"] { background-color: #351275 !important; }
+[class~="bg-[#ECFDF5]"] { background-color: #EDE3FF !important; }
+[class~="bg-[#F8FAFC]"] { background-color: #FCFAF8 !important; }
+[class~="border-[#A7F3D0]"] { border-color: #DCC8FF !important; }
+[class~="border-[#D1FAE5]"] { border-color: #DCC8FF !important; }
+[class~="border-[#E2E8F0]"] { border-color: #E9E1F2 !important; }
+
+.dark [class~="text-[#059669]"],
+.dark [class~="text-[#047857]"],
+.dark [class~="text-[#065F46]"] { color: #D9BFFF !important; }
+.dark [class~="text-[#0F172A]"],
+.dark [class~="text-[#475569]"] { color: #F8F3FF !important; }
+.dark [class~="bg-[#ECFDF5]"],
+.dark [class~="bg-[#F8FAFC]"] { background-color: #21113E !important; }
+
+/* Keep editorial grids readable until there is enough room for two columns. */
+@media (max-width: 1279px) {
+  [class~="lg:grid-cols-12"],
+  [class~="lg:grid-cols-2"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  [class~="lg:col-span-5"],
+  [class~="lg:col-span-7"] {
+    grid-column: span 1 / span 1 !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .public-navbar {
+    padding-bottom: 48px;
+  }
+
+  .public-navbar nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 48px;
+    padding: 0 1rem;
+    background: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid #e9e1f2;
+    border-bottom: 1px solid #e9e1f2;
+    backdrop-filter: blur(14px);
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 0.25rem;
+  }
+
+  .dark .public-navbar nav {
+    background: rgba(18, 12, 34, 0.96);
+    border-color: #5c3974;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .public-navbar .medium-optional {
+    display: none;
+  }
 }
 

@@ -7,6 +7,7 @@ import LoadingState from '../components/LoadingState';
 import ErrorState from '../components/ErrorState';
 import EmptyState from '../components/EmptyState';
 import Button from '../components/Button';
+import SEO from '../components/SEO';
 import { CheckCircle2, ArrowRight, Briefcase } from 'lucide-react';
 import * as Icons from 'lucide-react';
 
@@ -35,14 +36,22 @@ const Services = () => {
 
   return (
     <div className="pt-20">
+      <SEO
+        page="services"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Dental Services", url: "/services" },
+        ]}
+      />
+
       {/* Header Banner */}
       <section className="hero-gradient py-16 md:py-20 border-b border-[#E2E8F0]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#059669] bg-[#ECFDF5] rounded-full border border-[#D1FAE5]">
-            Comprehensive Healthcare Treatments
+            Comprehensive Dental Treatments • Kopargaon
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-[#0F172A] tracking-[-0.03em] mt-4">
-            Our Healthcare Services
+            Dental Services & Treatments
           </h1>
           <p className="text-[#475569] text-base sm:text-lg max-w-2xl mx-auto mt-4 leading-relaxed font-normal">
             From routine oral screening to complex restorative surgery, we provide gentle, state-of-the-art care under one roof.

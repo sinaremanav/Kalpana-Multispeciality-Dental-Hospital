@@ -19,6 +19,7 @@ import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import Appointment from './pages/Appointment';
 import ReviewsAndFAQs from './pages/ReviewsAndFAQs';
+import NotFound from './pages/NotFound';
 
 // Admin Portal Pages & Layout
 import AdminLayout from './admin/components/AdminLayout';
@@ -46,7 +47,7 @@ const ScrollToTop = () => {
 // Wrapper for Public Pages
 const PublicLayout = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased font-sans transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-[#FCFAF8] dark:bg-[#120C22] text-[#24153F] dark:text-[#F8F3FF] antialiased font-sans transition-colors duration-300">
       <Navbar />
       <main className="flex-grow">{children}</main>
       <Footer />
@@ -149,8 +150,9 @@ function App() {
           />
         </Route>
 
-        {/* Fallback to Home */}
-        <Route path="*" element={<PublicLayout><Home /></PublicLayout>} />
+        {/* 404 Error Page & Fallback */}
+        <Route path="/404" element={<PublicLayout><NotFound /></PublicLayout>} />
+        <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
       </Routes>
       </AuthProvider>
     </ThemeProvider>

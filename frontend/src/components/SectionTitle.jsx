@@ -13,7 +13,7 @@ const SectionTitle = ({ badge, title, subtitle, center = true, light = false }) 
           className={`inline-flex items-center px-3.5 py-1 mb-4 text-xs font-semibold tracking-wider rounded-full uppercase ${
             light
               ? 'bg-white/10 text-white border border-white/20'
-              : 'bg-[#ECFDF5] dark:bg-slate-800 text-[#059669] dark:text-emerald-400 border border-[#D1FAE5] dark:border-slate-700'
+              : 'bg-[#EDE3FF] dark:bg-[#32164D] text-[#4B168F] dark:text-[#E9DDFF] border border-[#DCC8FF] dark:border-[#5c3974]'
           }`}
         >
           {badge}
@@ -26,7 +26,7 @@ const SectionTitle = ({ badge, title, subtitle, center = true, light = false }) 
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.1 }}
         className={`text-3xl sm:text-4xl md:text-[44px] font-extrabold tracking-[-0.03em] leading-[1.18] ${
-          light ? 'text-white' : 'text-[#0F172A] dark:text-white'
+          light ? 'text-white' : 'text-[#24153F] dark:text-white'
         }`}
       >
         {title}
@@ -39,7 +39,7 @@ const SectionTitle = ({ badge, title, subtitle, center = true, light = false }) 
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className={`mt-4 text-base md:text-lg font-normal leading-relaxed ${
-            light ? 'text-slate-300' : 'text-[#475569] dark:text-slate-300'
+            light ? 'text-[#E9DDFF]' : 'text-[#5D5271] dark:text-[#E9DDFF]'
           }`}
         >
           {subtitle}

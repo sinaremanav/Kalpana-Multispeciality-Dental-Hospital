@@ -18,14 +18,14 @@ const Button = ({
   target,
   rel
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 tracking-tight';
+  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 tracking-tight';
   
   const variants = {
-    primary: 'bg-[#059669] hover:bg-[#047857] text-white shadow-sm hover:shadow-md focus:ring-[#059669]',
-    secondary: 'bg-[#ECFDF5] dark:bg-slate-800 hover:bg-[#D1FAE5] dark:hover:bg-slate-700 text-[#065F46] dark:text-emerald-400 border border-[#A7F3D0] dark:border-slate-700 focus:ring-[#059669]',
-    outline: 'bg-white dark:bg-slate-800 hover:bg-[#F8FAFC] dark:hover:bg-slate-700 text-[#0F172A] dark:text-white border border-[#E2E8F0] dark:border-slate-700 hover:border-[#CBD5E1] dark:hover:border-slate-600 shadow-xs focus:ring-[#059669]',
-    white: 'bg-white dark:bg-slate-800 hover:bg-[#F8FAFC] dark:hover:bg-slate-700 text-[#0F172A] dark:text-white border border-[#E2E8F0] dark:border-slate-700 shadow-sm hover:shadow-md focus:ring-white dark:focus:ring-slate-600',
-    dark: 'bg-[#0F172A] dark:bg-white hover:bg-[#1E293B] dark:hover:bg-slate-200 text-white dark:text-slate-900 shadow-sm focus:ring-[#0F172A]',
+    primary: 'bg-[#351275] hover:bg-[#4B168F] text-white shadow-[0_10px_24px_rgba(53,18,117,0.22)] hover:shadow-[0_14px_30px_rgba(53,18,117,0.3)] focus:ring-[#A96BFF]',
+    secondary: 'bg-[#EDE3FF] dark:bg-[#32164D] hover:bg-[#E3D2FF] dark:hover:bg-[#45205d] text-[#351275] dark:text-[#E9DDFF] border border-[#DCC8FF] dark:border-[#5c3974] focus:ring-[#A96BFF]',
+    outline: 'bg-white dark:bg-[#21113E] hover:bg-[#F8F2FF] dark:hover:bg-[#32164D] text-[#24153F] dark:text-white border border-[#E9E1F2] dark:border-[#5c3974] hover:border-[#CDB2F5] dark:hover:border-[#8055a0] shadow-sm focus:ring-[#A96BFF]',
+    white: 'bg-white hover:bg-[#F8F2FF] text-[#351275] border border-white/50 shadow-sm hover:shadow-md focus:ring-white',
+    dark: 'bg-[#24153F] dark:bg-white hover:bg-[#351275] dark:hover:bg-[#F3ECFF] text-white dark:text-[#24153F] shadow-sm focus:ring-[#351275]',
     whatsapp: 'bg-[#16A34A] hover:bg-[#15803D] text-white shadow-sm focus:ring-[#16A34A]'
   };
 

@@ -6,6 +6,7 @@ import { doctorService } from '../services/doctorService';
 import apiService from '../services/api';
 import Button from '../components/Button';
 import LoadingState from '../components/LoadingState';
+import SEO from '../components/SEO';
 import {
   Calendar,
   Clock,
@@ -117,6 +118,14 @@ const Appointment = () => {
 
   return (
     <div className="pt-20">
+      <SEO
+        page="appointment"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Book Appointment", url: "/appointment" },
+        ]}
+      />
+
       {/* Header Banner */}
       <section className="hero-gradient py-16 md:py-20 border-b border-[#E2E8F0]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">

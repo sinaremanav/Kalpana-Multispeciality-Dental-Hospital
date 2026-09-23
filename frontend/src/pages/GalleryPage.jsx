@@ -1,10 +1,19 @@
 import React from 'react';
 import GalleryGrid from '../components/GalleryGrid';
 import CTASection from '../components/CTASection';
+import SEO from '../components/SEO';
 
 const GalleryPage = () => {
   return (
     <div className="pt-20">
+      <SEO
+        page="gallery"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Clinic Gallery", url: "/gallery" },
+        ]}
+      />
+
       {/* Header Banner */}
       <section className="hero-gradient py-16 md:py-20 border-b border-[#E2E8F0]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">

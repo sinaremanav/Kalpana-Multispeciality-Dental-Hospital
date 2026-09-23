@@ -4,12 +4,14 @@ import AdminNavbar from './AdminNavbar';
 import AdminSidebar from './AdminSidebar';
 import { isSupabaseConfigured } from '../../lib/supabaseClient';
 import { AlertCircle } from 'lucide-react';
+import SEO from '../../components/SEO';
 
 export const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-800 font-sans antialiased">
+      <SEO title="Admin Portal | Kalpana Multispeciality Dental Hospital" noIndex={true} />
       <AdminNavbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
 
       {!isSupabaseConfigured && (

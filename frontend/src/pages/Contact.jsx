@@ -3,6 +3,8 @@ import { clinicConfig as fallbackConfig } from '../config/clinicConfig';
 import { clinicService } from '../services/clinicService';
 import Button from '../components/Button';
 import apiService from '../services/api';
+import SEO from '../components/SEO';
+import { getLocalBusinessSchema } from '../config/seoConfig';
 import {
   MapPin,
   Phone,
@@ -58,14 +60,23 @@ const Contact = () => {
 
   return (
     <div className="pt-20">
+      <SEO
+        page="contact"
+        schema={getLocalBusinessSchema()}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Contact Us", url: "/contact" },
+        ]}
+      />
+
       {/* Header Banner */}
       <section className="hero-gradient py-16 md:py-20 border-b border-[#E2E8F0]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#059669] bg-[#ECFDF5] rounded-full border border-[#D1FAE5]">
-            Contact & Patient Support
+            Contact & Patient Support • Kopargaon Bet
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-[#0F172A] tracking-[-0.03em] mt-4">
-            Contact Kalpana Dental Clinic
+            Contact Kalpana Multispeciality Dental Hospital
           </h1>
           <p className="text-[#475569] text-base sm:text-lg max-w-2xl mx-auto mt-4 leading-relaxed font-normal">
             We are here to assist you with inquiries, appointment scheduling, treatment quotes, and emergency patient support.
