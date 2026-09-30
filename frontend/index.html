@@ -39,8 +39,15 @@
       }
 
       .goog-te-banner-frame,
-      .skiptranslate > iframe {
+      .skiptranslate > iframe,
+      #goog-gt-tt,
+      .goog-te-balloon-frame {
         display: none !important;
+      }
+
+      .goog-text-highlight {
+        background: none !important;
+        box-shadow: none !important;
       }
 
       body {
@@ -223,9 +230,29 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script>
+      // Ensure initial language is English unless user explicitly chose Marathi or Hindi
+      (function() {
+        try {
+          var savedLang = localStorage.getItem('site-language');
+          var h = window.location.hostname;
+          if (!savedLang || savedLang === 'en') {
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + h + ';';
+            document.documentElement.lang = 'en';
+          } else if (savedLang === 'mr' || savedLang === 'hi') {
+            document.cookie = 'googtrans=/en/' + savedLang + '; path=/;';
+            document.documentElement.lang = savedLang;
+          }
+        } catch (e) {}
+      })();
+
       function googleTranslateElementInit() {
         new google.translate.TranslateElement(
-          { pageLanguage: 'en', includedLanguages: 'mr', autoDisplay: false },
+          {
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi,mr',
+            autoDisplay: false
+          },
           'google_translate_element'
         );
       }

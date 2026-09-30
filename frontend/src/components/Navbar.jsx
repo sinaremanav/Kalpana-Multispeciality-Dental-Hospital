@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { clinicConfig as fallbackConfig } from '../config/clinicConfig';
 import { clinicService } from '../services/clinicService';
@@ -20,9 +20,18 @@ import {
   Images,
   MessageSquareQuote,
   MapPin,
+  Languages,
+  ChevronDown,
+  Check,
 } from 'lucide-react';
 import Button from './Button';
 import { useTheme } from '../context/ThemeContext';
+
+const languages = [
+  { code: 'en', label: 'English', native: 'English' },
+  { code: 'mr', label: 'Marathi', native: 'मराठी' },
+  { code: 'hi', label: 'Hindi', native: 'हिंदी' },
+];
 
 const navLinks = [
   { name: 'Home', path: '/', icon: HomeIcon },
@@ -39,26 +48,62 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [language, setLanguage] = useState(() => localStorage.getItem('site-language') || 'en');
+  const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [clinic, setClinic] = useState(fallbackConfig);
+  const langDropdownRef = useRef(null);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
 
-  const handleLanguageChange = () => {
-    const nextLanguage = language === 'mr' ? 'en' : 'mr';
-    setLanguage(nextLanguage);
-    localStorage.setItem('site-language', nextLanguage);
-    document.documentElement.lang = nextLanguage;
+  // Close language dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target)) {
+        setIsLangDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
-    if (nextLanguage === 'en') {
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  const applyLanguage = (nextLang) => {
+    if (!['en', 'mr', 'hi'].includes(nextLang)) return;
+    setIsLangDropdownOpen(false);
+    setLanguage(nextLang);
+    localStorage.setItem('site-language', nextLang);
+    document.documentElement.lang = nextLang;
+
+    const hostname = window.location.hostname;
+    const cookieDomains = ['', `; domain=${hostname}`, `; domain=.${hostname}`];
+
+    if (nextLang === 'en') {
+      // Clear googtrans cookies across paths & domains
+      cookieDomains.forEach((dom) => {
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/${dom}`;
+        document.cookie = `googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/${dom}`;
+      });
+      document.cookie = 'googtrans=/en/en; path=/;';
     } else {
-      document.cookie = `googtrans=/en/${nextLanguage}; path=/;`;
+      cookieDomains.forEach((dom) => {
+        document.cookie = `googtrans=/en/${nextLang}; path=/${dom}`;
+      });
     }
 
     const translateSelect = document.querySelector('.goog-te-combo');
     if (translateSelect) {
-      translateSelect.value = nextLanguage === 'en' ? '' : nextLanguage;
+      const hasOption = Array.from(translateSelect.options || []).some((o) => o.value === nextLang);
+      translateSelect.value = nextLang === 'en' ? (hasOption ? 'en' : '') : nextLang;
       translateSelect.dispatchEvent(new Event('change'));
+
+      if (nextLang === 'en') {
+        setTimeout(() => {
+          if (
+            document.documentElement.classList.contains('translated-ltr') ||
+            document.querySelector('font')
+          ) {
+            window.location.reload();
+          }
+        }, 150);
+      }
     } else {
       window.location.reload();
     }
@@ -138,15 +183,49 @@ const Navbar = () => {
 
           {/* Desktop Right CTA */}
           <div className="hidden lg:flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-            <button
-              type="button"
-              onClick={handleLanguageChange}
-              className="medium-optional px-2.5 py-1.5 text-xs font-semibold text-[#4B168F] dark:text-[#E9DDFF] hover:bg-[#EDE3FF] dark:hover:bg-[#32164D] rounded-lg transition-colors border border-[#DCC8FF] dark:border-[#5c3974]"
-              aria-label={language === 'mr' ? 'Switch to English' : 'Switch to Marathi'}
-              title={language === 'mr' ? 'English' : 'मराठी'}
-            >
-              {language === 'mr' ? 'English' : 'मराठी'}
-            </button>
+            {/* Desktop Language Switcher */}
+            <div className="relative" ref={langDropdownRef}>
+              <button
+                type="button"
+                onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-[#4B168F] dark:text-[#E9DDFF] hover:bg-[#EDE3FF] dark:hover:bg-[#32164D] rounded-lg transition-colors border border-[#DCC8FF] dark:border-[#5c3974]"
+                aria-label="Change language"
+                title="Change language / भाषा बदला"
+              >
+                <Languages className="w-3.5 h-3.5 text-[#4B168F] dark:text-[#C6A0FF]" />
+                <span>{languages.find((l) => l.code === language)?.native || 'English'}</span>
+                <ChevronDown
+                  className={`w-3 h-3 text-[#81758F] dark:text-[#D9BFFF] transition-transform duration-200 ${
+                    isLangDropdownOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              {isLangDropdownOpen && (
+                <div className="absolute right-0 mt-1.5 w-36 bg-white dark:bg-[#1E1235] border border-[#E9E1F2] dark:border-[#5c3974] rounded-xl shadow-lg py-1.5 z-50 animate-fade-in">
+                  {languages.map((l) => {
+                    const isSelected = language === l.code;
+                    return (
+                      <button
+                        key={l.code}
+                        type="button"
+                        onClick={() => applyLanguage(l.code)}
+                        className={`w-full flex items-center justify-between px-3 py-1.5 text-xs font-medium text-left transition-colors ${
+                          isSelected
+                            ? 'text-[#4B168F] dark:text-[#E9DDFF] bg-[#F4EDFF] dark:bg-[#32164D] font-bold'
+                            : 'text-[#475569] dark:text-[#D9BFFF] hover:bg-[#F8F2FF] dark:hover:bg-[#2A1647]'
+                        }`}
+                      >
+                        <span>
+                          {l.native} <span className="text-[10px] text-[#94A3B8]">({l.label})</span>
+                        </span>
+                        {isSelected && <Check className="w-3.5 h-3.5 text-[#059669] shrink-0" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
             <button
               type="button"
@@ -201,15 +280,35 @@ const Navbar = () => {
         {/* Mobile Slide-Out Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden mt-3 pt-3 pb-6 border-t border-[#E9E1F2] dark:border-[#5c3974] animate-fade-in bg-white dark:bg-[#120C22] rounded-b-2xl shadow-xl px-2">
-            <div className="flex flex-col space-y-1">
-              <button
-                type="button"
-                onClick={handleLanguageChange}
-                className="self-start px-3 py-1.5 text-xs font-semibold text-[#4B168F] dark:text-[#E9DDFF] hover:bg-[#EDE3FF] dark:hover:bg-[#32164D] rounded-lg transition-colors border border-[#DCC8FF] dark:border-[#5c3974]"
-                aria-label={language === 'mr' ? 'Switch to English' : 'Switch to Marathi'}
-              >
-                {language === 'mr' ? 'English' : 'मराठी'}
-              </button>
+            <div className="flex flex-col space-y-2">
+              {/* Mobile Language Switcher */}
+              <div className="flex flex-col gap-1.5 pb-2">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#81758F] dark:text-[#D9BFFF] flex items-center gap-1.5 px-1">
+                  <Languages className="w-3.5 h-3.5 text-[#4B168F] dark:text-[#C6A0FF]" /> Language / भाषा
+                </span>
+                <div className="grid grid-cols-3 gap-1 bg-[#F1E8FD] dark:bg-[#2A1647] p-1 rounded-xl">
+                  {languages.map((l) => {
+                    const isSelected = language === l.code;
+                    return (
+                      <button
+                        key={l.code}
+                        type="button"
+                        onClick={() => {
+                          applyLanguage(l.code);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className={`py-1.5 text-xs font-semibold rounded-lg transition-all text-center ${
+                          isSelected
+                            ? 'bg-white dark:bg-[#120C22] text-[#4B168F] dark:text-[#E9DDFF] shadow-xs font-bold'
+                            : 'text-[#5D5271] dark:text-[#D9BFFF] hover:text-[#24153F]'
+                        }`}
+                      >
+                        {l.native}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
               <button
                 type="button"
