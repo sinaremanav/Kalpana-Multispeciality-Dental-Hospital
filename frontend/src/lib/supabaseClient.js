@@ -7,9 +7,9 @@ const DEFAULT_SUPABASE_KEY =
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL;
 const SUPABASE_PUBLISHABLE_KEY =
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
   import.meta.env.VITE_SUPABASE_ANON_KEY ||
-  DEFAULT_SUPABASE_KEY;
+  DEFAULT_SUPABASE_KEY ||
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 // Create Supabase client instance
 export const supabase = createClient(

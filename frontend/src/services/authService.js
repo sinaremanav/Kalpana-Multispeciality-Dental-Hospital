@@ -8,70 +8,110 @@ export const authService = {
    * Log in with Email and Password
    * Supports both Express Backend (with Bcrypt Hashed verification) and Supabase Auth.
    */
+  /**
+   * Log in with Email and Password
+   * Prioritizes direct Supabase Auth for instant sub-second verification.
+   * Background-syncs backend session tokens non-blockingly to avoid Render free-tier cold-start hangs.
+   */
   async signIn(email, password) {
-    let backendError = null;
+    const trimmedEmail = (email || '').trim().toLowerCase();
     let authUser = null;
     let authToken = null;
+    let authError = null;
 
-    // 1. Authenticate with Supabase Auth so direct database queries (Appointments, Messages, Settings) are authorized
+    // Helper for backend login with strict timeout so Render cold starts never hang the browser
+    const attemptBackendLogin = async (timeoutMs = 6000) => {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+        const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: trimmedEmail, password }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+
+        const result = await response.json().catch(() => null);
+
+        if (response.ok && result?.success && result?.token) {
+          localStorage.setItem('admin_token', result.token);
+          localStorage.setItem('admin_user', JSON.stringify(result.user));
+          return {
+            success: true,
+            user: {
+              id: result.user.id,
+              email: result.user.email,
+              role: result.user.role,
+              fullName: result.user.fullName,
+              user_metadata: {
+                full_name: result.user.fullName,
+                role: result.user.role,
+              },
+            },
+            token: result.token,
+            authMethod: 'backend_bcrypt',
+          };
+        }
+
+        return {
+          success: false,
+          message: result?.message || 'Invalid email or password credentials.',
+        };
+      } catch (err) {
+        return {
+          success: false,
+          message:
+            err.name === 'AbortError'
+              ? 'Backend server took too long to respond. Please try again.'
+              : err.message,
+        };
+      }
+    };
+
+    // 1. Direct Supabase Auth (Instant: ~300-500ms)
     if (isSupabaseConfigured) {
       try {
         const { data: sbData, error: sbError } = await supabase.auth.signInWithPassword({
-          email: email.trim(),
+          email: trimmedEmail,
           password,
         });
+
         if (!sbError && sbData?.user) {
           authUser = sbData.user;
           authToken = sbData.session?.access_token;
+
+          // Asynchronously sync backend token in background without blocking login
+          attemptBackendLogin(3500).catch(() => {});
+
+          return {
+            user: authUser,
+            token: authToken,
+            authMethod: 'supabase',
+          };
         } else if (sbError) {
-          console.warn('Supabase auth sign-in warning:', sbError.message);
+          authError = sbError.message;
         }
       } catch (sbErr) {
         console.warn('Supabase auth sign-in exception:', sbErr.message);
+        authError = sbErr.message;
       }
     }
 
-    // 2. Also authenticate with Express Backend Bcrypt verification endpoint
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), password }),
-      });
-
-      const result = await response.json().catch(() => null);
-
-      if (response.ok && result?.success && result?.token) {
-        localStorage.setItem('admin_token', result.token);
-        localStorage.setItem('admin_user', JSON.stringify(result.user));
-        if (!authUser) {
-          authUser = {
-            id: result.user.id,
-            email: result.user.email,
-            role: result.user.role,
-            user_metadata: {
-              full_name: result.user.fullName,
-              role: result.user.role,
-            },
-          };
-          authToken = result.token;
-        }
-      } else if (response.status === 401) {
-        backendError = result?.message || 'Invalid email or password credentials.';
-      }
-    } catch (backendErr) {
-      console.info('Backend auth endpoint unavailable:', backendErr.message);
-    }
-
-    if (authUser) {
+    // 2. Fallback to Express backend if Supabase Auth was unconfigured or account only exists in custom admin_users
+    const backendResult = await attemptBackendLogin(7000);
+    if (backendResult?.success && backendResult?.user) {
       return {
-        user: authUser,
-        token: authToken,
-        authMethod: 'unified_auth',
+        user: backendResult.user,
+        token: backendResult.token,
+        authMethod: 'backend_bcrypt',
       };
     }
 
-    throw new Error(backendError || 'Authentication failed. Please verify your email and password.');
+    throw new Error(
+      backendResult?.message || authError || 'Authentication failed. Please verify your email and password.'
+    );
   },
 
   /**
@@ -185,37 +225,53 @@ export const authService = {
     }
   },
 
+  // Profile cache to prevent redundant DB requests
+  _profileCache: new Map(),
+
   /**
-   * Get profile and role from 'profiles' or 'admin_users' table for a user
+   * Get profile and role from 'admin_users' or 'profiles' table for a user
    */
-  async getUserProfile(userId) {
-    if (!userId) return null;
+  async getUserProfile(userId, email = null) {
+    if (!userId && !email) return null;
+    const cacheKey = `${userId || ''}_${email || ''}`;
+    if (this._profileCache.has(cacheKey)) {
+      return this._profileCache.get(cacheKey);
+    }
 
     if (isSupabaseConfigured) {
       try {
-        // Try profiles table
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('user_id', userId)
-          .maybeSingle();
+        // Query admin_users table first (matches clinic doctors and admins)
+        let query = supabase.from('admin_users').select('id, full_name, email, role, is_active');
+        if (email) {
+          query = query.ilike('email', email.trim());
+        } else {
+          query = query.eq('id', userId);
+        }
 
-        if (!error && data) return data;
-
-        // Try admin_users table
-        const { data: adminData } = await supabase
-          .from('admin_users')
-          .select('id, full_name, email, role, is_active')
-          .eq('id', userId)
-          .maybeSingle();
-
-        if (adminData) {
-          return {
+        const { data: adminData, error: adminErr } = await query.maybeSingle();
+        if (!adminErr && adminData) {
+          const profile = {
             user_id: adminData.id,
             full_name: adminData.full_name,
             email: adminData.email,
             role: adminData.role,
           };
+          this._profileCache.set(cacheKey, profile);
+          return profile;
+        }
+
+        // Secondary check: profiles table
+        if (userId) {
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('user_id', userId)
+            .maybeSingle();
+
+          if (!error && data) {
+            this._profileCache.set(cacheKey, data);
+            return data;
+          }
         }
       } catch (err) {
         console.warn('Error fetching user profile:', err.message);

@@ -16,30 +16,42 @@ export const AuthProvider = ({ children }) => {
       setProfile(null);
       return null;
     }
+
+    const defaultRole = currentUser.role || currentUser.user_metadata?.role || null;
+    const defaultName =
+      currentUser.user_metadata?.full_name ||
+      currentUser.fullName ||
+      currentUser.email?.split('@')[0];
+
+    const initialProfile = {
+      user_id: currentUser.id,
+      full_name: defaultName,
+      email: currentUser.email,
+      role: defaultRole,
+    };
+
+    // If metadata already has a role, set it immediately to eliminate navigation latency
+    if (defaultRole) {
+      setProfile(initialProfile);
+    }
+
     try {
-      const userProfile = await authService.getUserProfile(currentUser.id);
+      const userProfile = await authService.getUserProfile(currentUser.id, currentUser.email);
       if (userProfile) {
         setProfile(userProfile);
         return userProfile;
-      } else {
-        // Default role fallback based on user metadata
-        const fallbackProfile = {
-          user_id: currentUser.id,
-          full_name: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0],
-          email: currentUser.email,
-          role: currentUser.user_metadata?.role || null,
-        };
-        setProfile(fallbackProfile);
-        return fallbackProfile;
       }
     } catch (err) {
       console.warn('Error fetching profile in AuthProvider:', err);
-      return null;
     }
+
+    setProfile(initialProfile);
+    return initialProfile;
   };
 
   useEffect(() => {
     let isMounted = true;
+    let lastHandledUserId = null;
 
     const initializeAuth = async () => {
       try {
@@ -51,11 +63,13 @@ export const AuthProvider = ({ children }) => {
 
         const session = await authService.getSession();
         if (session?.user && isMounted) {
+          lastHandledUserId = session.user.id;
           setUser(session.user);
           await fetchProfile(session.user);
         } else if (isMounted) {
           const backendUser = authService.getBackendUser();
           if (backendUser) {
+            lastHandledUserId = backendUser.id;
             setUser(backendUser);
             await fetchProfile(backendUser);
           } else {
@@ -78,8 +92,12 @@ export const AuthProvider = ({ children }) => {
 
       if (session?.user) {
         setUser(session.user);
-        await fetchProfile(session.user);
+        if (lastHandledUserId !== session.user.id) {
+          lastHandledUserId = session.user.id;
+          await fetchProfile(session.user);
+        }
       } else {
+        lastHandledUserId = null;
         setUser(null);
         setProfile(null);
       }
@@ -99,7 +117,7 @@ export const AuthProvider = ({ children }) => {
       setUser(loggedInUser);
       const userProfile = await fetchProfile(loggedInUser);
 
-      const detectedRole = userProfile?.role || loggedInUser.user_metadata?.role;
+      const detectedRole = userProfile?.role || loggedInUser.user_metadata?.role || loggedInUser.role;
       if (!['admin', 'doctor'].includes(detectedRole)) {
         await authService.signOut();
         setUser(null);
