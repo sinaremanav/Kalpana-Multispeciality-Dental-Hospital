@@ -38,9 +38,9 @@ const navLinks = [
   { name: 'About', path: '/about', icon: Info },
   { name: 'Doctors', path: '/doctors', icon: Users },
   { name: 'Services', path: '/services', icon: Sparkles },
-  { name: 'Events & Camps', path: '/events', icon: CalendarDays },
+  { name: 'Events', mobileName: 'Events & Camps', path: '/events', icon: CalendarDays },
   { name: 'Gallery', path: '/gallery', icon: Images },
-  { name: 'Reviews & FAQs', path: '/reviews-faqs', icon: MessageSquareQuote },
+  { name: 'Reviews', mobileName: 'Reviews & FAQs', path: '/reviews-faqs', icon: MessageSquareQuote },
   { name: 'Contact', path: '/contact', icon: MapPin },
 ];
 
@@ -162,13 +162,13 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center justify-center gap-0.5 xl:gap-1.5 flex-1 min-w-0">
+          <nav className="hidden lg:flex items-center justify-end xl:justify-center gap-1 xl:gap-2 flex-1 min-w-0 pr-2">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
-                  `inline-flex items-center justify-center px-1.5 xl:px-2.5 py-1.5 text-xs xl:text-sm font-semibold tracking-normal rounded-lg transition-all duration-150 whitespace-nowrap ${
+                  `inline-flex items-center justify-center px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-semibold tracking-normal rounded-lg transition-all duration-150 whitespace-nowrap ${
                     isActive
                       ? 'text-[#4B168F] dark:text-[#E9DDFF] bg-[#EDE3FF] dark:bg-[#32164D] font-bold shadow-2xs'
                       : 'text-[#5D5271] dark:text-[#D9BFFF] hover:text-[#24153F] dark:hover:text-white hover:bg-[#F8F2FF] dark:hover:bg-[#32164D]'
@@ -180,8 +180,8 @@ const Navbar = () => {
             ))}
           </nav>
 
-          {/* Desktop Right CTA */}
-          <div className="hidden lg:flex items-center gap-1 xl:gap-2 shrink-0 whitespace-nowrap">
+          {/* Desktop Right CTA (Language, Theme, Login, Book) */}
+          <div className="hidden lg:flex items-center gap-1.5 xl:gap-2.5 shrink-0 whitespace-nowrap pl-3.5 xl:pl-5 ml-2 xl:ml-3 border-l border-[#E9E1F2] dark:border-[#5c3974]">
             {/* Desktop Language Switcher */}
             <div className="relative" ref={langDropdownRef}>
               <button
@@ -333,7 +333,7 @@ const Navbar = () => {
                   }
                 >
                   <link.icon className="w-4 h-4" aria-hidden="true" />
-                  {link.name}
+                  {link.mobileName || link.name}
                 </NavLink>
               ))}
 
