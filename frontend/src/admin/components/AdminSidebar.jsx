@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { testimonialService } from '../../services/testimonialService';
 import {
   LayoutDashboard,
   Calendar,
@@ -17,6 +18,19 @@ import {
 
 export const AdminSidebar = ({ isOpen, onClose }) => {
   const { isAdmin, isDoctor, role } = useAuth();
+  const [pendingReviewsCount, setPendingReviewsCount] = useState(0);
+
+  useEffect(() => {
+    if (isAdmin) {
+      testimonialService
+        .getTestimonials(false)
+        .then((list) => {
+          const count = (list || []).filter((t) => !t.is_published).length;
+          setPendingReviewsCount(count);
+        })
+        .catch(() => {});
+    }
+  }, [isAdmin]);
 
   const adminNavItems = [
     { label: 'Dashboard', path: '/admin', icon: LayoutDashboard, exact: true },
@@ -92,7 +106,12 @@ export const AdminSidebar = ({ isOpen, onClose }) => {
                     }
                   >
                     <Icon className="w-4 h-4 shrink-0" />
-                    <span>{item.label}</span>
+                    <span className="flex-1">{item.label}</span>
+                    {item.path === '/admin/testimonials' && pendingReviewsCount > 0 && (
+                      <span className="px-1.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-500 text-white shadow-xs">
+                        {pendingReviewsCount}
+                      </span>
+                    )}
                   </NavLink>
                 );
               })}

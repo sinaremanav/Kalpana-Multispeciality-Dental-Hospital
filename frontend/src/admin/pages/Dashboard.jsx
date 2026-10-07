@@ -11,6 +11,7 @@ import { doctorService } from '../../services/doctorService';
 import { serviceService } from '../../services/serviceService';
 import { eventService } from '../../services/eventService';
 import { contactService } from '../../services/contactService';
+import { testimonialService } from '../../services/testimonialService';
 import {
   Calendar,
   Clock,
@@ -22,6 +23,7 @@ import {
   ArrowRight,
   UserCheck,
   Eye,
+  MessageSquareQuote,
 } from 'lucide-react';
 
 export const Dashboard = () => {
@@ -34,6 +36,8 @@ export const Dashboard = () => {
     totalServices: 0,
     upcomingEvents: 0,
     unreadMessages: 0,
+    pendingReviews: 0,
+    totalReviews: 0,
   });
   const [recentAppointments, setRecentAppointments] = useState([]);
   const [recentMessages, setRecentMessages] = useState([]);
@@ -52,6 +56,7 @@ export const Dashboard = () => {
         eventsData,
         unreadCount,
         messagesList,
+        testimonialsList,
       ] = await Promise.all([
         appointmentService.getMetrics(),
         appointmentService.getAppointments({ status: 'all' }),
@@ -60,7 +65,10 @@ export const Dashboard = () => {
         eventService.getCategorizedEvents(),
         contactService.getUnreadCount(),
         contactService.getMessages('all'),
+        testimonialService.getTestimonials(false).catch(() => []),
       ]);
+
+      const pendingReviewsCount = (testimonialsList || []).filter((t) => !t.is_published).length;
 
       setStats({
         totalAppointments: appointmentMetrics.total,
@@ -70,6 +78,8 @@ export const Dashboard = () => {
         totalServices: servicesList.length,
         upcomingEvents: eventsData.upcoming.length,
         unreadMessages: unreadCount,
+        pendingReviews: pendingReviewsCount,
+        totalReviews: (testimonialsList || []).length,
       });
 
       setRecentAppointments(appointmentsList.slice(0, 5));
@@ -135,6 +145,32 @@ export const Dashboard = () => {
         </div>
       </div>
 
+      {/* Pending Reviews Moderation Alert Banner */}
+      {stats.pendingReviews > 0 && (
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+          <div className="flex items-start sm:items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-amber-100 text-amber-800 shrink-0">
+              <MessageSquareQuote className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-amber-900">
+                {stats.pendingReviews} Patient Review{stats.pendingReviews > 1 ? 's' : ''} Awaiting Approval
+              </h4>
+              <p className="text-xs text-amber-700 mt-0.5">
+                New reviews were submitted by patients from the website. Review and approve them before they are displayed publicly.
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/admin/testimonials?tab=pending"
+            className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl transition-colors shrink-0 shadow-xs inline-flex items-center gap-1.5"
+          >
+            <span>Review & Approve</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      )}
+
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <DashboardCard
@@ -176,7 +212,7 @@ export const Dashboard = () => {
       </div>
 
       {isAdmin && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <DashboardCard
             title="Active Doctors"
             value={stats.totalDoctors}
@@ -203,6 +239,15 @@ export const Dashboard = () => {
             color="emerald"
             linkTo="/admin/events"
             index={6}
+          />
+          <DashboardCard
+            title="Patient Reviews"
+            value={stats.pendingReviews > 0 ? `${stats.pendingReviews} Pending` : stats.totalReviews}
+            subtitle={stats.pendingReviews > 0 ? 'Awaiting moderation' : 'Verified reviews'}
+            icon={MessageSquareQuote}
+            color={stats.pendingReviews > 0 ? 'amber' : 'emerald'}
+            linkTo={stats.pendingReviews > 0 ? '/admin/testimonials?tab=pending' : '/admin/testimonials'}
+            index={7}
           />
         </div>
       )}

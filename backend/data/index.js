@@ -178,6 +178,15 @@ export const faqData = [
   }
 ];
 
-// In-memory store for appointments and contact inquiries submitted via API
+// In-memory store for appointments, contact inquiries, and testimonials submitted via API
 export const appointmentsStore = [];
 export const contactInquiriesStore = [];
+export const testimonialsStore = [
+  ...testimonialsData.map((t) => ({
+    ...t,
+    patient_name: t.name,
+    message: t.comment,
+    is_published: true,
+    created_at: new Date().toISOString(),
+  })),
+];
