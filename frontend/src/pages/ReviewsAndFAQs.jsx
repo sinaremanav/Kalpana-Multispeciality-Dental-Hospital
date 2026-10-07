@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { testimonialService } from '../services/testimonialService';
 import { faqData } from '../data/faq';
 import TestimonialCard from '../components/TestimonialCard';
+import WriteReviewModal from '../components/WriteReviewModal';
 import CTASection from '../components/CTASection';
 import LoadingState from '../components/LoadingState';
 import SEO from '../components/SEO';
 import { getFAQSchema } from '../config/seoConfig';
-import { Star, MessageSquareQuote, HelpCircle, Search, ChevronDown, Sparkles } from 'lucide-react';
+import { Star, MessageSquareQuote, HelpCircle, Search, ChevronDown, Sparkles, PenLine } from 'lucide-react';
 
 const ReviewsAndFAQs = () => {
   const [activeTab, setActiveTab] = useState('all'); // 'all' | 'reviews' | 'faqs'
@@ -14,6 +15,7 @@ const ReviewsAndFAQs = () => {
   const [loading, setLoading] = useState(true);
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   useEffect(() => {
     testimonialService
@@ -24,6 +26,12 @@ const ReviewsAndFAQs = () => {
       .catch((err) => console.error('Failed to load testimonials:', err))
       .finally(() => setLoading(false));
   }, []);
+
+  const handleReviewAdded = (newReview) => {
+    if (newReview && newReview.is_published) {
+      setTestimonials((prev) => [newReview, ...prev]);
+    }
+  };
 
   const filteredFaqs = faqData.filter(
     (faq) =>
@@ -115,10 +123,20 @@ const ReviewsAndFAQs = () => {
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] mt-1">
                   What Our Patients Say
                 </h2>
+                <p className="text-xs text-[#64748B] mt-0.5">
+                  Showing verified testimonials from patients treated at Kalpana Dental Clinic
+                </p>
               </div>
-              <div className="text-xs text-[#64748B]">
-                Showing real testimonials from patients treated at Kalpana Dental Clinic
-              </div>
+
+              {/* Action Button: Write a Review */}
+              <button
+                type="button"
+                onClick={() => setIsReviewModalOpen(true)}
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#059669] hover:bg-[#047857] shadow-sm hover:shadow-md transition-all cursor-pointer shrink-0 self-start sm:self-auto"
+              >
+                <PenLine className="w-4 h-4" />
+                <span>Write a Review</span>
+              </button>
             </div>
 
             {loading ? (
@@ -202,6 +220,12 @@ const ReviewsAndFAQs = () => {
           </section>
         )}
       </div>
+
+      <WriteReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        onReviewAdded={handleReviewAdded}
+      />
 
       <CTASection />
     </div>

@@ -3,6 +3,15 @@ import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 
 const TestimonialCard = ({ testimonial, index = 0 }) => {
+  const ratingCount = Math.min(5, Math.max(1, Number(testimonial.rating) || 5));
+  const reviewText = testimonial.comment || testimonial.message || testimonial.review || '';
+  const patientName = testimonial.name || testimonial.patient_name || 'Patient';
+  const treatmentText = testimonial.treatment || 'General Dentistry';
+  const avatarUrl =
+    testimonial.avatar ||
+    testimonial.image_url ||
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(patientName)}&background=059669&color=fff&bold=true`;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -16,22 +25,22 @@ const TestimonialCard = ({ testimonial, index = 0 }) => {
       <div>
         {/* Star Rating */}
         <div className="flex items-center gap-1 mb-4">
-          {[...Array(testimonial.rating)].map((_, i) => (
+          {[...Array(ratingCount)].map((_, i) => (
             <Star key={i} className="w-3.5 h-3.5 fill-[#F59E0B] text-[#F59E0B]" />
           ))}
         </div>
 
         {/* Comment */}
         <p className="text-[#24153F] dark:text-white text-sm leading-relaxed mb-6 font-normal">
-          "{testimonial.comment}"
+          "{reviewText}"
         </p>
       </div>
 
       {/* Patient Meta */}
       <div className="flex items-center gap-3 pt-4 border-t border-[#E9E1F2] dark:border-[#5c3974]">
         <img
-          src={testimonial.avatar}
-          alt={`Patient review by ${testimonial.name} - ${testimonial.treatment}`}
+          src={avatarUrl}
+          alt={`Patient review by ${patientName} - ${treatmentText}`}
           loading="lazy"
           width="40"
           height="40"
@@ -39,10 +48,10 @@ const TestimonialCard = ({ testimonial, index = 0 }) => {
         />
         <div>
           <h4 className="font-bold text-[#24153F] dark:text-white text-sm">
-            {testimonial.name}
+            {patientName}
           </h4>
           <p className="text-xs text-[#4B168F] dark:text-[#C6A0FF] font-medium">
-            {testimonial.treatment}
+            {treatmentText}
           </p>
         </div>
       </div>

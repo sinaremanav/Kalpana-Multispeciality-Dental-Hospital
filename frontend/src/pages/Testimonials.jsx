@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { testimonialService } from '../services/testimonialService';
 import TestimonialCard from '../components/TestimonialCard';
+import WriteReviewModal from '../components/WriteReviewModal';
 import CTASection from '../components/CTASection';
 import LoadingState from '../components/LoadingState';
 import ErrorState from '../components/ErrorState';
 import EmptyState from '../components/EmptyState';
-import { Star, MessageSquareQuote } from 'lucide-react';
+import { Star, MessageSquareQuote, PenLine } from 'lucide-react';
 
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   const fetchTestimonials = async () => {
     setLoading(true);
@@ -30,6 +32,12 @@ const Testimonials = () => {
     fetchTestimonials();
   }, []);
 
+  const handleReviewAdded = (newReview) => {
+    if (newReview && newReview.is_published) {
+      setTestimonials((prev) => [newReview, ...prev]);
+    }
+  };
+
   return (
     <div className="pt-20">
       {/* Header Banner */}
@@ -46,15 +54,25 @@ const Testimonials = () => {
           </p>
 
           {/* Rating Summary Bar */}
-          <div className="inline-flex items-center gap-3 bg-white px-5 py-2.5 rounded-full shadow-saas mt-6 border border-[#E2E8F0]">
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-              ))}
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
+            <div className="inline-flex items-center gap-3 bg-white px-5 py-2.5 rounded-full shadow-saas border border-[#E2E8F0]">
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+              <span className="font-bold text-[#0F172A] text-xs sm:text-sm">4.9 / 5.0 Rating</span>
+              <span className="text-[#E2E8F0]">|</span>
+              <span className="text-xs font-semibold text-[#059669]">500+ Patient Feedback Records</span>
             </div>
-            <span className="font-bold text-[#0F172A] text-xs sm:text-sm">4.9 / 5.0 Rating</span>
-            <span className="text-[#E2E8F0]">|</span>
-            <span className="text-xs font-semibold text-[#059669]">Based on 500+ Patient Feedback Records</span>
+
+            <button
+              onClick={() => setIsReviewModalOpen(true)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-[#059669] hover:bg-[#047857] shadow-sm hover:shadow-md transition-all cursor-pointer"
+            >
+              <PenLine className="w-4 h-4" />
+              <span>Write a Review</span>
+            </button>
           </div>
         </div>
       </section>
@@ -81,6 +99,12 @@ const Testimonials = () => {
           )}
         </div>
       </section>
+
+      <WriteReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        onReviewAdded={handleReviewAdded}
+      />
 
       <CTASection />
     </div>
