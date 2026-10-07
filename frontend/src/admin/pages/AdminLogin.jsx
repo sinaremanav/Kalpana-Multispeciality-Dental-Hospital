@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Lock, Mail, AlertCircle, ArrowRight, Loader2, Sparkles, ShieldCheck } from 'lucide-react';
@@ -11,11 +11,21 @@ export const AdminLogin = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { login, isConfigured } = useAuth();
+  const { user, role, loading: authLoading, login, isConfigured } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || '/admin';
+  // If user already has credentials or active session, automatically move to dashboard
+  useEffect(() => {
+    if (!authLoading && user) {
+      const fromPath = location.state?.from?.pathname;
+      const destination =
+        fromPath && fromPath !== '/admin/login' && fromPath !== '/login' && fromPath !== '/staff'
+          ? fromPath
+          : (role === 'doctor' && user?.role !== 'admin' ? '/admin/profile' : '/admin');
+      navigate(destination, { replace: true });
+    }
+  }, [user, role, authLoading, navigate, location.state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,10 +39,13 @@ export const AdminLogin = () => {
 
     try {
       const result = await login(email, password);
-      const destination = result?.profile?.role === 'admin' || result?.user?.role === 'admin'
-        ? '/admin'
-        : '/admin/profile';
-      navigate(location.state?.from?.pathname || destination, { replace: true });
+      const userRole = result?.profile?.role || result?.user?.role || role;
+      const fromPath = location.state?.from?.pathname;
+      const destination =
+        fromPath && fromPath !== '/admin/login' && fromPath !== '/login' && fromPath !== '/staff'
+          ? fromPath
+          : (userRole === 'doctor' && userRole !== 'admin' ? '/admin/profile' : '/admin');
+      navigate(destination, { replace: true });
     } catch (err) {
       setErrorMessage(
         err.message || 'Invalid email or password. Please verify your credentials.'
@@ -41,6 +54,18 @@ export const AdminLogin = () => {
       setLoading(false);
     }
   };
+
+  // If already authenticated or credentials are being verified on mount, show clean loader
+  if (authLoading && (user || localStorage.getItem('admin_token') || localStorage.getItem('admin_user'))) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 animate-spin text-[#059669]" />
+          <p className="text-sm font-semibold text-[#475569]">Verifying credentials...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC]">

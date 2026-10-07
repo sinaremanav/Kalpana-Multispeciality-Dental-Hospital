@@ -56,17 +56,32 @@ export const AuthProvider = ({ children }) => {
     const initializeAuth = async () => {
       try {
         setLoading(true);
-        if (!isSupabaseConfigured) {
-          setLoading(false);
-          return;
+
+        // 1. Verify stored JWT token with backend
+        const token = authService.getToken();
+        if (token) {
+          const { valid, user: verifiedUser } = await authService.verifyToken(token);
+          if (valid && verifiedUser && isMounted) {
+            lastHandledUserId = verifiedUser.id;
+            setUser(verifiedUser);
+            await fetchProfile(verifiedUser);
+            return;
+          }
         }
 
-        const session = await authService.getSession();
-        if (session?.user && isMounted) {
-          lastHandledUserId = session.user.id;
-          setUser(session.user);
-          await fetchProfile(session.user);
-        } else if (isMounted) {
+        // 2. Check Supabase session if configured
+        if (isSupabaseConfigured) {
+          const session = await authService.getSession();
+          if (session?.user && isMounted) {
+            lastHandledUserId = session.user.id;
+            setUser(session.user);
+            await fetchProfile(session.user);
+            return;
+          }
+        }
+
+        // 3. Fallback to cached user if offline
+        if (isMounted) {
           const backendUser = authService.getBackendUser();
           if (backendUser) {
             lastHandledUserId = backendUser.id;
