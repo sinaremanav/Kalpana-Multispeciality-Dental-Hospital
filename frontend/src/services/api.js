@@ -15,8 +15,20 @@ import { authService } from './authService';
 import { storageService } from './storageService';
 import { faqData } from '../data/faq';
 
-export const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'https://kalpana-multispeciality-dental-hospital.onrender.com';
+const getApiBaseUrl = () => {
+  if (typeof window !== 'undefined') {
+    const hostname = window.location.hostname;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return import.meta.env.DEV ? '' : 'http://localhost:5000';
+    }
+  }
+  return (
+    import.meta.env.VITE_API_URL ||
+    'https://kalpana-multispeciality-dental-hospital.onrender.com'
+  );
+};
+
+export const API_BASE_URL = getApiBaseUrl();
 
 export const apiService = {
   // Base URL

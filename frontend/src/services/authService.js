@@ -1,17 +1,24 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'https://kalpana-multispeciality-dental-hospital.onrender.com';
+const getApiBaseUrl = () => {
+  if (typeof window !== 'undefined') {
+    const hostname = window.location.hostname;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return import.meta.env.DEV ? '' : 'http://localhost:5000';
+    }
+  }
+  return (
+    import.meta.env.VITE_API_URL ||
+    'https://kalpana-multispeciality-dental-hospital.onrender.com'
+  );
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 export const authService = {
   /**
    * Log in with Email and Password
    * Supports both Express Backend (with Bcrypt Hashed verification) and Supabase Auth.
-   */
-  /**
-   * Log in with Email and Password
-   * Prioritizes direct Supabase Auth for instant sub-second verification.
-   * Background-syncs backend session tokens non-blockingly to avoid Render free-tier cold-start hangs.
    */
   async signIn(email, password) {
     const trimmedEmail = (email || '').trim().toLowerCase();
@@ -44,9 +51,9 @@ export const authService = {
               id: result.user.id,
               email: result.user.email,
               role: result.user.role,
-              fullName: result.user.fullName,
+              fullName: result.user.fullName || result.user.full_name,
               user_metadata: {
-                full_name: result.user.fullName,
+                full_name: result.user.fullName || result.user.full_name,
                 role: result.user.role,
               },
             },
@@ -166,6 +173,59 @@ export const authService = {
   },
 
   /**
+   * Get currently stored JWT token
+   */
+  getToken() {
+    return localStorage.getItem('admin_token');
+  },
+
+  /**
+   * Verify JWT token with backend /api/auth/verify endpoint
+   */
+  async verifyToken(token = null) {
+    const activeToken = token || this.getToken();
+    if (!activeToken) return { valid: false, user: null };
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/verify`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${activeToken}`,
+        },
+      });
+
+      const data = await response.json().catch(() => null);
+      if (response.ok && data?.success && data?.user) {
+        localStorage.setItem('admin_user', JSON.stringify(data.user));
+        return {
+          valid: true,
+          user: {
+            id: data.user.id,
+            email: data.user.email,
+            role: data.user.role,
+            fullName: data.user.fullName || data.user.full_name,
+            user_metadata: {
+              full_name: data.user.fullName || data.user.full_name,
+              role: data.user.role,
+            },
+          },
+        };
+      } else {
+        // Token is expired or invalid
+        localStorage.removeItem('admin_token');
+        localStorage.removeItem('admin_user');
+        return { valid: false, user: null };
+      }
+    } catch (err) {
+      console.warn('JWT verification request error:', err.message);
+      // Offline fallback: check stored backend user
+      const stored = this.getBackendUser();
+      return { valid: Boolean(stored), user: stored };
+    }
+  },
+
+  /**
    * Get current stored backend user if any
    */
   getBackendUser() {
@@ -178,8 +238,9 @@ export const authService = {
           id: parsed.id,
           email: parsed.email,
           role: parsed.role,
+          fullName: parsed.fullName || parsed.full_name,
           user_metadata: {
-            full_name: parsed.fullName,
+            full_name: parsed.fullName || parsed.full_name,
             role: parsed.role,
           },
         };
@@ -236,6 +297,23 @@ export const authService = {
     const cacheKey = `${userId || ''}_${email || ''}`;
     if (this._profileCache.has(cacheKey)) {
       return this._profileCache.get(cacheKey);
+    }
+
+    // Check stored backend user first for fast response
+    const storedBackend = this.getBackendUser();
+    if (
+      storedBackend &&
+      (storedBackend.id === userId ||
+        (email && storedBackend.email?.toLowerCase() === email.toLowerCase()))
+    ) {
+      const profile = {
+        user_id: storedBackend.id,
+        full_name: storedBackend.user_metadata?.full_name || storedBackend.fullName,
+        email: storedBackend.email,
+        role: storedBackend.role,
+      };
+      this._profileCache.set(cacheKey, profile);
+      return profile;
     }
 
     if (isSupabaseConfigured) {

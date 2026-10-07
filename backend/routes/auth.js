@@ -1,6 +1,9 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import crypto from 'node:crypto';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import dotenv from 'dotenv';
 import { supabase, isSupabaseConfigured } from '../lib/supabase.js';
 import {
   hashPassword,
@@ -8,10 +11,19 @@ import {
   validatePasswordStrength,
 } from '../lib/passwordUtils.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Ensure environment variables are loaded
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+dotenv.config();
+
 const router = express.Router();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'kalpana-dental-clinic-jwt-secret-key-2026';
-const JWT_EXPIRES_IN = '7d';
+export const getJwtSecret = () =>
+  process.env.JWT_SECRET || 'kalpana_dental_secure_jwt_token_secret_key_2026';
+export const JWT_EXPIRES_IN = '7d';
 
 /**
  * In-memory fallback user store when offline or testing without database.
@@ -146,12 +158,15 @@ router.post('/register', async (req, res) => {
     // 5. Generate authentication token
     const token = jwt.sign(
       {
+        id: newUserRecord.id,
         userId: newUserRecord.id,
+        sub: newUserRecord.id,
         email: newUserRecord.email,
         role: newUserRecord.role,
         name: newUserRecord.full_name,
+        fullName: newUserRecord.full_name,
       },
-      JWT_SECRET,
+      getJwtSecret(),
       { expiresIn: JWT_EXPIRES_IN }
     );
 
@@ -227,12 +242,15 @@ router.post('/login', async (req, res) => {
     // 3. Issue signed JWT token
     const token = jwt.sign(
       {
+        id: user.id,
         userId: user.id,
+        sub: user.id,
         email: user.email,
         role: user.role,
         name: user.full_name,
+        fullName: user.full_name,
       },
-      JWT_SECRET,
+      getJwtSecret(),
       { expiresIn: JWT_EXPIRES_IN }
     );
 
@@ -272,6 +290,46 @@ router.post('/login', async (req, res) => {
 });
 
 /**
+ * Helper to verify JWT token from either backend or Supabase
+ */
+export async function verifyAnyToken(token) {
+  if (!token) throw new Error('Token is required');
+
+  // 1. Try local JWT
+  try {
+    const decoded = jwt.verify(token, getJwtSecret());
+    return {
+      decoded,
+      source: 'local_jwt',
+      id: decoded.id || decoded.userId || decoded.sub,
+      email: decoded.email,
+      role: decoded.role || 'admin',
+      fullName: decoded.fullName || decoded.name || 'Admin User',
+    };
+  } catch (localErr) {
+    // 2. Try Supabase JWT if configured
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const { data: { user: sbUser }, error: sbErr } = await supabase.auth.getUser(token);
+        if (!sbErr && sbUser) {
+          return {
+            decoded: sbUser,
+            source: 'supabase_auth',
+            id: sbUser.id,
+            email: sbUser.email,
+            role: sbUser.user_metadata?.role || 'admin',
+            fullName: sbUser.user_metadata?.full_name || sbUser.email?.split('@')[0],
+          };
+        }
+      } catch (sbException) {
+        // Fall through to throw original error
+      }
+    }
+    throw localErr;
+  }
+}
+
+/**
  * GET /api/auth/verify
  * Validates JWT token from Bearer header and returns user details.
  */
@@ -287,33 +345,78 @@ router.get('/verify', async (req, res) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const { user } = await findUserByEmail(decoded.email);
+    const verified = await verifyAnyToken(token);
 
-    if (!user || !user.is_active) {
-      return res.status(401).json({
-        success: false,
-        message: 'User session is invalid or user was removed.',
-      });
+    // Verify user is active if registered in database or memory
+    if (verified.email) {
+      const { user } = await findUserByEmail(verified.email);
+      if (user && user.is_active === false) {
+        return res.status(403).json({
+          success: false,
+          message: 'User account is deactivated.',
+        });
+      }
+      if (user) {
+        return res.status(200).json({
+          success: true,
+          valid: true,
+          user: {
+            id: user.id,
+            fullName: user.full_name,
+            email: user.email,
+            role: user.role,
+          },
+          source: verified.source,
+        });
+      }
     }
 
     return res.status(200).json({
       success: true,
+      valid: true,
       user: {
-        id: user.id,
-        fullName: user.full_name,
-        email: user.email,
-        role: user.role,
+        id: verified.id,
+        fullName: verified.fullName,
+        email: verified.email,
+        role: verified.role,
       },
+      source: verified.source,
     });
   } catch (err) {
     return res.status(401).json({
       success: false,
+      valid: false,
       message: 'Token is invalid or expired.',
       error: err.message,
     });
   }
 });
+
+/**
+ * Express Middleware to protect endpoints with JWT authentication
+ */
+export async function authenticateJWT(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({
+      success: false,
+      message: 'Access denied. No authentication token provided.',
+    });
+  }
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const verified = await verifyAnyToken(token);
+    req.user = verified;
+    return next();
+  } catch (err) {
+    return res.status(401).json({
+      success: false,
+      message: 'Invalid or expired authentication token.',
+      error: err.message,
+    });
+  }
+}
 
 /**
  * POST /api/auth/change-password
