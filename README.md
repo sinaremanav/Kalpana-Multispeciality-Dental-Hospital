@@ -4,7 +4,7 @@ A modern, production-ready dental clinic management and patient portal platform 
 
 ---
 
-## 🌟 Architecture & Features
+## 🌟 Architecture & Features 
 
 ### 🏥 Patient Portal (Public Website)
 - **Home**: Dynamic Hero section, clinic stats, lead surgeon highlight, featured dental treatments, patient reviews, and upcoming camp alerts.
