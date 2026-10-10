@@ -162,7 +162,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center justify-end xl:justify-center gap-1 xl:gap-2 flex-1 min-w-0 pr-2">
+          <nav className="hidden lg:flex flex-1 min-w-0 items-center justify-evenly gap-0.5 xl:gap-1 px-1">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
