@@ -78,7 +78,7 @@ const Home = () => {
       <SEO page="home" schema={[getLocalBusinessSchema(), getWebSiteSchema()]} />
 
       {/* 1. HERO SECTION */}
-      <section className="relative py-20 md:py-28 hero-gradient overflow-hidden border-b border-[#E2E8F0]/60 dark:border-slate-800/60">
+      <section className="relative py-20 md:py-28 hero-gradient overflow-hidden border-b border-[#E2E8F0]/60 dark:border-[#49315F]/60">
         <div className="absolute top-0 right-0 -mt-20 -mr-20 w-72 h-72 bg-[#A96BFF]/20 dark:bg-[#A96BFF]/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-[#DCC8FF]/40 dark:bg-[#4B168F]/20 rounded-full blur-3xl pointer-events-none"></div>
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -90,18 +90,18 @@ const Home = () => {
               transition={{ duration: 0.5 }}
               className="lg:col-span-7 space-y-6 text-left"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EDE3FF] dark:bg-[#32164D] border border-[#DCC8FF] dark:border-[#5c3974] text-[#4B168F] dark:text-[#E9DDFF] text-xs font-semibold">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EDE3FF] dark:bg-[#32164D] border border-[#DCC8FF] dark:border-[#49315F] text-[#4B168F] dark:text-[#E9DDFF] text-xs font-semibold">
                 <Sparkles className="w-3.5 h-3.5 text-[#A96BFF] dark:text-[#C6A0FF]" />
                 <span>Trusted Healthcare • Advanced Medical Care</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-extrabold !text-[#0F2D3D] dark:!text-slate-100 tracking-[-0.035em] leading-[1.12] transition-colors duration-500">
+              <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-extrabold !text-[#0F2D3D] dark:!text-[#F8F5FF] tracking-[-0.035em] leading-[1.12] transition-colors duration-500">
                 Healthy Smile. <br />
                 <span className="creative-gradient-text transition-colors duration-500">Confident You.</span>
                 <span className="sr-only"> — Comprehensive Dental Care at Kalpana Multispeciality Dental Hospital Kopargaon</span>
               </h1>
 
-              <p className="text-base sm:text-lg !text-[#36566D] dark:!text-sky-100 max-w-xl leading-relaxed font-normal transition-colors duration-500">
+              <p className="text-base sm:text-lg !text-[#36566D] dark:!text-[#C7BBD9] max-w-xl leading-relaxed font-normal transition-colors duration-500">
                 {clinic.subTagline || fallbackConfig.subTagline}
               </p>
 
@@ -137,7 +137,7 @@ const Home = () => {
               </div>
 
               {/* Trust Indicators */}
-              <div className="pt-6 border-t border-[#E9E1F2] dark:border-[#5c3974] flex flex-wrap items-center gap-6 text-xs text-[#81758F] dark:text-[#D9BFFF] font-medium">
+              <div className="pt-6 border-t border-[#E9E1F2] dark:border-[#49315F] flex flex-wrap items-center gap-6 text-xs text-[#81758F] dark:text-[#D9BFFF] font-medium">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#A96BFF] dark:text-[#C6A0FF]" />
                   <span>Experienced Doctors</span>
@@ -161,7 +161,7 @@ const Home = () => {
               className="lg:col-span-5 relative"
             >
               <div className="relative mx-auto max-w-md lg:max-w-none">
-                <div className="relative rounded-[32px] overflow-hidden bg-gradient-to-b from-[#EDE3FF] to-white dark:from-[#32164D] dark:to-[#120C22] border border-[#E9E1F2] dark:border-[#5c3974] shadow-[0_20px_50px_rgba(53,18,117,0.14)] dark-glow-shadow">
+                <div className="relative rounded-[32px] overflow-hidden bg-gradient-to-b from-[#EDE3FF] to-white dark:from-[#32164D] dark:to-[#120C22] border border-[#E9E1F2] dark:border-[#49315F] shadow-[0_20px_50px_rgba(53,18,117,0.14)] dark-glow-shadow">
                   <img
                     src={mainDoctor.image_url || mainDoctor.image || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=800'}
                     alt={`${mainDoctor.name} - Chief Dental Surgeon at Kalpana Multispeciality Dental Hospital Kopargaon`}
@@ -172,17 +172,17 @@ const Home = () => {
                   />
 
                   {/* Doctor Info Floating Card */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-slate-900/90 backdrop-blur-md p-4 rounded-2xl border border-[#E2E8F0] dark:border-slate-700 shadow-saas">
+                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-[#211438]/90 backdrop-blur-md p-4 rounded-2xl border border-[#E2E8F0] dark:border-[#49315F] shadow-saas">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-bold text-[#0F172A] dark:text-white text-sm sm:text-base">
+                        <h3 className="font-bold text-[#0F172A] dark:text-[#F8F5FF] text-sm sm:text-base">
                           {mainDoctor.name}
                         </h3>
-                        <p className="text-xs text-[#059669] dark:text-emerald-400 font-semibold mt-0.5">
+                        <p className="text-xs text-[#059669] dark:text-[#D9BFFF] font-semibold mt-0.5">
                           {mainDoctor.qualification}
                         </p>
                       </div>
-                      <span className="text-[11px] font-bold bg-[#ECFDF5] dark:bg-slate-800 text-[#059669] dark:text-emerald-400 px-2.5 py-1 rounded-md border border-[#D1FAE5] dark:border-slate-700">
+                      <span className="text-[11px] font-bold bg-[#ECFDF5] dark:bg-[#291943] text-[#059669] dark:text-[#A96BFF] px-2.5 py-1 rounded-md border border-[#D1FAE5] dark:border-[#49315F]">
                         Lead Surgeon
                       </span>
                     </div>
@@ -196,15 +196,15 @@ const Home = () => {
 
       {/* 2. UPCOMING CAMPS & EVENTS BANNER (If available) */}
       {upcomingEvents.length > 0 && (
-        <section className="py-4 bg-[#ECFDF5] dark:bg-slate-800/80 border-b border-[#D1FAE5] dark:border-slate-700">
+        <section className="py-4 bg-[#ECFDF5] dark:bg-[#211438] border-b border-[#D1FAE5] dark:border-[#49315F]">
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2 text-[#065F46] dark:text-emerald-300 font-semibold">
-              <Sparkles className="w-4 h-4 text-[#059669] dark:text-emerald-400 shrink-0" />
+            <div className="flex items-center gap-2 text-[#065F46] dark:text-[#D9BFFF] font-semibold">
+              <Sparkles className="w-4 h-4 text-[#059669] dark:text-[#A96BFF] shrink-0" />
               <span>Upcoming Dental Camp: <strong>{upcomingEvents[0].title}</strong> on {upcomingEvents[0].event_date}</span>
             </div>
             <Link
               to="/events"
-              className="font-bold text-[#059669] dark:text-emerald-400 hover:underline flex items-center gap-1 shrink-0"
+              className="font-bold text-[#059669] dark:text-[#A96BFF] hover:underline flex items-center gap-1 shrink-0"
             >
               View Camp Details <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -213,7 +213,7 @@ const Home = () => {
       )}
 
       {/* 3. KEY CLINIC STATS */}
-      <section className="py-12 bg-white dark:bg-slate-900 border-b border-[#E2E8F0] dark:border-slate-800">
+      <section className="py-12 bg-white dark:bg-[#1A1030] border-b border-[#E2E8F0] dark:border-[#49315F]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
@@ -238,12 +238,12 @@ const Home = () => {
                 sub: '5-Star Clinical Feedback',
               },
             ].map((stat, i) => (
-              <div key={i} className="p-4 rounded-2xl bg-[#F8FAFC] dark:bg-slate-800 border border-[#E2E8F0] dark:border-slate-700 dark-glow-shadow">
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#059669] dark:text-emerald-400 tracking-tight">
+              <div key={i} className="p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#211438] border border-[#E2E8F0] dark:border-[#49315F] dark-glow-shadow">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#059669] dark:text-[#A96BFF] tracking-tight">
                   {stat.number}
                 </div>
-                <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white mt-1 transition-colors duration-500">{stat.label}</div>
-                <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5 transition-colors duration-500">{stat.sub}</div>
+                <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-[#F8F5FF] mt-1 transition-colors duration-500">{stat.label}</div>
+                <div className="text-[11px] text-slate-600 dark:text-[#C7BBD9] mt-0.5 transition-colors duration-500">{stat.sub}</div>
               </div>
             ))}
           </div>
@@ -251,7 +251,7 @@ const Home = () => {
       </section>
 
       {/* 4. SERVICES PREVIEW */}
-      <section className="py-20 md:py-28 bg-[#F8FAFC] dark:bg-slate-900/50">
+      <section className="py-20 md:py-28 bg-[#F8FAFC] dark:bg-[#120C22]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
             badge="Clinical Treatments"
@@ -274,12 +274,12 @@ const Home = () => {
       </section>
 
       {/* 5. ABOUT DOCTOR HIGHLIGHT */}
-      <section className="py-20 md:py-28 bg-white dark:bg-slate-900">
+      <section className="py-20 md:py-28 bg-white dark:bg-[#1A1030]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Image */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-3xl overflow-hidden shadow-saas dark-glow-shadow border border-[#E2E8F0] dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+              <div className="relative rounded-3xl overflow-hidden shadow-saas dark-glow-shadow border border-[#E2E8F0] dark:border-[#49315F] bg-slate-50 dark:bg-[#211438]">
                 <img
                   src={mainDoctor.image_url || mainDoctor.image || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=800'}
                   alt={`${mainDoctor.name} - Chief Dental Surgeon & Founder at Kalpana Multispeciality Dental Hospital`}
@@ -288,37 +288,37 @@ const Home = () => {
                   loading="lazy"
                   className="w-full h-[420px] sm:h-[460px] object-cover object-top"
                 />
-                <div className="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-slate-900/90 backdrop-blur-md p-4 rounded-xl border border-[#E2E8F0] dark:border-slate-700">
-                  <h4 className="font-bold text-[#0F172A] dark:text-white text-sm">{mainDoctor.name}</h4>
-                  <p className="text-xs text-[#059669] dark:text-emerald-400 font-medium">{mainDoctor.qualification}</p>
+                <div className="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-[#211438]/90 backdrop-blur-md p-4 rounded-xl border border-[#E2E8F0] dark:border-[#49315F]">
+                  <h4 className="font-bold text-[#0F172A] dark:text-[#F8F5FF] text-sm">{mainDoctor.name}</h4>
+                  <p className="text-xs text-[#059669] dark:text-[#D9BFFF] font-medium">{mainDoctor.qualification}</p>
                 </div>
               </div>
             </div>
 
             {/* Right Text */}
             <div className="lg:col-span-7 space-y-6">
-              <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold tracking-wider text-[#059669] dark:text-emerald-400 bg-[#ECFDF5] dark:bg-slate-800 rounded-full border border-[#D1FAE5] dark:border-slate-700 uppercase">
+              <span className="inline-flex items-center px-3.5 py-1 text-xs font-semibold tracking-wider text-[#059669] dark:text-[#D9BFFF] bg-[#ECFDF5] dark:bg-[#291943] rounded-full border border-[#D1FAE5] dark:border-[#49315F] uppercase">
                 ABOUT OUR CHIEF SURGEON
               </span>
 
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight transition-colors duration-500">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-[#F8F5FF] tracking-tight leading-tight transition-colors duration-500">
                 Dedicated to Crafting Your Healthy, Confident Smile
               </h2>
 
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-base transition-colors duration-500">
+              <p className="text-slate-600 dark:text-[#C7BBD9] leading-relaxed text-base transition-colors duration-500">
                 {mainDoctor.bio || clinic.aboutText || fallbackConfig.aboutText}
               </p>
 
               <div className="grid grid-cols-2 gap-4 pt-2">
-                <div className="bg-[#F8FAFC] dark:bg-slate-800 p-4 rounded-xl border border-[#E2E8F0] dark:border-slate-700">
-                  <h4 className="text-2xl font-extrabold text-[#059669] dark:text-emerald-400">{mainDoctor.experience || '4+ Years'}</h4>
-                  <p className="text-xs text-[#64748B] dark:text-slate-400 mt-0.5">Clinical Practice</p>
+                <div className="bg-[#F8FAFC] dark:bg-[#211438] p-4 rounded-xl border border-[#E2E8F0] dark:border-[#49315F]">
+                  <h4 className="text-2xl font-extrabold text-[#059669] dark:text-[#A96BFF]">{mainDoctor.experience || '4+ Years'}</h4>
+                  <p className="text-xs text-[#64748B] dark:text-[#C7BBD9] mt-0.5">Clinical Practice</p>
                 </div>
-                <div className="bg-[#F8FAFC] dark:bg-slate-800 p-4 rounded-xl border border-[#E2E8F0] dark:border-slate-700">
-                  <h4 className="text-2xl font-extrabold text-[#059669] dark:text-emerald-400">
+                <div className="bg-[#F8FAFC] dark:bg-[#211438] p-4 rounded-xl border border-[#E2E8F0] dark:border-[#49315F]">
+                  <h4 className="text-2xl font-extrabold text-[#059669] dark:text-[#A96BFF]">
                     {clinic.stats?.satisfactionRate || fallbackConfig.stats.satisfactionRate}
                   </h4>
-                  <p className="text-xs text-[#64748B] dark:text-slate-400 mt-0.5">Patient Satisfaction</p>
+                  <p className="text-xs text-[#64748B] dark:text-[#C7BBD9] mt-0.5">Patient Satisfaction</p>
                 </div>
               </div>
 
@@ -333,7 +333,7 @@ const Home = () => {
       </section>
 
       {/* 6. GALLERY PREVIEW */}
-      <section className="py-20 md:py-28 bg-white border-t border-[#E2E8F0]">
+      <section className="py-20 md:py-28 bg-white dark:bg-[#120C22] border-t border-[#E2E8F0] dark:border-[#49315F]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
             badge="Hospital Facilities"
@@ -352,7 +352,7 @@ const Home = () => {
       </section>
 
       {/* 7. UNIFIED REVIEWS & FAQS SECTION */}
-      <section className="py-20 md:py-28 bg-[#F8FAFC] border-t border-[#E2E8F0]">
+      <section className="py-20 md:py-28 bg-[#F8FAFC] dark:bg-[#1A1030] border-t border-[#E2E8F0] dark:border-[#49315F]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
             badge="Patient Trust & Help Center"
@@ -363,20 +363,20 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mt-12">
             {/* Left 6 cols: Patient Reviews */}
             <div className="lg:col-span-6 space-y-5">
-              <div className="flex items-center justify-between bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-xs">
+              <div className="flex items-center justify-between bg-white dark:bg-[#211438] p-4 rounded-xl border border-[#E2E8F0] dark:border-[#49315F] shadow-xs">
                 <div className="flex items-center gap-2.5">
                   <div className="flex items-center text-amber-400">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-amber-400" />
                     ))}
                   </div>
-                  <span className="text-xs sm:text-sm font-bold text-[#0F172A]">
+                  <span className="text-xs sm:text-sm font-bold text-[#0F172A] dark:text-[#F8F5FF]">
                     4.9 / 5.0 Rating (500+ Patients)
                   </span>
                 </div>
                 <Link
                   to="/reviews-faqs"
-                  className="text-xs font-bold text-[#059669] hover:text-[#047857] flex items-center gap-1 shrink-0"
+                  className="text-xs font-bold text-[#059669] dark:text-[#A96BFF] hover:text-[#047857] dark:hover:text-[#D9BFFF] flex items-center gap-1 shrink-0"
                 >
                   <span>View All</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -393,12 +393,12 @@ const Home = () => {
             {/* Right 6 cols: FAQ Accordion */}
             <div className="lg:col-span-6 space-y-3.5">
               <div className="flex items-center justify-between px-1 mb-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#059669]">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#059669] dark:text-[#A96BFF]">
                   Common Questions
                 </span>
                 <Link
                   to="/reviews-faqs"
-                  className="text-xs font-bold text-[#059669] hover:text-[#047857] flex items-center gap-1"
+                  className="text-xs font-bold text-[#059669] dark:text-[#A96BFF] hover:text-[#047857] dark:hover:text-[#D9BFFF] flex items-center gap-1"
                 >
                   <span>View Full FAQ</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -411,22 +411,22 @@ const Home = () => {
                   return (
                     <div
                       key={index}
-                      className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-xs"
+                      className="bg-white dark:bg-[#211438] rounded-xl border border-[#E2E8F0] dark:border-[#49315F] overflow-hidden shadow-xs"
                     >
                       <button
                         onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                        className="w-full p-4 text-left font-bold text-[#0F172A] text-sm sm:text-base flex items-center justify-between gap-3 hover:text-[#059669] transition-colors cursor-pointer"
+                        className="w-full p-4 text-left font-bold text-[#0F172A] dark:text-[#F8F5FF] text-sm sm:text-base flex items-center justify-between gap-3 hover:text-[#059669] dark:hover:text-[#A96BFF] transition-colors cursor-pointer"
                       >
                         <span>{faq.question}</span>
                         <ChevronDown
-                          className={`w-4 h-4 text-[#059669] shrink-0 transition-transform duration-250 ${
+                          className={`w-4 h-4 text-[#059669] dark:text-[#A96BFF] shrink-0 transition-transform duration-250 ${
                             isOpen ? 'rotate-180' : ''
                           }`}
                         />
                       </button>
 
                       {isOpen && (
-                        <div className="px-4 pb-4 text-[#475569] text-xs sm:text-sm leading-relaxed border-t border-[#E2E8F0]/60 pt-2.5 animate-fade-in">
+                        <div className="px-4 pb-4 text-[#475569] dark:text-[#C7BBD9] text-xs sm:text-sm leading-relaxed border-t border-[#E2E8F0]/60 dark:border-[#49315F]/60 pt-2.5 animate-fade-in">
                           {faq.answer}
                         </div>
                       )}

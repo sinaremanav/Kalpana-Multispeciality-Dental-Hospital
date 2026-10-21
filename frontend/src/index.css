@@ -29,8 +29,8 @@ body {
 }
 
 .dark body {
-  background: linear-gradient(135deg, #120c22 0%, #21113e 55%, #32164d 100%);
-  color: #f4fbfa;
+  background: #120C22;
+  color: #F8F5FF;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -47,7 +47,7 @@ h1, h2, h3, h4, h5, h6 {
 .dark .hero-gradient {
   background:
     radial-gradient(circle at 84% 18%, rgba(169, 107, 255, 0.2), transparent 30%),
-    linear-gradient(135deg, #120c22 0%, #21113e 55%, #32164d 100%);
+    linear-gradient(135deg, #120C22 0%, #1A1030 55%, #211438 100%);
 }
 
 .hero-gradient h1 {
@@ -59,11 +59,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .dark .hero-gradient h1 {
-  color: #f4fbfa !important;
+  color: #F8F5FF !important;
 }
 
 .dark .hero-gradient p {
-  color: #e9ddff !important;
+  color: #C7BBD9 !important;
 }
 
 .peak-container {
@@ -90,9 +90,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .dark .peak-card {
-  background: #1E293B;
-  border-color: #334155;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  background: #211438;
+  border-color: #49315F;
+  box-shadow: 0 4px 24px rgba(18, 12, 34, 0.4);
 }
 
 .peak-card:hover {
@@ -102,21 +102,50 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .dark .peak-card:hover {
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
-  border-color: #475569;
+  background: #291943;
+  box-shadow: 0 14px 36px rgba(18, 12, 34, 0.6);
+  border-color: #6B478B;
 }
 
-.dark .bg-white,
+.dark .bg-white {
+  background-color: #211438;
+}
+
 .dark .bg-white\/95 {
-  background-color: #102f3b !important;
+  background-color: rgba(33, 20, 56, 0.95);
+}
+
+.dark .bg-slate-900 {
+  background-color: #1A1030;
+}
+
+.dark .bg-slate-800 {
+  background-color: #211438;
+}
+
+.dark .bg-slate-800\/80 {
+  background-color: rgba(33, 20, 56, 0.8);
+}
+
+.dark .border-slate-800,
+.dark .border-slate-700 {
+  border-color: #49315F;
 }
 
 .dark .text-slate-900 {
-  color: #fffaff !important;
+  color: #F8F5FF !important;
 }
 
 .dark .text-slate-600 {
-  color: #e9ddff !important;
+  color: #C7BBD9 !important;
+}
+
+.dark .text-slate-700 {
+  color: #C7BBD9 !important;
+}
+
+.dark .text-slate-800 {
+  color: #F8F5FF !important;
 }
 
 .peak-card-lg {
@@ -152,8 +181,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .dark .glass-card {
-  background: rgba(30, 41, 59, 0.75);
-  border-color: rgba(51, 65, 85, 0.8);
+  background: rgba(33, 20, 56, 0.85);
+  border-color: rgba(73, 49, 95, 0.8);
 }
 
 .shadow-saas {
@@ -206,7 +235,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: box-shadow 0.3s ease;
 }
 .dark .dark-glow-shadow:hover {
-  box-shadow: 0 0 20px rgba(52, 211, 153, 0.2);
+  box-shadow: 0 0 24px rgba(169, 107, 255, 0.28);
 }
 
 /* Keep legacy page markup aligned with the shared purple system. */
@@ -226,10 +255,15 @@ h1, h2, h3, h4, h5, h6 {
 .dark [class~="text-[#059669]"],
 .dark [class~="text-[#047857]"],
 .dark [class~="text-[#065F46]"] { color: #D9BFFF !important; }
-.dark [class~="text-[#0F172A]"],
-.dark [class~="text-[#475569]"] { color: #F8F3FF !important; }
-.dark [class~="bg-[#ECFDF5]"],
-.dark [class~="bg-[#F8FAFC]"] { background-color: #21113E !important; }
+.dark [class~="text-[#0F172A]"] { color: #F8F5FF !important; }
+.dark [class~="text-[#475569]"],
+.dark [class~="text-[#64748B]"] { color: #C7BBD9 !important; }
+.dark [class~="bg-[#059669]"] { background-color: #351275 !important; }
+.dark [class~="bg-[#ECFDF5]"] { background-color: #291943 !important; }
+.dark [class~="bg-[#F8FAFC]"] { background-color: #1A1030 !important; }
+.dark [class~="border-[#A7F3D0]"],
+.dark [class~="border-[#D1FAE5]"],
+.dark [class~="border-[#E2E8F0]"] { border-color: #49315F !important; }
 
 /* Keep editorial grids readable until there is enough room for two columns. */
 @media (max-width: 1279px) {
