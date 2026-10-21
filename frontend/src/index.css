@@ -244,36 +244,5 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .public-navbar {
-    padding-bottom: 48px;
-  }
 
-  .public-navbar nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    height: 48px;
-    padding: 0 1rem;
-    background: rgba(255, 255, 255, 0.96);
-    border-top: 1px solid #e9e1f2;
-    border-bottom: 1px solid #e9e1f2;
-    backdrop-filter: blur(14px);
-    overflow-x: auto;
-    justify-content: flex-start;
-    gap: 0.25rem;
-  }
-
-  .dark .public-navbar nav {
-    background: rgba(18, 12, 34, 0.96);
-    border-color: #5c3974;
-  }
-}
-
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .public-navbar .medium-optional {
-    display: none;
-  }
-}
 

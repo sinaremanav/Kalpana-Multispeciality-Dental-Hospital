@@ -28,9 +28,9 @@ import Button from './Button';
 import { useTheme } from '../context/ThemeContext';
 
 const languages = [
-  { code: 'en', label: 'English', native: 'English' },
-  { code: 'mr', label: 'Marathi', native: 'मराठी' },
-  { code: 'hi', label: 'Hindi', native: 'हिंदी' },
+  { code: 'en', label: 'English', native: 'English', short: 'EN' },
+  { code: 'mr', label: 'Marathi', native: 'मराठी', short: 'मरा' },
+  { code: 'hi', label: 'Hindi', native: 'हिंदी', short: 'हिं' },
 ];
 
 const navLinks = [
@@ -140,60 +140,67 @@ const Navbar = () => {
     <header
       className={`public-navbar fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/95 dark:bg-[#120C22]/95 backdrop-blur-md shadow-[0_8px_28px_rgba(53,18,117,0.08)] py-3.5 border-b border-[#E9E1F2] dark:border-[#5c3974]'
-          : 'bg-white/90 dark:bg-[#120C22]/90 backdrop-blur-xs py-4 border-b border-[#E9E1F2]/80 dark:border-[#5c3974]/80'
+          ? 'bg-white/95 dark:bg-[#120C22]/95 backdrop-blur-md shadow-[0_4px_24px_rgba(53,18,117,0.08)] py-2.5 border-b border-[#E9E1F2] dark:border-[#5c3974]'
+          : 'bg-white/95 dark:bg-[#120C22]/95 backdrop-blur-md py-3 border-b border-[#E9E1F2]/80 dark:border-[#5c3974]/80'
       }`}
     >
-      <div className="max-w-[1320px] mx-auto px-3 sm:px-5 lg:px-6">
-        <div className="flex items-center justify-between gap-2 xl:gap-3 h-12">
-          {/* Logo & Clinic Name */}
-          <Link to="/" className="flex items-center gap-2 group shrink-0 min-w-0">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center shrink-0">
-              <img src={logo} alt="Kalpana Multispeciality Dental Hospital logo" className="object-contain w-full h-full" />
+      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-8 2xl:px-12 mx-auto">
+        <div className="flex items-center justify-between gap-3 xl:gap-4 2xl:gap-6 h-12">
+          {/* Section 1: Brand (Hospital logo & clinic name) */}
+          <Link
+            to="/"
+            className="flex items-center gap-2.5 sm:gap-3 group shrink-0 min-w-0 max-w-[260px] xl:max-w-[280px] 2xl:max-w-[340px]"
+          >
+            <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center">
+              <img
+                src={logo}
+                alt="Kalpana Multispeciality Dental Hospital logo"
+                className="object-contain w-full h-full"
+              />
             </div>
             <div className="min-w-0">
-              <span className="text-xs sm:text-sm xl:text-base font-bold tracking-tight text-[#24153F] dark:text-white group-hover:text-[#4B168F] dark:group-hover:text-[#C6A0FF] transition-colors block leading-tight whitespace-nowrap">
+              <span className="text-sm sm:text-[15px] font-bold tracking-tight text-[#24153F] dark:text-white group-hover:text-[#4B168F] dark:group-hover:text-[#C6A0FF] transition-colors block leading-tight truncate">
                 {clinic.clinicName || fallbackConfig.clinicName}
               </span>
-              <span className="text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-[#81758F] dark:text-[#D9BFFF] block leading-none mt-0.5 whitespace-nowrap">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[#81758F] dark:text-[#D9BFFF] block leading-tight mt-0.5 truncate">
                 Multispeciality Care • Kopargaon
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex flex-1 min-w-0 items-center justify-evenly gap-0.5 xl:gap-1 px-1">
+          {/* Section 2: Desktop Navigation Links */}
+          <nav className="hidden xl:flex flex-1 items-center justify-center gap-1 xl:gap-1.5 2xl:gap-2.5 min-w-0 px-1">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
-                  `inline-flex items-center justify-center px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-semibold tracking-normal rounded-lg transition-all duration-150 whitespace-nowrap ${
+                  `inline-flex shrink-0 items-center justify-center gap-1.5 px-2 xl:px-2 2xl:px-3 py-1.5 text-xs 2xl:text-[13px] font-semibold tracking-normal rounded-lg transition-all duration-150 whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A96BFF] ${
                     isActive
-                      ? 'text-[#4B168F] dark:text-[#E9DDFF] bg-[#EDE3FF] dark:bg-[#32164D] font-bold shadow-2xs'
+                      ? 'text-[#4B168F] dark:text-[#E9DDFF] bg-[#EDE3FF] dark:bg-[#32164D] font-bold shadow-xs'
                       : 'text-[#5D5271] dark:text-[#D9BFFF] hover:text-[#24153F] dark:hover:text-white hover:bg-[#F8F2FF] dark:hover:bg-[#32164D]'
                   }`
                 }
               >
-                {link.name}
+                <link.icon className="w-3.5 h-3.5 2xl:w-4 2xl:h-4 shrink-0" aria-hidden="true" />
+                <span>{link.name}</span>
               </NavLink>
             ))}
           </nav>
 
-          {/* Desktop Right CTA (Language, Theme, Login, Book) */}
-          <div className="hidden lg:flex items-center gap-1.5 xl:gap-2.5 shrink-0 whitespace-nowrap pl-3.5 xl:pl-5 ml-2 xl:ml-3 border-l border-[#E9E1F2] dark:border-[#5c3974]">
-            {/* Desktop Language Switcher */}
+          {/* Section 3: Desktop Right Controls & CTA */}
+          <div className="hidden xl:flex items-center gap-2 xl:gap-2 2xl:gap-2.5 shrink-0 whitespace-nowrap pl-2 xl:pl-3 ml-1 xl:ml-2 border-l border-[#E9E1F2] dark:border-[#5c3974]">
+            {/* Desktop Language Dropdown */}
             <div className="relative" ref={langDropdownRef}>
               <button
                 type="button"
                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                className="inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 text-xs font-semibold text-[#4B168F] dark:text-[#E9DDFF] hover:bg-[#EDE3FF] dark:hover:bg-[#32164D] rounded-lg transition-colors border border-[#DCC8FF] dark:border-[#5c3974]"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-[#4B168F] dark:text-[#E9DDFF] hover:bg-[#EDE3FF] dark:hover:bg-[#32164D] rounded-lg transition-colors border border-[#DCC8FF] dark:border-[#5c3974]"
                 aria-label="Change language"
                 title="Change language / भाषा बदला"
               >
-                <Languages className="w-3.5 h-3.5 text-[#4B168F] dark:text-[#C6A0FF]" />
-                <span className="hidden xl:inline">{languages.find((l) => l.code === language)?.native || 'English'}</span>
-                <span className="xl:hidden">{languages.find((l) => l.code === language)?.short || 'EN'}</span>
+                <Languages className="w-3.5 h-3.5 text-[#4B168F] dark:text-[#C6A0FF] shrink-0" />
+                <span>{languages.find((l) => l.code === language)?.native || 'English'}</span>
                 <ChevronDown
                   className={`w-3 h-3 text-[#81758F] dark:text-[#D9BFFF] transition-transform duration-200 ${
                     isLangDropdownOpen ? 'rotate-180' : ''
@@ -230,7 +237,7 @@ const Navbar = () => {
             <button
               type="button"
               onClick={toggleTheme}
-              className="p-1.5 xl:p-2 text-[#5D5271] dark:text-[#E9DDFF] hover:bg-[#EDE3FF] dark:hover:bg-[#32164D] rounded-lg transition-colors border border-[#E9E1F2] dark:border-[#5c3974]"
+              className="p-2 text-[#5D5271] dark:text-[#E9DDFF] hover:bg-[#EDE3FF] dark:hover:bg-[#32164D] rounded-lg transition-colors border border-[#E9E1F2] dark:border-[#5c3974] shrink-0"
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
             >
@@ -239,29 +246,29 @@ const Navbar = () => {
 
             <Link
               to="/admin/login"
-              className="inline-flex items-center gap-1 text-xs font-medium text-[#5D5271] dark:text-[#D9BFFF] hover:text-[#24153F] dark:hover:text-white px-2 py-1.5 rounded-lg hover:bg-[#F8F2FF] dark:hover:bg-[#32164D] border border-[#E9E1F2] dark:border-[#5c3974] transition-colors whitespace-nowrap"
-              title="Login"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-[#5D5271] dark:text-[#D9BFFF] hover:text-[#24153F] dark:hover:text-white px-2.5 py-1.5 rounded-lg hover:bg-[#F8F2FF] dark:hover:bg-[#32164D] border border-[#E9E1F2] dark:border-[#5c3974] transition-colors whitespace-nowrap shrink-0"
+              title="Admin Login"
             >
-              <Lock className="w-3 h-3 text-[#64748B]" />
-              <span className="hidden xl:inline">Login</span>
+              <Lock className="w-3.5 h-3.5 text-[#81758F] dark:text-[#A96BFF]" />
+              <span>Login</span>
             </Link>
 
             <Button
               to="/appointment"
               variant="primary"
               size="sm"
-              className="shrink-0 whitespace-nowrap text-xs xl:text-sm px-2.5 xl:px-4 py-1.5"
+              className="shrink-0 whitespace-nowrap shadow-sm hover:shadow-md"
               icon={ArrowRight}
             >
               Book Appointment
             </Button>
           </div>
 
-          {/* Mobile Menu Toggle Buttons */}
-          <div className="flex items-center gap-2 lg:hidden">
+          {/* Mobile / Tablet Menu Toggle Buttons */}
+          <div className="flex items-center gap-2 xl:hidden">
             <Link
               to="/appointment"
-              className="p-2 text-[#4B168F] bg-[#EDE3FF] rounded-lg hover:bg-[#E3D2FF] transition-colors"
+              className="p-2 text-[#4B168F] bg-[#EDE3FF] dark:bg-[#32164D] dark:text-[#E9DDFF] rounded-lg hover:bg-[#E3D2FF] dark:hover:bg-[#45205d] transition-colors"
               aria-label="Book Appointment"
             >
               <Calendar className="w-4 h-4" />
@@ -279,13 +286,24 @@ const Navbar = () => {
 
         {/* Mobile Slide-Out Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden mt-3 pt-3 pb-6 border-t border-[#E9E1F2] dark:border-[#5c3974] animate-fade-in bg-white dark:bg-[#120C22] rounded-b-2xl shadow-xl px-2 max-h-[calc(100vh-75px)] overflow-y-auto">
+          <div className="xl:hidden mt-3 pt-3 pb-6 border-t border-[#E9E1F2] dark:border-[#5c3974] animate-fade-in bg-white dark:bg-[#120C22] rounded-b-2xl shadow-xl px-2 max-h-[calc(100vh-75px)] overflow-y-auto">
             <div className="flex flex-col space-y-2">
-              {/* Mobile Language Switcher */}
-              <div className="flex flex-col gap-1.5 pb-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#81758F] dark:text-[#D9BFFF] flex items-center gap-1.5 px-1">
-                  <Languages className="w-3.5 h-3.5 text-[#4B168F] dark:text-[#C6A0FF]" /> Language / भाषा
-                </span>
+              {/* Mobile Language & Theme Switcher */}
+              <div className="flex flex-col gap-1.5 pb-2 border-b border-[#E9E1F2] dark:border-[#5c3974] px-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#81758F] dark:text-[#D9BFFF] flex items-center gap-1.5">
+                    <Languages className="w-3.5 h-3.5 text-[#4B168F] dark:text-[#C6A0FF]" /> Language / भाषा
+                  </span>
+                  <button
+                    type="button"
+                    onClick={toggleTheme}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-[#5D5271] dark:text-[#E9DDFF] hover:bg-[#EDE3FF] dark:hover:bg-[#32164D] rounded-lg transition-colors border border-[#E9E1F2] dark:border-[#5c3974]"
+                    aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                  >
+                    {theme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+                    <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+                  </button>
+                </div>
                 <div className="grid grid-cols-3 gap-1 bg-[#F1E8FD] dark:bg-[#2A1647] p-1 rounded-xl">
                   {languages.map((l) => {
                     const isSelected = language === l.code;
@@ -310,34 +328,24 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="self-start inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-[#5D5271] dark:text-[#E9DDFF] hover:bg-[#EDE3FF] dark:hover:bg-[#32164D] rounded-lg transition-colors border border-[#E9E1F2] dark:border-[#5c3974]"
-                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {theme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
-                {theme === 'dark' ? 'Light mode' : 'Dark mode'}
-              </button>
-
               {navLinks.map((link) => (
                 <NavLink
                   key={link.path}
                   to={link.path}
                   className={({ isActive }) =>
-                    `inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                    `inline-flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-medium rounded-lg transition-colors ${
                       isActive
                         ? 'text-[#4B168F] dark:text-[#E9DDFF] bg-[#EDE3FF] dark:bg-[#32164D] font-semibold'
                         : 'text-[#5D5271] dark:text-[#D9BFFF] hover:text-[#24153F] dark:hover:text-white hover:bg-[#F8F2FF] dark:hover:bg-[#32164D]'
                     }`
                   }
                 >
-                  <link.icon className="w-4 h-4" aria-hidden="true" />
-                  {link.mobileName || link.name}
+                  <link.icon className="w-4 h-4 shrink-0" aria-hidden="true" />
+                  <span>{link.mobileName || link.name}</span>
                 </NavLink>
               ))}
 
-              <div className="pt-4 border-t border-[#E2E8F0] flex flex-col gap-2.5">
+              <div className="pt-4 border-t border-[#E2E8F0] dark:border-[#5c3974] flex flex-col gap-2.5">
                 <Button
                   to="/appointment"
                   variant="primary"
@@ -349,14 +357,14 @@ const Navbar = () => {
                 </Button>
 
                 {/* Mobile Admin Portal Link */}
-                <div className="pt-2 border-t border-[#E2E8F0]">
+                <div className="pt-2 border-t border-[#E2E8F0] dark:border-[#5c3974]">
                   <Link
                     to="/admin/login"
                     className="flex items-center justify-between px-3.5 py-2.5 text-xs font-medium text-[#5D5271] dark:text-[#D9BFFF] hover:bg-[#F8F2FF] dark:hover:bg-[#32164D] rounded-lg border border-[#E9E1F2] dark:border-[#5c3974] transition-colors"
                   >
                     <span className="flex items-center gap-2">
                       <Lock className="w-3.5 h-3.5 text-[#A96BFF]" />
-                      <span>Login</span>
+                      <span>Admin Login</span>
                     </span>
                     <ArrowRight className="w-3.5 h-3.5 text-[#A96BFF]" />
                   </Link>
