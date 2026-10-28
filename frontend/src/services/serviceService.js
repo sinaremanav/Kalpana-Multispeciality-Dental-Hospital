@@ -1,12 +1,18 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 import { servicesData as fallbackServices } from '../data/services';
 
+const SERVICES_CACHE_KEY = 'kalpana_services_cache_v1';
+
 export const serviceService = {
   /**
-   * Get all services (optionally only active ones for public)
+   * Get all services with Network-First, Cache-Fallback Strategy
    */
   async getServices(onlyActive = true) {
     if (!isSupabaseConfigured) {
+      try {
+        const cached = localStorage.getItem(SERVICES_CACHE_KEY);
+        if (cached) return JSON.parse(cached);
+      } catch {}
       return fallbackServices;
     }
 
@@ -21,15 +27,26 @@ export const serviceService = {
         return fallbackServices;
       }
       // Normalize features and price display
-      return data.map((item) => ({
+      const normalized = data.map((item) => ({
         ...item,
         priceRange: item.price_display || (item.price ? `₹${item.price}` : 'Consultation'),
         features: Array.isArray(item.features) ? item.features : [],
         fullDesc: item.description,
         shortDesc: item.description,
       }));
+
+      // Cache for offline resilience
+      try {
+        localStorage.setItem(SERVICES_CACHE_KEY, JSON.stringify(normalized));
+      } catch {}
+
+      return normalized;
     } catch (err) {
-      console.warn('Supabase getServices error, falling back to local data:', err.message);
+      console.warn('Supabase getServices error, falling back to local cache/data:', err.message);
+      try {
+        const cached = localStorage.getItem(SERVICES_CACHE_KEY);
+        if (cached) return JSON.parse(cached);
+      } catch {}
       return fallbackServices;
     }
   },

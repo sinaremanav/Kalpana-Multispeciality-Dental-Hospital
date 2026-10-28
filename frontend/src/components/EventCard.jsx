@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Calendar, Clock, MapPin, Tag, ArrowRight, MessageCircle } from 'lucide-react';
 import Button from './Button';
 import { clinicConfig } from '../config/clinicConfig';
+import { getWhatsAppUrl, openWhatsAppChat } from '../utils/whatsapp';
 
 export const EventCard = ({ event, index = 0, isPast = false }) => {
   const formatDate = (dateStr) => {
@@ -25,11 +26,19 @@ export const EventCard = ({ event, index = 0, isPast = false }) => {
     return `${formattedH}:${minutes} ${ampm}`;
   };
 
-  const whatsappInquiryUrl = `https://wa.me/${clinicConfig.whatsappNumber}?text=${encodeURIComponent(
-    `Hello Doctor, I would like to inquire/register for the event: ${event.title} scheduled on ${formatDate(
-      event.event_date
-    )}.`
-  )}`;
+  const inquiryMessage = `Hello Doctor, I would like to inquire/register for the event: ${event.title} scheduled on ${formatDate(
+    event.event_date
+  )}.`;
+
+  const whatsappInquiryUrl = getWhatsAppUrl(
+    clinicConfig.whatsappNumber,
+    inquiryMessage
+  );
+
+  const handleInquiryClick = (e) => {
+    e.preventDefault();
+    openWhatsAppChat(clinicConfig.whatsappNumber, inquiryMessage);
+  };
 
   return (
     <motion.div
@@ -107,6 +116,7 @@ export const EventCard = ({ event, index = 0, isPast = false }) => {
             size="sm"
             fullWidth
             icon={MessageCircle}
+            onClick={handleInquiryClick}
           >
             Register / Inquire on WhatsApp
           </Button>

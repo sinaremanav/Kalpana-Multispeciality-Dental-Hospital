@@ -4,6 +4,7 @@ import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
+import { z } from 'zod';
 import { supabase, isSupabaseConfigured } from '../lib/supabase.js';
 import {
   hashPassword,
@@ -20,6 +21,18 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config();
 
 const router = express.Router();
+
+const registerSchema = z.object({
+  fullName: z.string().min(2, 'Full name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  role: z.enum(['admin', 'doctor', 'staff']).optional(),
+});
+
+const loginSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(1, 'Password is required'),
+});
 
 export const getJwtSecret = () =>
   process.env.JWT_SECRET || 'kalpana_dental_secure_jwt_token_secret_key_2026';
@@ -88,37 +101,31 @@ async function findUserByEmail(email) {
  * Hashes password using Bcrypt with 10 salt rounds before saving to database.
  * Plaintext password is NEVER stored.
  */
-router.post('/register', async (req, res) => {
-  const { fullName, email, password, role = 'doctor' } = req.body || {};
-
-  if (!fullName || !email || !password) {
-    return res.status(400).json({
-      success: false,
-      message: 'Full name, email, and password are required.',
-    });
-  }
-
-  const normalizedEmail = email.toLowerCase().trim();
-
-  // 1. Validate password security strength
-  const strengthCheck = validatePasswordStrength(password);
-  if (!strengthCheck.valid) {
-    return res.status(400).json({
-      success: false,
-      message: strengthCheck.message,
-    });
-  }
-
-  // 2. Check if user already exists
-  const { user: existingUser } = await findUserByEmail(normalizedEmail);
-  if (existingUser) {
-    return res.status(409).json({
-      success: false,
-      message: 'A user with this email address already exists.',
-    });
-  }
-
+router.post('/register', async (req, res, next) => {
   try {
+    const validated = registerSchema.parse(req.body);
+    const { fullName, email, password, role = 'doctor' } = validated;
+
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // 1. Validate password security strength
+    const strengthCheck = validatePasswordStrength(password);
+    if (!strengthCheck.valid) {
+      return res.status(400).json({
+        success: false,
+        message: strengthCheck.message,
+      });
+    }
+
+    // 2. Check if user already exists
+    const { user: existingUser } = await findUserByEmail(normalizedEmail);
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: 'A user with this email address already exists.',
+      });
+    }
+
     // 3. Cryptographically hash password with salt (Cost Factor: 10)
     const hashedPassword = await hashPassword(password);
 
@@ -188,6 +195,7 @@ router.post('/register', async (req, res) => {
       },
     });
   } catch (err) {
+    if (err?.name === 'ZodError') return next(err);
     console.error('Registration error:', err);
     return res.status(500).json({
       success: false,
@@ -201,19 +209,13 @@ router.post('/register', async (req, res) => {
  * POST /api/auth/login
  * Validates credentials by comparing input password against stored Bcrypt hash.
  */
-router.post('/login', async (req, res) => {
-  const { email, password } = req.body || {};
-
-  if (!email || !password) {
-    return res.status(400).json({
-      success: false,
-      message: 'Email and password are required.',
-    });
-  }
-
-  const normalizedEmail = email.toLowerCase().trim();
-
+router.post('/login', async (req, res, next) => {
   try {
+    const validated = loginSchema.parse(req.body);
+    const { email, password } = validated;
+
+    const normalizedEmail = email.toLowerCase().trim();
+
     // 1. Lookup user
     const { user, source } = await findUserByEmail(normalizedEmail);
     if (!user) {
@@ -280,6 +282,7 @@ router.post('/login', async (req, res) => {
       },
     });
   } catch (err) {
+    if (err?.name === 'ZodError') return next(err);
     console.error('Login error:', err);
     return res.status(500).json({
       success: false,

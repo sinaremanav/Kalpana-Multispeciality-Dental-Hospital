@@ -21,6 +21,12 @@ const About = () => {
     doctorService.getDoctors(true).then((data) => {
       if (data && data.length > 0) setDoctors(data);
     });
+    const onSettingsChange = (e) => {
+      if (e.detail) setClinic(e.detail);
+      else clinicService.getClinicSettings().then((d) => d && setClinic(d));
+    };
+    window.addEventListener('clinic_settings_updated', onSettingsChange);
+    return () => window.removeEventListener('clinic_settings_updated', onSettingsChange);
   }, []);
 
   const leadDoctor = doctors[0] || fallbackDoctors[0];

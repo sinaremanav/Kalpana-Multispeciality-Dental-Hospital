@@ -7,6 +7,7 @@ import StatusBadge from '../components/StatusBadge';
 import LoadingState from '../../components/LoadingState';
 import ErrorState from '../../components/ErrorState';
 import Button from '../../components/Button';
+import { getWhatsAppUrl, openWhatsAppChat } from '../../utils/whatsapp';
 import {
   Calendar,
   Clock,
@@ -326,17 +327,25 @@ export const AppointmentsManager = () => {
 
             {/* WhatsApp Direct Reply */}
             <div className="pt-2">
-              <a
-                href={`https://wa.me/${selectedAppointment.patient_phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                  `Hello ${selectedAppointment.patient_name}, regarding your appointment booking at Kalpana Dental Clinic for ${selectedAppointment.service_name} on ${selectedAppointment.appointment_date} at ${selectedAppointment.time_display || selectedAppointment.appointment_time}: Your appointment is ${selectedAppointment.status.toUpperCase()}.`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>Message Patient on WhatsApp</span>
-              </a>
+              {(() => {
+                const msg = `Hello ${selectedAppointment.patient_name}, regarding your appointment booking at Kalpana Dental Clinic for ${selectedAppointment.service_name} on ${selectedAppointment.appointment_date} at ${selectedAppointment.time_display || selectedAppointment.appointment_time}: Your appointment is ${selectedAppointment.status.toUpperCase()}.`;
+                const url = getWhatsAppUrl(selectedAppointment.patient_phone, msg);
+                return (
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openWhatsAppChat(selectedAppointment.patient_phone, msg);
+                    }}
+                    className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Message Patient on WhatsApp</span>
+                  </a>
+                );
+              })()}
             </div>
           </div>
         )}

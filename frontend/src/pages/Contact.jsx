@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import apiService from '../services/api';
 import SEO from '../components/SEO';
 import { getLocalBusinessSchema } from '../config/seoConfig';
+import { getWhatsAppUrl, openWhatsAppChat } from '../utils/whatsapp';
 import {
   MapPin,
   Phone,
@@ -33,6 +34,12 @@ const Contact = () => {
     clinicService.getClinicSettings().then((data) => {
       if (data) setClinic(data);
     });
+    const onSettingsChange = (e) => {
+      if (e.detail) setClinic(e.detail);
+      else clinicService.getClinicSettings().then((d) => d && setClinic(d));
+    };
+    window.addEventListener('clinic_settings_updated', onSettingsChange);
+    return () => window.removeEventListener('clinic_settings_updated', onSettingsChange);
   }, []);
 
   const handleSubmit = async (e) => {
@@ -56,7 +63,16 @@ const Contact = () => {
     }
   };
 
-  const whatsappUrl = `https://wa.me/${clinic.whatsappNumber || fallbackConfig.whatsappNumber}`;
+  const whatsappMessage = 'Hello Doctor, I would like to consult with you.';
+  const whatsappUrl = getWhatsAppUrl(
+    clinic.whatsappNumber || fallbackConfig.whatsappNumber,
+    whatsappMessage
+  );
+
+  const handleWhatsAppChat = (e) => {
+    e.preventDefault();
+    openWhatsAppChat(clinic.whatsappNumber || fallbackConfig.whatsappNumber, whatsappMessage);
+  };
 
   return (
     <div className="pt-20">
@@ -151,6 +167,7 @@ const Contact = () => {
                   size="md"
                   fullWidth
                   icon={MessageCircle}
+                  onClick={handleWhatsAppChat}
                 >
                   Chat with Doctor on WhatsApp
                 </Button>

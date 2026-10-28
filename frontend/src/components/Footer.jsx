@@ -22,6 +22,12 @@ const Footer = () => {
     clinicService.getClinicSettings().then((data) => {
       if (data) setClinic(data);
     });
+    const onSettingsChange = (e) => {
+      if (e.detail) setClinic(e.detail);
+      else clinicService.getClinicSettings().then((d) => d && setClinic(d));
+    };
+    window.addEventListener('clinic_settings_updated', onSettingsChange);
+    return () => window.removeEventListener('clinic_settings_updated', onSettingsChange);
   }, []);
 
   return (

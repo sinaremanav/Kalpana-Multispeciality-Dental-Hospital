@@ -7,6 +7,7 @@ import StatusBadge from '../components/StatusBadge';
 import LoadingState from '../../components/LoadingState';
 import ErrorState from '../../components/ErrorState';
 import Button from '../../components/Button';
+import { getWhatsAppUrl, openWhatsAppChat } from '../../utils/whatsapp';
 import {
   Inbox,
   Phone,
@@ -291,18 +292,26 @@ export const MessagesManager = () => {
 
             {/* Actions */}
             <div className="pt-3 border-t border-[#F1F5F9] grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <a
-                href={`https://wa.me/${selectedMessage.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                  `Hello ${selectedMessage.name}, thank you for contacting Kalpana Dental Clinic regarding "${selectedMessage.subject || 'your inquiry'}". How can we assist you further?`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => handleStatusChange(selectedMessage.id, 'replied')}
-                className="py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>Reply via WhatsApp</span>
-              </a>
+              {(() => {
+                const replyMsg = `Hello ${selectedMessage.name}, thank you for contacting Kalpana Dental Clinic regarding "${selectedMessage.subject || 'your inquiry'}". How can we assist you further?`;
+                const replyUrl = getWhatsAppUrl(selectedMessage.phone, replyMsg);
+                return (
+                  <a
+                    href={replyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleStatusChange(selectedMessage.id, 'replied');
+                      openWhatsAppChat(selectedMessage.phone, replyMsg);
+                    }}
+                    className="py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Reply via WhatsApp</span>
+                  </a>
+                );
+              })()}
 
               {selectedMessage.email && (
                 <a

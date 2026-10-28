@@ -46,13 +46,19 @@ const normalizeDoctor = (doc) => {
   };
 };
 
+const DOCTORS_CACHE_KEY = 'kalpana_doctors_cache_v1';
+
 export const doctorService = {
   /**
-   * Get all doctors (optionally only active ones for public pages)
+   * Get all doctors with Network-First, Cache-Fallback Strategy
    */
   async getDoctors(onlyActive = true) {
     if (!isSupabaseConfigured) {
-      return onlyActive ? fallbackDoctors : fallbackDoctors;
+      try {
+        const cached = localStorage.getItem(DOCTORS_CACHE_KEY);
+        if (cached) return JSON.parse(cached);
+      } catch {}
+      return fallbackDoctors;
     }
 
     try {
@@ -65,9 +71,17 @@ export const doctorService = {
       if (!data || data.length === 0) {
         return fallbackDoctors;
       }
-      return data.map(normalizeDoctor);
+      const normalized = data.map(normalizeDoctor);
+      try {
+        localStorage.setItem(DOCTORS_CACHE_KEY, JSON.stringify(normalized));
+      } catch {}
+      return normalized;
     } catch (err) {
-      console.warn('Supabase getDoctors error, falling back to local data:', err.message);
+      console.warn('Supabase getDoctors error, falling back to local cache/data:', err.message);
+      try {
+        const cached = localStorage.getItem(DOCTORS_CACHE_KEY);
+        if (cached) return JSON.parse(cached);
+      } catch {}
       return fallbackDoctors;
     }
   },

@@ -11,6 +11,7 @@ import { serviceService } from '../services/serviceService';
 import { testimonialService } from '../services/testimonialService';
 import { clinicService } from '../services/clinicService';
 import { eventService } from '../services/eventService';
+import { getWhatsAppUrl, openWhatsAppChat } from '../utils/whatsapp';
 
 import Button from '../components/Button';
 import SectionTitle from '../components/SectionTitle';
@@ -65,11 +66,25 @@ const Home = () => {
     eventService.getCategorizedEvents().then((data) => {
       if (data?.upcoming) setUpcomingEvents(data.upcoming.slice(0, 2));
     });
+
+    const onSettingsChange = (e) => {
+      if (e.detail) setClinic(e.detail);
+      else clinicService.getClinicSettings().then(setClinic);
+    };
+    window.addEventListener('clinic_settings_updated', onSettingsChange);
+    return () => window.removeEventListener('clinic_settings_updated', onSettingsChange);
   }, []);
 
-  const whatsappUrl = `https://wa.me/${clinic.whatsappNumber || fallbackConfig.whatsappNumber}?text=${encodeURIComponent(
-    'Hello Doctor, I would like to book an appointment.'
-  )}`;
+  const whatsappBookingMessage = 'Hello Doctor, I would like to book an appointment.';
+  const whatsappUrl = getWhatsAppUrl(
+    clinic.whatsappNumber || fallbackConfig.whatsappNumber,
+    whatsappBookingMessage
+  );
+
+  const handleWhatsAppBooking = (e) => {
+    e.preventDefault();
+    openWhatsAppChat(clinic.whatsappNumber || fallbackConfig.whatsappNumber, whatsappBookingMessage);
+  };
 
   const mainDoctor = doctors[0] || fallbackDoctors[0];
 
@@ -131,6 +146,7 @@ const Home = () => {
                   variant="whatsapp"
                   size="lg"
                   icon={MessageCircle}
+                  onClick={handleWhatsAppBooking}
                 >
                   WhatsApp
                 </Button>

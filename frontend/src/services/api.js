@@ -14,6 +14,7 @@ import { contactService } from './contactService';
 import { authService } from './authService';
 import { storageService } from './storageService';
 import { faqData } from '../data/faq';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 const getApiBaseUrl = () => {
   if (typeof window !== 'undefined') {
@@ -90,7 +91,7 @@ ${appointmentData.message || 'None'}
 
 Thank you.`;
 
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
+    const whatsappUrl = getWhatsAppUrl(whatsappNumber, whatsappText);
 
     return {
       success: true,
@@ -127,7 +128,7 @@ Email: ${contactData.email || 'N/A'}
 Subject: ${contactData.subject || 'General Inquiry'}
 Message: ${contactData.message}`;
 
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
+    const whatsappUrl = getWhatsAppUrl(whatsappNumber, whatsappText);
 
     return {
       success: true,

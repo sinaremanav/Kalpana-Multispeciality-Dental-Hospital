@@ -1,5 +1,6 @@
 import express from 'express';
 import crypto from 'node:crypto';
+import { z } from 'zod';
 import {
   clinicConfig,
   doctorsData,
@@ -14,6 +15,62 @@ import {
 import { supabase, isSupabaseConfigured } from '../lib/supabase.js';
 
 const router = express.Router();
+
+// Zod Validation Schemas
+const appointmentSchema = z.object({
+  fullName: z.string().min(2, 'Full name must be at least 2 characters').optional(),
+  patient_name: z.string().min(2, 'Patient name must be at least 2 characters').optional(),
+  phone: z.string().min(7, 'Please provide a valid contact number').optional(),
+  patient_phone: z.string().min(7, 'Please provide a valid contact number').optional(),
+  email: z.string().email('Invalid email address').optional().or(z.literal('')),
+  patient_email: z.string().email('Invalid email address').optional().or(z.literal('')),
+  date: z.string().min(4, 'Appointment date is required').optional(),
+  appointment_date: z.string().min(4, 'Appointment date is required').optional(),
+  time: z.string().optional(),
+  appointment_time: z.string().optional(),
+  treatment: z.string().min(2, 'Treatment selection is required').optional(),
+  service_name: z.string().min(2, 'Treatment selection is required').optional(),
+  doctor: z.string().optional(),
+  doctor_name: z.string().optional(),
+  message: z.string().optional(),
+}).refine((data) => Boolean(data.fullName || data.patient_name), {
+  message: 'Patient name is required.',
+  path: ['fullName'],
+}).refine((data) => Boolean(data.phone || data.patient_phone), {
+  message: 'Valid phone number is required.',
+  path: ['phone'],
+}).refine((data) => Boolean(data.date || data.appointment_date), {
+  message: 'Appointment date is required.',
+  path: ['date'],
+});
+
+const testimonialSchema = z.object({
+  patient_name: z.string().min(2, 'Patient name must be at least 2 characters').optional(),
+  name: z.string().min(2, 'Patient name must be at least 2 characters').optional(),
+  rating: z.coerce.number().min(1).max(5).default(5),
+  treatment: z.string().optional(),
+  location: z.string().optional(),
+  message: z.string().min(5, 'Review message must be at least 5 characters').optional(),
+  review: z.string().min(5, 'Review message must be at least 5 characters').optional(),
+  comment: z.string().min(5, 'Review message must be at least 5 characters').optional(),
+  image_url: z.string().optional(),
+  avatar: z.string().optional(),
+  is_published: z.boolean().optional(),
+}).refine((data) => Boolean(data.patient_name || data.name), {
+  message: 'Patient name is required.',
+  path: ['patient_name'],
+}).refine((data) => Boolean(data.message || data.review || data.comment), {
+  message: 'Review message is required.',
+  path: ['message'],
+});
+
+const contactSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  phone: z.string().min(7, 'Please provide a valid phone number'),
+  email: z.string().email('Invalid email address').optional().or(z.literal('')),
+  subject: z.string().optional(),
+  message: z.string().min(5, 'Message must be at least 5 characters'),
+});
 
 // Helper to convert time like "10:30 AM" or "10:00" to valid Postgres TIME "HH:MM:SS"
 function formatToPostgresTime(timeStr) {
@@ -30,12 +87,19 @@ function formatToPostgresTime(timeStr) {
   return `${String(hours).padStart(2, '0')}:${minutes}:00`;
 }
 
-// Health check endpoint
+// Health check and telemetry metrics endpoint
 router.get('/health', (req, res) => {
+  const memory = process.memoryUsage();
   res.status(200).json({
     status: 'online',
     service: 'Kalpana Dental Clinic API',
     database: isSupabaseConfigured ? 'supabase_connected' : 'in_memory_fallback',
+    uptimeSeconds: Math.floor(process.uptime()),
+    memoryUsage: {
+      heapUsedMB: Math.round(memory.heapUsed / 1024 / 1024),
+      rssMB: Math.round(memory.rss / 1024 / 1024),
+    },
+    nodeVersion: process.version,
     timestamp: new Date().toISOString(),
   });
 });
@@ -51,13 +115,153 @@ router.get('/clinic', async (req, res) => {
         .maybeSingle();
 
       if (!error && data) {
-        return res.status(200).json({ success: true, data, source: 'supabase' });
+        const normalized = {
+          ...clinicConfig,
+          id: data.id,
+          clinicName: data.clinic_name || clinicConfig.clinicName,
+          clinic_name: data.clinic_name || clinicConfig.clinicName,
+          tagline: data.tagline !== undefined ? data.tagline : clinicConfig.tagline,
+          subTagline: data.sub_tagline || clinicConfig.subTagline,
+          sub_tagline: data.sub_tagline || clinicConfig.subTagline,
+          phone: data.phone || clinicConfig.phone,
+          displayPhone: data.display_phone || data.phone || clinicConfig.displayPhone,
+          display_phone: data.display_phone || data.phone || clinicConfig.displayPhone,
+          whatsappNumber: data.whatsapp_number || clinicConfig.whatsappNumber,
+          whatsapp_number: data.whatsapp_number || clinicConfig.whatsappNumber,
+          email: data.email || clinicConfig.email,
+          address: data.address || clinicConfig.address,
+          landmark: data.landmark || clinicConfig.landmark,
+          workingHours: data.opening_hours || clinicConfig.workingHours,
+          opening_hours: data.opening_hours || clinicConfig.workingHours,
+          socials: {
+            facebook: data.facebook_url || clinicConfig.socials?.facebook || 'https://facebook.com',
+            instagram: data.instagram_url || clinicConfig.socials?.instagram || 'https://instagram.com',
+            youtube: data.youtube_url || clinicConfig.socials?.youtube || 'https://youtube.com',
+            linkedin: data.linkedin_url || clinicConfig.socials?.linkedin || 'https://linkedin.com',
+          },
+          googleMapsUrl: data.google_maps_url || clinicConfig.googleMapsUrl,
+          googleMapsEmbed: data.google_maps_embed || clinicConfig.googleMapsEmbed,
+          aboutText: data.about_text || '',
+          logoUrl: data.logo_url || null,
+          stats: data.stats || clinicConfig.stats,
+        };
+        return res.status(200).json({ success: true, data: normalized, source: 'supabase' });
       }
     } catch (err) {
       console.warn('⚠️ Supabase clinic fetch failed, using fallback:', err.message);
     }
   }
   return res.status(200).json({ success: true, data: clinicConfig, source: 'local' });
+});
+
+// PUT /api/clinic - Update clinic settings
+router.put('/clinic', async (req, res, next) => {
+  try {
+    const data = req.body || {};
+
+    const payload = {
+      clinic_name: data.clinicName || data.clinic_name || clinicConfig.clinicName,
+      tagline: data.tagline !== undefined ? data.tagline : clinicConfig.tagline,
+      sub_tagline: data.subTagline || data.sub_tagline || clinicConfig.subTagline,
+      phone: data.phone || clinicConfig.phone,
+      display_phone: data.displayPhone || data.display_phone || clinicConfig.displayPhone,
+      email: data.email || clinicConfig.email,
+      address: data.address || clinicConfig.address,
+      landmark: data.landmark || clinicConfig.landmark,
+      opening_hours: data.workingHours || data.opening_hours || clinicConfig.workingHours,
+      whatsapp_number: data.whatsappNumber || data.whatsapp_number || clinicConfig.whatsappNumber,
+      google_maps_url: data.googleMapsUrl || data.google_maps_url || clinicConfig.googleMapsUrl,
+      google_maps_embed: data.googleMapsEmbed || data.google_maps_embed || clinicConfig.googleMapsEmbed,
+      instagram_url: data.socials?.instagram || data.instagram_url || clinicConfig.socials?.instagram,
+      facebook_url: data.socials?.facebook || data.facebook_url || clinicConfig.socials?.facebook,
+      youtube_url: data.socials?.youtube || data.youtube_url || clinicConfig.socials?.youtube,
+      linkedin_url: data.socials?.linkedin || data.linkedin_url || clinicConfig.socials?.linkedin,
+      about_text: data.aboutText || data.about_text || '',
+      logo_url: data.logoUrl || data.logo_url || null,
+      stats: data.stats || clinicConfig.stats,
+      updated_at: new Date().toISOString(),
+    };
+
+    // Update in-memory clinicConfig so subsequent GET /api/clinic returns the updated settings immediately
+    Object.assign(clinicConfig, {
+      clinicName: payload.clinic_name,
+      tagline: payload.tagline,
+      subTagline: payload.sub_tagline,
+      phone: payload.phone,
+      displayPhone: payload.display_phone,
+      whatsappNumber: payload.whatsapp_number,
+      email: payload.email,
+      address: payload.address,
+      landmark: payload.landmark,
+      workingHours: payload.opening_hours,
+      socials: {
+        facebook: payload.facebook_url,
+        instagram: payload.instagram_url,
+        youtube: payload.youtube_url,
+        linkedin: payload.linkedin_url,
+      },
+      googleMapsUrl: payload.google_maps_url,
+      googleMapsEmbed: payload.google_maps_embed,
+      aboutText: payload.about_text,
+      logoUrl: payload.logo_url,
+      stats: payload.stats,
+    });
+
+    // If Supabase is configured, attempt to update clinic_settings
+    let savedToSupabase = false;
+    if (isSupabaseConfigured) {
+      try {
+        // Authenticate backend session as admin to satisfy Row Level Security (RLS)
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (!sessionData?.session) {
+          await supabase.auth.signInWithPassword({
+            email: 'admin@kalpanadental.com',
+            password: process.env.ADMIN_SEED_PASSWORD || 'Admin@123',
+          });
+        }
+
+        const { data: existing } = await supabase
+          .from('clinic_settings')
+          .select('id')
+          .limit(1)
+          .maybeSingle();
+
+        if (existing?.id) {
+          const { data: updatedRows, error: updateErr } = await supabase
+            .from('clinic_settings')
+            .update(payload)
+            .eq('id', existing.id)
+            .select();
+          if (!updateErr && updatedRows && updatedRows.length > 0) {
+            savedToSupabase = true;
+          } else if (updateErr) {
+            console.warn('⚠️ Supabase clinic_settings update note:', updateErr.message);
+          }
+        } else {
+          const { data: insertedRows, error: insertErr } = await supabase
+            .from('clinic_settings')
+            .insert([payload])
+            .select();
+          if (!insertErr && insertedRows && insertedRows.length > 0) {
+            savedToSupabase = true;
+          } else if (insertErr) {
+            console.warn('⚠️ Supabase clinic_settings insert note:', insertErr.message);
+          }
+        }
+      } catch (sbErr) {
+        console.warn('⚠️ Supabase clinic_settings exception:', sbErr.message);
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Clinic settings updated successfully.',
+      data: clinicConfig,
+      storage: savedToSupabase ? 'supabase' : 'server_store',
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // GET /api/services
@@ -169,30 +373,25 @@ router.get('/testimonials', async (req, res) => {
 });
 
 // POST /api/testimonials - Patient submits a new review
-router.post('/testimonials', async (req, res) => {
-  const patientName = req.body?.patient_name || req.body?.name;
-  const rating = Math.min(5, Math.max(1, Number(req.body?.rating) || 5));
-  const treatment = req.body?.treatment || 'General Consultation';
-  const location = req.body?.location || 'Kopargaon';
-  const message = req.body?.message || req.body?.review || req.body?.comment;
-  const imageUrl =
-    req.body?.image_url ||
-    req.body?.avatar ||
-    `https://ui-avatars.com/api/?name=${encodeURIComponent(patientName || 'Patient')}&background=059669&color=fff&bold=true`;
-  // Default to unpublished (pending admin moderation) unless explicitly set by admin
-  const isPublished =
-    req.body?.is_published !== undefined ? Boolean(req.body.is_published) : false;
+router.post('/testimonials', async (req, res, next) => {
+  try {
+    const validated = testimonialSchema.parse(req.body);
+    const patientName = validated.patient_name || validated.name;
+    const rating = Math.min(5, Math.max(1, Number(validated.rating) || 5));
+    const treatment = validated.treatment || 'General Consultation';
+    const location = validated.location || 'Kopargaon';
+    const message = validated.message || validated.review || validated.comment;
+    const imageUrl =
+      validated.image_url ||
+      validated.avatar ||
+      `https://ui-avatars.com/api/?name=${encodeURIComponent(patientName || 'Patient')}&background=059669&color=fff&bold=true`;
+    // Default to unpublished (pending admin moderation) unless explicitly set by admin
+    const isPublished =
+      validated.is_published !== undefined ? Boolean(validated.is_published) : false;
 
-  if (!patientName || !message) {
-    return res.status(400).json({
-      success: false,
-      message: 'Patient name and review message are required.',
-    });
-  }
-
-  const newTestimonial = {
-    id: crypto.randomUUID(),
-    patient_name: patientName.trim(),
+    const newTestimonial = {
+      id: crypto.randomUUID(),
+      patient_name: patientName.trim(),
     name: patientName.trim(),
     rating,
     treatment: treatment.trim(),
@@ -243,6 +442,9 @@ router.post('/testimonials', async (req, res) => {
     data: newTestimonial,
     storage: savedToDb ? 'supabase' : 'local_store',
   });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // DELETE /api/testimonials/:id - Admin deletes a review
@@ -336,22 +538,17 @@ router.get('/appointments', async (req, res) => {
 });
 
 // POST /api/appointments
-router.post('/appointments', async (req, res) => {
-  const patientName = req.body?.fullName || req.body?.patient_name || req.body?.name;
-  const patientPhone = req.body?.phone || req.body?.patient_phone;
-  const patientEmail = req.body?.email || req.body?.patient_email || '';
-  const appointmentDate = req.body?.date || req.body?.appointment_date;
-  const appointmentTime = req.body?.time || req.body?.appointment_time || '10:00 AM';
-  const serviceName = req.body?.treatment || req.body?.service_name || req.body?.service;
-  const doctorName = req.body?.doctor || req.body?.doctor_name || clinicConfig.doctorName;
-  const message = req.body?.message || '';
-
-  if (!patientName || !patientPhone || !appointmentDate || !serviceName) {
-    return res.status(400).json({
-      success: false,
-      message: 'Missing required appointment fields (patient name, phone, date, treatment).',
-    });
-  }
+router.post('/appointments', async (req, res, next) => {
+  try {
+    const validated = appointmentSchema.parse(req.body);
+    const patientName = validated.fullName || validated.patient_name;
+    const patientPhone = validated.phone || validated.patient_phone;
+    const patientEmail = validated.email || validated.patient_email || '';
+    const appointmentDate = validated.date || validated.appointment_date;
+    const appointmentTime = validated.time || validated.appointment_time || '10:00 AM';
+    const serviceName = validated.treatment || validated.service_name || 'General Dental Consultation';
+    const doctorName = validated.doctor || validated.doctor_name || clinicConfig.doctorName;
+    const message = validated.message || '';
 
   const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   const toValidUUID = (val) => (typeof val === 'string' && UUID_REGEX.test(val.trim()) ? val.trim() : null);
@@ -428,7 +625,8 @@ ${message || 'None'}
 
 Thank you.`;
 
-  const whatsappUrl = `https://wa.me/${clinicConfig.whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
+  const cleanPhone = String(clinicConfig.whatsappNumber || '917447226136').replace(/[^0-9]/g, '');
+  const whatsappUrl = `https://api.whatsapp.com/send/?phone=${cleanPhone}&text=${encodeURIComponent(whatsappText)}`;
 
   return res.status(201).json({
     success: true,
@@ -436,6 +634,9 @@ Thank you.`;
     appointment: supabaseRecord || newAppointment,
     whatsappUrl,
   });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // PATCH /api/appointments/:id/status
@@ -506,18 +707,13 @@ router.get('/contact', async (req, res) => {
 });
 
 // POST /api/contact
-router.post('/contact', async (req, res) => {
-  const { name, phone, email, subject, message } = req.body || {};
+router.post('/contact', async (req, res, next) => {
+  try {
+    const validated = contactSchema.parse(req.body);
+    const { name, phone, email, subject, message } = validated;
 
-  if (!name || !phone || !message) {
-    return res.status(400).json({
-      success: false,
-      message: 'Missing required contact fields (name, phone, message).',
-    });
-  }
-
-  const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  const toValidUUID = (val) => (typeof val === 'string' && UUID_REGEX.test(val.trim()) ? val.trim() : null);
+    const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const toValidUUID = (val) => (typeof val === 'string' && UUID_REGEX.test(val.trim()) ? val.trim() : null);
 
   const contactId = toValidUUID(req.body?.id) || crypto.randomUUID();
 
@@ -573,7 +769,8 @@ Email: ${email || 'N/A'}
 Subject: ${subject || 'General Inquiry'}
 Message: ${message}`;
 
-  const whatsappUrl = `https://wa.me/${clinicConfig.whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
+  const cleanPhone = String(clinicConfig.whatsappNumber || '917447226136').replace(/[^0-9]/g, '');
+  const whatsappUrl = `https://api.whatsapp.com/send/?phone=${cleanPhone}&text=${encodeURIComponent(whatsappText)}`;
 
   return res.status(201).json({
     success: true,
@@ -581,6 +778,9 @@ Message: ${message}`;
     inquiry: supabaseRecord || newInquiry,
     whatsappUrl,
   });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // PATCH /api/contact/:id/status

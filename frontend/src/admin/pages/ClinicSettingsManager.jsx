@@ -51,8 +51,14 @@ export const ClinicSettingsManager = () => {
         email: data.email || '',
         address: data.address || '',
         landmark: data.landmark || '',
-        workingHoursWeekdays: data.workingHours?.weekdays || 'Monday – Saturday: 9:00 AM – 8:00 PM',
-        workingHoursSunday: data.workingHours?.sunday || 'Sunday: By Prior Appointment Only',
+        workingHoursWeekdays:
+          typeof data.workingHours === 'object'
+            ? data.workingHours?.weekdays || 'Monday – Saturday: 9:00 AM – 8:00 PM'
+            : data.workingHours || 'Monday – Saturday: 9:00 AM – 8:00 PM',
+        workingHoursSunday:
+          typeof data.workingHours === 'object'
+            ? data.workingHours?.sunday || 'Sunday: By Prior Appointment Only'
+            : 'Sunday: By Prior Appointment Only',
         googleMapsUrl: data.googleMapsUrl || '',
         googleMapsEmbed: data.googleMapsEmbed || '',
         instagramUrl: data.socials?.instagram || '',
@@ -104,16 +110,19 @@ export const ClinicSettingsManager = () => {
       googleMapsEmbed: formData.googleMapsEmbed,
       aboutText: formData.aboutText,
       logoUrl: formData.logoUrl,
+      stats: settings?.stats,
     };
 
     try {
-      await clinicService.updateClinicSettings(settings?.id, payload);
-      setSuccessMessage('Clinic settings updated successfully! Public pages will reflect changes immediately.');
-      setTimeout(() => setSuccessMessage(''), 4000);
-      await fetchSettings();
+      const updated = await clinicService.updateClinicSettings(settings?.id, payload);
+      if (updated) {
+        setSettings(updated);
+      }
+      setSuccessMessage('Clinic settings updated successfully! All pages now reflect these changes immediately.');
+      setTimeout(() => setSuccessMessage(''), 4500);
     } catch (err) {
       console.error('Error saving clinic settings:', err);
-      setError(err.message || 'Failed to update settings in Supabase');
+      setError(err.message || 'Failed to update settings');
     } finally {
       setSaving(false);
     }

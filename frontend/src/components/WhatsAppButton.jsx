@@ -1,13 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { clinicConfig } from '../config/clinicConfig';
+import { clinicService } from '../services/clinicService';
+import { getWhatsAppUrl, openWhatsAppChat } from '../utils/whatsapp';
 import { MessageCircle } from 'lucide-react';
+
+const DEFAULT_MESSAGE =
+  'Hello Doctor, I would like to inquire about dental services / book an appointment.';
 
 const WhatsAppButton = () => {
   const [showTooltip, setShowTooltip] = useState(false);
+  const [whatsappNumber, setWhatsappNumber] = useState(clinicConfig.whatsappNumber);
 
-  const whatsappUrl = `https://wa.me/${clinicConfig.whatsappNumber}?text=${encodeURIComponent(
-    'Hello Doctor, I would like to inquire about dental services / book an appointment.'
-  )}`;
+  useEffect(() => {
+    clinicService.getClinicSettings().then((data) => {
+      if (data?.whatsappNumber) setWhatsappNumber(data.whatsappNumber);
+    });
+
+    const onUpdate = (e) => {
+      if (e.detail?.whatsappNumber) setWhatsappNumber(e.detail.whatsappNumber);
+    };
+    window.addEventListener('clinic_settings_updated', onUpdate);
+    return () => window.removeEventListener('clinic_settings_updated', onUpdate);
+  }, []);
+
+  const whatsappUrl = getWhatsAppUrl(whatsappNumber, DEFAULT_MESSAGE);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    openWhatsAppChat(whatsappNumber, DEFAULT_MESSAGE);
+  };
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex items-center">
@@ -21,6 +42,7 @@ const WhatsAppButton = () => {
       {/* Button */}
       <a
         href={whatsappUrl}
+        onClick={handleClick}
         target="_blank"
         rel="noopener noreferrer"
         onMouseEnter={() => setShowTooltip(true)}

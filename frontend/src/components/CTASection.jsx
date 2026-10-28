@@ -1,13 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from './Button';
 import { ArrowRight, MessageCircle } from 'lucide-react';
 import { clinicConfig } from '../config/clinicConfig';
+import { clinicService } from '../services/clinicService';
+import { getWhatsAppUrl, openWhatsAppChat } from '../utils/whatsapp';
 
 const CTASection = () => {
-  const whatsappUrl = `https://wa.me/${clinicConfig.whatsappNumber}?text=${encodeURIComponent(
-    'Hello Doctor, I would like to book an appointment.'
-  )}`;
+  const [clinic, setClinic] = useState(clinicConfig);
+
+  useEffect(() => {
+    clinicService.getClinicSettings().then((data) => {
+      if (data) setClinic(data);
+    });
+    const handler = (e) => {
+      if (e.detail) setClinic(e.detail);
+      else clinicService.getClinicSettings().then(setClinic);
+    };
+    window.addEventListener('clinic_settings_updated', handler);
+    return () => window.removeEventListener('clinic_settings_updated', handler);
+  }, []);
+
+  const whatsappMessage = 'Hello Doctor, I would like to book an appointment.';
+  const whatsappNumber = clinic.whatsappNumber || clinicConfig.whatsappNumber;
+  const whatsappUrl = getWhatsAppUrl(whatsappNumber, whatsappMessage);
+
+  const handleWhatsAppClick = (e) => {
+    e.preventDefault();
+    openWhatsAppChat(whatsappNumber, whatsappMessage);
+  };
 
   return (
     <section className="py-20 md:py-24 bg-[#351275] relative overflow-hidden text-white border-t border-[#4B168F]">
@@ -51,6 +72,7 @@ const CTASection = () => {
               variant="whatsapp"
               size="lg"
               icon={MessageCircle}
+              onClick={handleWhatsAppClick}
             >
               WhatsApp Us
             </Button>
