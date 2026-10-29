@@ -8,15 +8,7 @@ A modern, production-ready dental clinic management and patient portal platform 
 
 ### 🏥 Patient Portal (Public Website)
 - **Home**: Dynamic Hero section, clinic stats, lead surgeon highlight, featured dental treatments, patient reviews, and upcoming camp alerts.
-- **About**: Hospital background, mission/vision, class-B sterilization standards, and doctor credentials.
-- **Doctors**: Clinical specialist profiles, qualifications, and direct booking shortcuts.
-- **Services**: Full dental procedure catalog, transparent pricing, and key treatment highlights.
-- **Events & Camps (`/events`)**: Community screening camps, oral hygiene workshops, categorized into Upcoming vs. Past initiatives.
-- **Gallery**: Visual tour of operatories, digital RVG sensors, sterilization units, and restored smiles with fullscreen lightbox.
-- **Testimonials**: 5-star patient reviews and verified clinical feedback.
-- **FAQs**: Accordion answering frequent patient queries.
-- **Appointment Booking**: Real-time scheduling with Supabase persistence and instant WhatsApp notification.
-- **Contact Us**: Patient inquiry submission linked to Supabase and WhatsApp.
+
 
 ### 🛡️ Admin & Doctor Portal (`/admin`)
 - **Supabase Authentication**: Secure email/password login with role-based access control (`admin` vs `doctor`).
