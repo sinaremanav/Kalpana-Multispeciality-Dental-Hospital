@@ -1,12 +1,12 @@
-# 🦷 Kalpana Multispeciality Dental Clinic — Full-Stack Platform
+#  Kalpana Multispeciality Dental Clinic — Full-Stack Platform
 
 A modern, production-ready dental clinic management and patient portal platform built with **React**, **Vite**, **Tailwind CSS**, **Framer Motion**, **Lucide Icons**, **Express**, and **Supabase (PostgreSQL, Auth, Storage & Row Level Security)**.
 
 ---
 
-## 🌟 Architecture & Features 
+##  Architecture & Features 
 
-### 🏥 Patient Portal (Public Website)
+###  Patient Portal (Public Website)
 - **Home**: Dynamic Hero section, clinic stats, lead surgeon highlight, featured dental treatments, patient reviews, and upcoming camp alerts.
 - **About**: Hospital background, mission/vision, class-B sterilization standards, and doctor credentials.
 - **Doctors**: Clinical specialist profiles, qualifications, and direct booking shortcuts.
@@ -18,7 +18,7 @@ A modern, production-ready dental clinic management and patient portal platform 
 - **Appointment Booking**: Real-time scheduling with Supabase persistence and instant WhatsApp notification.
 - **Contact Us**: Patient inquiry submission linked to Supabase and WhatsApp.
 
-### 🛡️ Admin & Doctor Portal (`/admin`)
+###  Admin & Doctor Portal (`/admin`)
 - **Supabase Authentication**: Secure email/password login with role-based access control (`admin` vs `doctor`).
 - **Dashboard**: Real-time counters for pending/confirmed appointments, active doctors, treatments, upcoming events, and unread inquiries.
 - **Appointments Manager**: Status management (`pending`, `confirmed`, `completed`, `cancelled`), patient details modal, and WhatsApp message trigger.
@@ -33,7 +33,7 @@ A modern, production-ready dental clinic management and patient portal platform 
 
 ---
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```
 kalpana-dental-clinic/
@@ -84,7 +84,7 @@ kalpana-dental-clinic/
 
 ---
 
-## 🗄️ Database Setup in Supabase
+##  Database Setup in Supabase
 
 ### 1. Execute SQL Migration in Supabase
 1. Open your Supabase Dashboard: [https://supabase.com/dashboard/project/wbcifzwxlboepvjumori](https://supabase.com/dashboard/project/wbcifzwxlboepvjumori)
@@ -99,7 +99,7 @@ kalpana-dental-clinic/
 
 ---
 
-## 👤 Creating Your First Admin Account
+##  Creating Your First Admin Account
 
 1. In the Supabase Dashboard, navigate to **Authentication -> Users**.
 2. Click **Add User** -> **Create User**.
@@ -116,7 +116,7 @@ WHERE email = 'admin@kalpanadental.com';
 
 ---
 
-## 🔑 Environment Variables
+##  Environment Variables
 
 Copy `.env.example` into `frontend/.env` (and root `.env` if needed):
 
@@ -136,7 +136,7 @@ SUPABASE_SECRET_KEY=your_supabase_service_role_key_here
 
 ---
 
-## 🚀 Running Locally
+##  Running Locally
 
 1. **Install Dependencies**:
 ```bash
@@ -154,7 +154,7 @@ npm run dev
 
 ---
 
-## ☁️ Deployment to Vercel
+##  Deployment to Vercel
 
 1. Push this repository to GitHub.
 2. In Vercel, click **Add New Project** and select this repository.
